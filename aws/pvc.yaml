@@ -1,0 +1,13 @@
+# save to pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odf-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ocs-storagecluster-ceph-rbd
+

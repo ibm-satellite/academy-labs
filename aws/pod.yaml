@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+spec:
+  containers:
+  - name: app
+    image: nginx
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo $(date -u) >> /test/test.txt; sleep 600; done"]
+    volumeMounts:
+    - name: persistent-storage
+      mountPath: /test
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: odf-pvc

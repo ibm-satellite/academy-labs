@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testpod4resourcespv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testpod4resourcespv
+  template:
+    metadata:
+      labels:
+        app: testpod4resourcespv
+    spec:
+      containers:
+      - name: testpod4resourcespv
+        image: ubuntu:18.04
+        command: ["/bin/bash", "-ce", "tail -f /dev/null"]
+        #command: ["/usr/sbin/useradd"]
+        #args: ["abc"]
+        volumeMounts:
+        - mountPath: /ibm/resources
+          name: resources
+      volumes:
+      - name: resources
+        persistentVolumeClaim:
+          claimName: b2bi6100v3-sfg-resources

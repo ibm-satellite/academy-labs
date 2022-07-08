@@ -1,0 +1,48 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: b2biv1-sfg-logs
+  namespace: b2bi
+  labels:
+    intent: logs
+    value: "logs"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources: 
+    requests:    
+      storage: 500Mi
+  storageClassName: ocs-storagecluster-cephfs
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: b2biv1-sfg-documents
+  namespace: b2bi
+  labels:
+    intent: documents
+    value: "documents"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources: 
+    requests:    
+      storage: 500Mi
+  storageClassName: ocs-storagecluster-cephfs
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: b2biv1-sfg-resources
+  namespace: b2bi
+  labels:
+    intent: resources
+    value: "resources"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: ocs-storagecluster-cephfs
