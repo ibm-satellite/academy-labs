@@ -14,7 +14,7 @@ In this example we are going to show how to create a link endpoint in IBM Cloud 
     ibmcloud target -g GROUP -r REGION
     ```
 
-2. Retreive the Ingress Domain of your Satellite cluster by viewing the details of the cluster
+2. Retrieve the Ingress Domain of your Satellite cluster by viewing the details of the cluster
     ```sh
     ibmcloud ks cluster get --cluster catu3hal05gtbc8c5rdg
     Retrieving cluster catu3hal05gtbc8c5rdg...
