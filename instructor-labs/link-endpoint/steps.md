@@ -70,19 +70,16 @@ In this example we are going to show how to create a link endpoint in IBM Cloud 
 10. After creating the endpoint, you are redirected to the **Link endpoints** page. Click the `console-endpoint-cluster-demo` endpoint that you just created and view the details.
     ![Find Details](.pastes/find_link_endpoint_details.png)
 
-11. On the **Endpoint details** page, make a note of the **Endpoint address**. You can click the copy button to copy the address.
-    ![Find Location Endpoint](.pastes/find_location_endpoint.png)
-
-12. Note the **Endpoint Address** which contains the address of the HTTP Tunnel endpoint exposed in IBM Cloud that will route traffic to the Openshift Console.
+11. Note the **Endpoint Address** which contains the address of the HTTP Tunnel endpoint exposed in IBM Cloud that will route traffic to the Openshift Console.
     ![Find Endpoint Address](.pastes/find_endpoint_address.png)
 
-13. Ensure your browser is configured to utilize the appropriate proxy configuration file (.pac file) that points to the link endpoint address.
+12. Ensure your browser is configured to utilize the appropriate proxy configuration file (.pac file) that points to the link endpoint address.
     ![Proxy configuration](.pastes/proxy_configuration.png)
 
-14. Enter the Console URL defined in step 3 into your browser and complete the login steps to access the Openshift Console:
+13. Enter the Console URL defined in step 3 into your browser and complete the login steps to access the Openshift Console:
     ![Openshift Console](.pastes/access_console.png)
 
-15. Verify traffic has been sent over the endpoint by looking at **Data rate** panel on the **Endpoint details** page.
+14. Verify traffic has been sent over the endpoint by looking at **Data rate** panel on the **Endpoint details** page.
     ![Data Rate](.pastes/data_rate.png)
 
 
