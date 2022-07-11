@@ -20,6 +20,7 @@
 - [Deploy Red Hat OpenShift onto Satellite location](#deploy-red-hat-openshift-onto-satellite-location)
   - [Create cluster using IBM Console](#create-cluster-using-ibm-console)
   - [Review satellite and ROKS resources with ibmcloud CLI](#review-satellite-and-roks-resources-with-ibmcloud-cli)
+- [Clean Up](#clean-up)  
 
 ## Purpose
 
@@ -461,6 +462,8 @@ For Clean Up you have to remove Azure resources and IBM Cloud Location
 ## 1. Remove Azure resources
 
 ### Using Schematics
+
+In your schematics workspace:
 
 ![image-20220711171717288](.pastes/image-20220711171717288.png)
 
