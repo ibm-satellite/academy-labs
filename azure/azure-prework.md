@@ -340,8 +340,6 @@ It will be in "Action Required" for like 1h while the control planes are assigne
 
 ### Review satellite and ROKS resources with ibmcloud CLI
 
-You can use the VSI created in your IBM Cloud account. See 
-
 Install IBM CLI
 
 https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli
