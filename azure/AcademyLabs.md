@@ -51,6 +51,12 @@
 
 # Azure Labs
 
+## Lab 0 - Student VSI
+
+You can use the VSI created in your IBM Cloud account to execute the CLI commands, this is just a linux machine to help you with a pre-provisioned virtual server instance but you could use any other system as long as you can install and execute the ibmcloud and Azure CLI.
+
+See [Student VSI](https://github.com/ibm-satellite/academy-labs/tree/main/common/student-vsi)
+
 ## Lab1 - Check status
 
 ### UI
