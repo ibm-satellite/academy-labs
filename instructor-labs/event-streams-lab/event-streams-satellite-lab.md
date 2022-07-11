@@ -54,12 +54,33 @@ In the sections below...
      | xxxxx | `yyyyyy` | zzzzzzzzzzzzzzzzzzzzzzzzzzz |
 
      ![satlocendpoints](images/satlocendpoints.png)
-   - Storage
+   - Storage - **Configuration**
      | Item | Value | Description |
      | --- | --- | --- |
-     | xxxxx | `yyyyyy` | zzzzzzzzzzzzzzzzzzzzzzzzzzz |
+     | Name | `instructor-lab-es-vpc-block` | Satellite storage configuration for Event Streams |
+     | Storage template | `ibm-vpc-block-csi-driver` | (Beta) VPC block storage configured to use VPC block from the 2566194 - itztsglenablement20 account |
+     | Storage template version | `4.3.0` | It is actually running fix version 4.3.2, fix coming to display the fix version correctly |
 
-     ![satlocstorage](images/satlocstorage.png)
+     ![satlocstorageconfig](images/satlocstorageconfig.png)
+   - Storage - **Assignment**
+
+     - Clicking on the **instructor-lab-es-vpc-block** storage configuration above displays any service assignments using that configuration
+     - The **Service name** shown below is not very user friendly
+
+       ![satlocstorageassignment](images/satlocstorageassignment.png)
+     - Getting the list of services and assignments we can correlate the storage assignment name back to the Event Streams service
+       ```
+       Get the list of Event Stream services in the sat location
+     
+       $ ibmcloud sat services --location caghu83w0b2dtc7takug | grep messagehub
+       mh-sat-tksycbbsdyyvckqz            camdfgow0fvh23mlea70   messagehub             All Workers Normal   3 weeks ago   9       no   
+
+
+       Using the ID of the Event Streams service, get it's storage assignment, we see the name of the assignment is what we see in the console
+
+       $ ibmcloud sat storage assignment ls | grep camdfgow0fvh23mlea70
+       camdfgow0fvh23mlea70-12b1e58f-8172-4eba-98ab-9e65642babc9   c119536a-606a-42ee-aeda-46f619c50e81   -                camdfgow0fvh23mlea70   instructor-lab-es-vpc-block           instructor-lab-es-vpc-block_v02           ServiceSubscription   2022-06-17T19:41:13.816Z 
+       ```
 1. Event Streams service instance Service credentials
 
    Later in the lab, we will use elements of the service credentials for the sample program and REST API.  Actual values will be provided to you.
@@ -86,340 +107,356 @@ In the sections below...
 
 
 ## Set up tools for building the Event Streams sample program
-1. Provision a service instance in the same virtual private cloud "dougbeau-pers-vpc", and assign public IP address so we can SSH into it
-1. ssh -i /home/doug/Desktop/Satellite/Tech-Academy-Education/dougbeau_pers root@169.48.155.250
-1. Install dev tools
-   1. yum install git                            1.8.3.1-23.el7_8
-   1. yum install java                           1:1.8.0.7.10-1jpp.1.el7
-   1. yum install java-1.8.0-openjdk-devel
-   1. gradle --> https://gradle.org/install/
-      1. scp -i /home/doug/Desktop/Satellite/Tech-Academy-Education/dougbeau_pers /home/doug/Downloads/gradle-7.4.2-bin.zip root@169.48.155.250:/tmp/gradle-7.4.2-bin.zip
-      1. ssh -i /home/doug/Desktop/Satellite/Tech-Academy-Education/dougbeau_pers root@169.48.155.250
-      1. mkdir /opt/gradle
-      1. unzip -d /opt/gradle /tmp/gradle-7.4.2-bin.zip
-      1. ls /opt/gradle/gradle-7.4.2
-      1. /opt/gradle/gradle-7.4.2/bin/gradle -version
-      1. export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
-      1. gradle -v
+Use the steps below to set up the tools needed to build the sample program.  The setup will occur on a virtual server running in the same virtual private cloud as the Event Streams satellite deployment.
+
+1. Open a terminal session
+1. SSH into your virtual server
+
+   `ssh -i privatekey root@xxx.xxx.xxx.xxx`
+1. Run the following commands to install git and java
+   1. `yum install git` ...at least this version 1.8.3.1-23.el7_8
+   1. `yum install java` ...at least this versoin 1:1.8.0.7.10-1jpp.1.el7
+   1. `yum install java-1.8.0-openjdk-devel`
+1. Run the following commands to download, set up, and verify gradle per instrucions at https://gradle.org/install/
+   1. `wget https://services.gradle.org/distributions/gradle-7.4.2-bin.zip`
+   1. `mkdir /opt/gradle`
+   1. `unzip -d /opt/gradle gradle-7.4.2-bin.zip`
+   1. `ls /opt/gradle/gradle-7.4.2`
+      ```
+      # ls /opt/gradle/gradle-7.4.2
+      total 44
+      drwxr-xr-x. 5 root root    85 Feb  1  1980 .
+      drwx------. 3 root root    26 Jul  9 18:36 ..
+      drwxr-xr-x. 2 root root    38 Feb  1  1980 bin
+      drwxr-xr-x. 2 root root    24 Feb  1  1980 init.d
+      drwxr-xr-x. 3 root root  8192 Feb  1  1980 lib
+      -rw-r--r--. 1 root root 23606 Feb  1  1980 LICENSE
+      -rw-r--r--. 1 root root   868 Feb  1  1980 NOTICE
+      -rw-r--r--. 1 root root   976 Feb  1  1980 README
+      ```
+   1. `export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin`
+   1. `gradle -version`
+      ```
+      ------------------------------------------------------------
+      Gradle 7.4.2
+      ------------------------------------------------------------
+
+      Build time:   2022-03-31 15:25:29 UTC
+      Revision:     540473b8118064efcc264694cbcaa4b677f61041
+
+      Kotlin:       1.5.31
+      Groovy:       3.0.9
+      Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021
+      JVM:          1.8.0_332 (Red Hat, Inc. 25.332-b09)
+      OS:           Linux 3.10.0-1160.53.1.el7.x86_64 amd64
+      ```
 
 ## Build the sample program
-1. Build sample app
-   1. https://github.com/ibm-messaging/event-streams-samples/blob/master/kafka-java-console-sample/docs/Local.md
-   1. ssh -i /home/doug/Desktop/Satellite/Tech-Academy-Education/dougbeau_pers root@169.48.155.250
-   1. cd /
-   1. git clone https://github.com/ibm-messaging/event-streams-samples.git
-   1. cd /event-streams-samples/kafka-java-console-sample
-   1. gradle clean
-   1. gradle build
+Use the steps below to download the sample program and build it on the virtual server.
+
+1. Open a terminal session
+1. SSH into your virtual server
+
+   `ssh -i privatekey root@xxx.xxx.xxx.xxx`
+1. Build sample program
+   1. `cd /`
+   1. `git clone https://github.com/ibm-messaging/event-streams-samples.git`
+   1. `cd /event-streams-samples/kafka-java-console-sample`
+   1. `ls -la`
+      ```
+      total 44
+      drwx------.  4 root root  198 Jul  9 18:39 .
+      drwx------. 12 root root 4096 Jul  9 18:39 ..
+      -rw-------.  1 root root 1578 Jul  9 18:39 build.gradle
+      -rw-------.  1 root root  328 Jul  9 18:39 Dockerfile
+      drwx------.  2 root root  136 Jul  9 18:39 docs
+      -rw-------.  1 root root   38 Jul  9 18:39 .gitignore
+      -rw-------.  1 root root  351 Jul  9 18:39 kafka-java-console-sample.yaml
+      -rw-------.  1 root root 9159 Jul  9 18:39 LICENSE
+      -rw-------.  1 root root  300 Jul  9 18:39 manifest.yml
+      -rw-------.  1 root root 1108 Jul  9 18:39 README.md
+      -rw-------.  1 root root   47 Jul  9 18:39 settings.gradle
+      drwx------.  3 root root   18 Jul  9 18:39 src
+      ```
+   1. `gradle clean`
+      ```
+      Starting a Gradle Daemon (subsequent builds will be faster)
+
+      BUILD SUCCESSFUL in 8s
+      1 actionable task: 1 up-to-date
+      ```
+   1. `gradle build`
+      ```
+      BUILD SUCCESSFUL in 24s
+      6 actionable tasks: 6 executed
+      ```
 
 ## Start the sample program
-1. Consuming app
-   1. ssh -i /home/doug/Desktop/Satellite/Tech-Academy-Education/dougbeau_pers root@169.48.155.250
-   1. cd /event-streams-samples/kafka-java-console-sample
-   1. java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093 1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc -topic student-abc -consumer
-1. Producing app
-   1. ssh -i /home/doug/Desktop/Satellite/Tech-Academy-Education/dougbeau_pers root@169.48.155.250
-   1. cd /event-streams-samples/kafka-java-console-sample
-   1. java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093 1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc -topic student-abc -producer
+The Event Stream kafka java console sample program is a single program that can produce and consume message data through and instance of Event Streams.
+
+The steps below will have you use two terminal sessions...one session will produce message data, the other session will consume the message data.
+
+1. The sample program communicates via port **9093** to the kafka brokers in the Event Stream instance.  We reviewed above the ports that need inbound access within the VPC Security Group in **4. VPC Infrastructure security group** of [Review deployed environment](#review-deployed-environment)
+1. Open two terminal sessions
+1. SSH into your virtual server in both terminal sessions
+
+   `ssh -i privatekey root@xxx.xxx.xxx.xxx`
+1. Start the consumer program
+   1. Select one of the terminal sessions and run the following commands
+   1. `cd /event-streams-samples/kafka-java-console-sample`
+   1. `java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093 1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc -topic student-topic-name -consumer`
+      - **kafka-2.mh-sat-xtpgnbtywyksbrpp...** is the comma separated list of kafka brokers in the Service credentials "kafka_brokers_sasl"
+      - **student-topic-name** is a unique name for your message data that will be created in the Event Streams instance, use something unique to you
+
+      The consumer is ready and running when you see output similar to
+      ```
+      [2022-07-09 18:48:30,124] INFO No messages consumed (com.eventstreams.samples.ConsumerRunnable)
+      [2022-07-09 18:48:33,125] INFO No messages consumed (com.eventstreams.samples.ConsumerRunnable)
+      [2022-07-09 18:48:36,126] INFO No messages consumed (com.eventstreams.samples.ConsumerRunnable)
+      ```
+1. Start the producer program
+   1. Select one of the terminal sessions and run the following commands
+   1. `cd /event-streams-samples/kafka-java-console-sample`
+   1. `java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093 1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc -topic student-topic-name -producer`
+      - **kafka-2.mh-sat-xtpgnbtywyksbrpp...** is the comma separated list of kafka brokers in the Service credentials "kafka_brokers_sasl"
+      - **student-topic-name** is a unique name for your message data that will be created in the Event Streams instance, use something unique to you
+
+      The producer is ready and running when you see output similar to
+      ```
+      [2022-07-09 18:50:55,049] INFO class com.eventstreams.samples.ProducerRunnable is starting. (com.eventstreams.samples.ProducerRunnable)
+      [2022-07-09 18:50:55,384] INFO Message produced, offset: 0 (com.eventstreams.samples.ProducerRunnable)
+      [2022-07-09 18:50:57,399] INFO Message produced, offset: 1 (com.eventstreams.samples.ProducerRunnable)
+      [2022-07-09 18:50:59,415] INFO Message produced, offset: 2 (com.eventstreams.samples.ProducerRunnable)
+      ```
+1. While the producer loops sending message data, you should see the consumer now looping receiving the message data
+   ```
+   [2022-07-09 18:50:54,163] INFO No messages consumed (com.eventstreams.samples.ConsumerRunnable)
+   [2022-07-09 18:50:55,395] INFO Message consumed: ConsumerRecord(topic = student-topic-name, partition = 0, leaderEpoch = 0, offset = 0, CreateTime = 1657392655051, serialized key size = 3, serialized value size = 57, headers = RecordHeaders(headers = [], isReadOnly = false), key = key, value = {"message":"This is a test message #","message_number":0}) (com.eventstreams.samples.ConsumerRunnable)
+   [2022-07-09 18:50:57,414] INFO Message consumed: ConsumerRecord(topic = student-topic-name, partition = 0, leaderEpoch = 0, offset = 1, CreateTime = 1657392657384, serialized key size = 3, serialized value size = 57, headers = RecordHeaders(headers = [], isReadOnly = false), key = key, value = {"message":"This is a test message #","message_number":1}) (com.eventstreams.samples.ConsumerRunnable)
+   [2022-07-09 18:50:59,415] INFO Message consumed: ConsumerRecord(topic = student-topic-name, partition = 0, leaderEpoch = 0, offset = 2, CreateTime = 1657392659400, serialized key size = 3, serialized value size = 57, headers = RecordHeaders(headers = [], isReadOnly = false), key = key, value = {"message":"This is a test message #","message_number":2}) (com.eventstreams.samples.ConsumerRunnable)
+   ```
+1. Let them keep running for a while
 
 ## Using the Event Streams REST API
-1. Get list of topics using Admin API
-   1. Requires security group inbound rule that allows port 443
-   1. curl -i -X GET -H 'Accept: application/json' -H 'Content-Type: application/json' -u token:1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc https://mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com/admin/topics
+Event Streams provides an Administration RESTful API that you can use to create, delete, list, and update topics.
 
-## Using the Event Streams ibmcloud CLI plugin
-1. Event Streams CLI plugin
-   1. curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
-   1. ibmcloud plugin install event-streams
-   1. ibmcloud login -a cloud.ibm.com --sso
-   1. ibmcloud resource service-instances
-      ```
-      Name:      Event-Streams-Sat-Dallas
-      Location:  satloc_dal_c88plk8d0q2jcqk3hglg
-      ```
-   1. ibmcloud es init --instance-name Event-Streams-Sat-Dallas
-      ```
-      API Endpoint:		https://c88plk8d0q2jcqk3hglg-gpooy.private.us-south.link.satellite.cloud.ibm.com
-      Service endpoints:	public
-      Sorage size:		2048 GB
-      Throughput:		150 MB/s
-      ```
-   1. ibmcloud es topics
-      ```    
-      Topic name   
-      __consumer_offsets   
-      dougbeau-new-topic   
-      kafka-java-console-sample-topic
-      ```
+The steps below will show you how to use the API to get the list of topics in the Event Streams instance
+
+1. The API communicates via port **443** into the admin component of the Event Stream instance.  We reviewed above the ports that need inbound access within the VPC Security Group in **4. VPC Infrastructure security group** of [Review deployed environment](#review-deployed-environment)
+1. Open a new terminal session
+1. SSH into your virtual server
+
+   `ssh -i privatekey root@xxx.xxx.xxx.xxx`
+1. `curl -i -X GET -H 'Accept: application/json' -H 'Content-Type: application/json' -u token:xxxxxxxx https://mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com/admin/topics`
+   
+   - **xxxxxxxx** is the token/API Key in the Service credentials "apikey"
+   - **https://mh-sat-xtpgnbtywyksbrpp.....** is the URL in the Service credentials "kafka_http_url"
+
+   - The output will be similar to
+     ```
+     [{"name":"__consumer_offsets","partitions":50,"replicationFactor":3,"retentionMs":86400000,"cleanupPolicy":"compact","configs":{"cleanup.policy":"compact","min.insync.replicas":"2","retention.bytes":"1073741824","retention.ms":"86400000","segment.bytes":"104857600"},"replicaAssignments":[{"id":13,"brokers":{"replicas":[1,2,0]}},{"id":25,"brokers":{"replicas":[1,2,0]}},{"id":26,"brokers":{"replicas":[2,0,1]}},{"id":37,"brokers":{"replicas":[1,2,0]}},{"id":38,"brokers":{"replicas":[2,0,1]}},{"id":40,"brokers":{"replicas":[1,0,2]}},{"id":11,"brokers":{"replicas":[2,1,0]}},{"id":31,"brokers":{"replicas":[1,2,0]}},{"id":18,"brokers":{"replicas":[0,1,2]}},{"id":29,"brokers":{"replicas":[2,1,0]}},{"id":48,"brokers":{"replicas":[0,1,2]}},{"id":23,"brokers":{"replicas":[2,1,0]}},{"id":12,"brokers":{"replicas":[0,1,2]}},{"id":30,"brokers":{"replicas":[0,1,2]}},{"id":14,"brokers":{"replicas":[2,0,1]}},{"id":19,"brokers":{"replicas":[1,2,0]}},{"id":32,"brokers":{"replicas":[2,0,1]}},{"id":43,"brokers":{"replicas":[1,2,0]}},{"id":5,"brokers":{"replicas":[2,1,0]}},{"id":15,"brokers":{"replicas":[0,2,1]}},{"id":35,"brokers":{"replicas":[2,1,0]}},{"id":16,"brokers":{"replicas":[1,0,2]}},{"id":2,"brokers":{"replicas":[2,0,1]}},{"id":39,"brokers":{"replicas":[0,2,1]}},{"id":4,"brokers":{"replicas":[1,0,2]}},{"id":45,"brokers":{"replicas":[0,2,1]}},{"id":3,"brokers":{"replicas":[0,2,1]}},{"id":28,"brokers":{"replicas":[1,0,2]}},{"id":34,"brokers":{"replicas":[1,0,2]}},{"id":44,"brokers":{"replicas":[2,0,1]}},{"id":33,"brokers":{"replicas":[0,2,1]}},{"id":10,"brokers":{"replicas":[1,0,2]}},{"id":1,"brokers":{"replicas":[1,2,0]}},{"id":41,"brokers":{"replicas":[2,1,0]}},{"id":7,"brokers":{"replicas":[1,2,0]}},{"id":21,"brokers":{"replicas":[0,2,1]}},{"id":22,"brokers":{"replicas":[1,0,2]}},{"id":8,"brokers":{"replicas":[2,0,1]}},{"id":46,"brokers":{"replicas":[1,0,2]}},{"id":47,"brokers":{"replicas":[2,1,0]}},{"id":49,"brokers":{"replicas":[1,2,0]}},{"id":0,"brokers":{"replicas":[0,1,2]}},{"id":9,"brokers":{"replicas":[0,2,1]}},{"id":6,"brokers":{"replicas":[0,1,2]}},{"id":27,"brokers":{"replicas":[0,2,1]}},{"id":36,"brokers":{"replicas":[0,1,2]}},{"id":17,"brokers":{"replicas":[2,1,0]}},{"id":24,"brokers":{"replicas":[0,1,2]}},{"id":42,"brokers":{"replicas":[0,1,2]}},{"id":20,"brokers":{"replicas":[2,0,1]}}]},
+     
+     {"name":"dougbeau-new-topic","partitions":1,"replicationFactor":3,"retentionMs":86400000,"cleanupPolicy":"delete","configs":{"cleanup.policy":"delete","min.insync.replicas":"2","retention.bytes":"1073741824","retention.ms":"86400000","segment.bytes":"536870912"},"replicaAssignments":[{"id":0,"brokers":{"replicas":[1,2,0]}}]},
+     
+     {"name":"kafka-java-console-sample-topic","partitions":1,"replicationFactor":3,"retentionMs":86400000,"cleanupPolicy":"delete","configs":{"cleanup.policy":"delete","min.insync.replicas":"2","retention.bytes":"1073741824","retention.ms":"86400000","segment.bytes":"536870912"},"replicaAssignments":[{"id":0,"brokers":{"replicas":[2,1,0]}}]},
+     
+     {"name":"student-topic-name","partitions":1,"replicationFactor":3,"retentionMs":86400000,"cleanupPolicy":"delete","configs":{"cleanup.policy":"delete","min.insync.replicas":"2","retention.bytes":"1073741824","retention.ms":"86400000","segment.bytes":"536870912"},"replicaAssignments":[{"id":0,"brokers":{"replicas":[0,1,2]}}]}]
+     ```
+1. The details for using the API and other examples are available at
+
+   [Using the Administration REST API](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-admin_api)
+
+## Using the Event Streams ibmcloud CLI plug-in
+Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows you to work with the kafka brokers, topics partitions, and consumer groups
+
+1. Open a terminal session
+1. SSH into your virtual server
+
+   `ssh -i privatekey root@xxx.xxx.xxx.xxx`
+1. Install the **ibmcloud** CLI
+
+   `curl -fsSL https://clis.cloud.ibm.com/install/linux | sh`
+1. Install the plug-in
+
+   `ibmcloud plugin install event-streams`
+1. Login to IBM Cloud
+
+   `ibmcloud login -a cloud.ibm.com --sso`
+1. Get name of the Event Streams instance.  We want the instance that is deployed to the satellite location
+
+   `ibmcloud resource service-instances`
+
+   The output will be similar to
+   ```
+   Name:      Event-Streams-Sat-Dallas
+   Location:  satloc_dal_c88plk8d0q2jcqk3hglg
+   ```
+1. Initialize the plug-in to the Event Streams instance deployed to satellite
+
+   `ibmcloud es init --instance-name Event-Streams-Sat-Dallas`
+
+   The output will be similar to
+   ```
+   API Endpoint:		https://c88plk8d0q2jcqk3hglg-gpooy.private.us-south.link.satellite.cloud.ibm.com
+   Service endpoints:	public
+   Sorage size:		2048 GB
+   Throughput:		    150 MB/s
+   ```
+1. Get a list of the topics in the Event Streams instance
+
+   `ibmcloud es topics`
+
+   The output will be similar to
+   ```    
+   Topic name   
+   __consumer_offsets   
+   dougbeau-new-topic   
+   kafka-java-console-sample-topic   
+   student-topic-name   
+   ```
+1. Display the details of a kafka broker
+
+   `ibmcloud es broker 0`
+
+   The output will be similar to
+   ```    
+   Details for broker
+   ID   Host                                                                              Port   Rack   
+   0    kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-2   
+
+   Details for broker configuration
+   Name                   Value                                                                                                  Sensitive?   
+   broker.id              0                                                                                                      false   
+   broker.rack            us-south-2                                                                                             false   
+   advertised.listeners   SASL_EXTERNAL://kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093   false  
+   ```
+
+   Run it again with --json
+
+   `ibmcloud es broker 0 --json`
+
+   The output will be similar to
+   ```    
+   {"host":"kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":0,"rack":"us-south-2","configs":[{"name":"broker.id","value":"0"},{"name":"broker.rack","value":"us-south-2"},{"name":"advertised.listeners","value":"SASL_EXTERNAL://kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093"}]} 
+   ```
+1. Display the details of the cluster
+
+   `ibmcloud es cluster`
+
+   The output will be similar to
+   ```    
+   Details for cluster
+   Cluster ID                Controller   
+   mh-sat-xtpgnbtywyksbrpp   1   
+
+   Details for brokers
+   ID   Host                                                                              Port   Rack   
+   0    kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-2   
+   2    kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-1   
+   1    kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-3   
+   No cluster-wide dynamic configurations found.
+   ```
+
+   Run it again with --json
+
+   `ibmcloud es cluster --json`
+
+   The output will be similar to
+   ```    
+   {"id":"mh-sat-xtpgnbtywyksbrpp","controller":{"host":"kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":1,"rack":"us-south-3"},"brokers":[{"host":"kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":0,"rack":"us-south-2"},{"host":"kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":2,"rack":"us-south-1"},{"host":"kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":1,"rack":"us-south-3"}]}
+
+   ```
+
+1. The details for using the CLI are available at
+
+   [Event Streams CLI reference](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-cli_reference)
 
 ## Using monitoring to see activity created by sample application
-1. Monitoring
-   1. https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-metrics
-   1. Opt in and Enabling default Event Streams metrics
-   1. Enabling enhanced Event Streams metrics
+IBM Cloud® Monitoring is a third-party cloud-native, and container-intelligence management system that you can include as part of your IBM Cloud architecture. 
+
+Use it to gain operational visibility into the performance and health of your applications, services, and platforms. It offers administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+
+- Event Streams metrics can broadly be categorized into two different groups: Default and Enhanced.
+- You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location.
+- Platform metrics are metrics that are exposed by enabled-monitoring services and the platform in IBM Cloud.
+To monitor platform metrics for a service instance, provision the IBM Cloud Monitoring instance in the same region where the IBM Cloud service instance that you want to monitor is provisioned.
+
+See [Monitoring Event Streams metrics using IBM Cloud Monitoring](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-metrics) for details regarding...
+- Enabling platform metrics
+- Enabling default/enhanced Event Streams metrics
+- Metrics cost information
+- Event Streams metric details
+
+There is no lab exercise.  The instructor will do a quick demo of the Event Streams dashboards in an instance of IBM Cloud Monitoring.
 
 ## Optional:  Update the sample app's default message data / topic name
-1. To edit/rebuild the sample 
-    1. vim ...to edit the source files
-    1. cd /event-streams-samples/event-streams-samples/kafka-java-console-sample
-    1. gradle clean
-    1. gradle build
-1. Change size of the test message data
-    1. /event-streams-samples/kafka-java-console-sample/src/main/java/com/eventstreams/samples/ProducerRunnable.java
-    1. Line 73
-    1. String message = "{\"message\":\"This is a test message #\",\"message_number\":" + producedMessages + "}";
-    1. change the text, size of the message variable
-    1. for example
-        ```
-        String extraMessage = "abcdefghijabcdefghij";
-        String message = "{\"message\":\"This is a bigger test message... #\"" + extraMessage + ",\"message_number\":" + producedMessages + "}";
-        ```
-    1. rebuild the sample app 
-1. Change the name of the default topic that is used by the sample app
-    1. /event-streams-samples/kafka-java-console-sample/src/main/java/com/eventstreams/samples/EventStreamsConsoleSample.java
-    1. Line #57
-        ```
-        private static final String DEFAULT_TOPIC_NAME = "kafka-java-console-sample-topic";
-        ```
-    1. change the name of the default topic that is created by the sample
-    1. rebuild the sample app
-    1. run the sample but do not specify the -consumer and -producer parameters
+This optional exercise walks you through making changes to the sample program.
+
+The two changes described below show you how to 
+- change the message data that is sent
+- change the name of the default topic that is created by the sample program.
+
+For example you might want to change the message data text or the size of the message.  When the program was started in the earlier steps, we used the **-topic** parameter to use a topic unique to you.  When **-topic** is not specified, the program will use a default topic.
+
+
+1. To edit and rebuild the sample program, use these steps 
+   1. Open a terminal session
+   1. SSH into your virtual server
+
+      `ssh -i privatekey root@xxx.xxx.xxx.xxx`
+   1. `vim <<path/xxx.java>>`  ...the path/xxx.java can be found below, make/save changes to the program source
+   1. `cd /event-streams-samples/kafka-java-console-sample`
+   1. `export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin`
+   1. `gradle clean`
+   1. `gradle build`
+   1. Terminate the running producer/consumer program in the two terminal sessions, restart them to use the updated program
+
+### Change size of the test message data
+1. File to open with **vim** editor
+
+   `/event-streams-samples/kafka-java-console-sample/src/main/java/com/eventstreams/samples/ProducerRunnable.java`
+1. Line 73
+   ```
+   String message = "{\"message\":\"This is a test message #\",\"message_number\":" + producedMessages + "}";
+   ```
+1. Change the text/size of the message variable
+1. For example, add a variable called **extraMessage** to the message and copy/paste to make **extraMessage** large
+   ```
+   String extraMessage = "abcdefghijabcdefghij";
+   String message = "{\"message\":\"This is a bigger test message... #\"" + extraMessage + ",\"message_number\":" + producedMessages + "}";
+   ```
+1. Save the changes to the source, rebuild the sample program, test the change
+
+### Change the name of the default topic used by the sample program
+1. File to open with **vim** editor
+
+   `/event-streams-samples/kafka-java-console-sample/src/main/java/com/eventstreams/samples/EventStreamsConsoleSample.java`
+1. Line #57
+   ```
+   private static final String DEFAULT_TOPIC_NAME = "kafka-java-console-sample-topic";
+   ```
+1. Change the value of the **DEFAULT_TOPIC_NAME** constant
+1. Save the changes to the source, rebuild the sample program
+1. When the sample program is restarted, do not specify the **-consumer** and **-producer** parameters
+
 
 ## Reference information / links
-The Java sample program is available from multiple locations
+
+### The Java sample program is available from multiple locations
 - [Getting started with IBM Event Streams for IBM Cloud](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-getting-started)
 - [event-streams-samples](https://github.com/ibm-messaging/event-streams-samples)
 - within the provisioned service instance in the IBM Cloud console
   ![samplepgm](images/samplepgm.png)
 
+### Event Streams provisioning for Satellite
+- [About IBM Cloud Satellite for Event Streams](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-satellite_about)
+- [Provisioning Event Streams for Satellite](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-satellite-provisioning)
 
+### Event Streams REST API
+- [Using the Administration REST API](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-admin_api)
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+### Event Stream CLI plug-in
+- [Event Streams CLI reference](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-cli_reference)
 
-
-# Install Openshift Data Foundation on Satellite based ROKS Clusters on AWS using EBS volumes
-
-## Introduction
-
-We would like to deploy OpenShift Data Foundation Add-on to our Satellite based OpenShift Cluster on AWS using EBS volumes. The procedure contains the following major steps
-
-* Configuration of a AWS EBS storage configuration for our location and assign to our ROKS Cluster
-* Deploy ODF using Sattellite ODF storage configuration referencing AWS Storage class
-
-## Configure AWS EBS storage configuration in Satellite
-
-1. From the Satellite locations dashboard, select the location where you want to create a storage configuration.
-
-1. Select Storage > Create storage configuration
-
-   ![config](images/ebs1.png)
-
-1. Enter a name for your configuration. Select the Storage type that you want to use to create your configuration and the Version.
-
-    ![type](images/ebs2.png)  
-
-1. On the Secrets tab, enter the secrets, if required, for your configuration.
-
-    ![secrets](images/ebs3.png)  
-
-1. On the Storage classes tab, review the storage classes that are deployed by the configuration or create a custom storage class.
-
-    ![review](images/ebs4.png)
-
-1. On the Assign to service tab, select your cluster that you want to assign your configuration to.
-
-    ![assign](images/ebs5.png)
-
-1. Click Complete to assign your storage configuration.
-
-    ![complete](images/ebs6.png)
-
-## Deploy ODF using EBS volumes in AWS
-
-For more detailled descriptions of the following steps look also in the [Satellite Docs](https://cloud.ibm.com/docs/satellite?topic=satellite-config-storage-odf-remote&interface=cli)
-For sake of simplicity we will not configre Nooba COS backing store.
-
-1. Connect to your Satellite Location on the CLI
-
-    ```sh
-    ibmcloud login --sso
-    ibmcloud target -g academyrg -r us-east
-    ```
-
-    ![output](images/ibm-cloud-rg.png)
-
-1. Verify that your cluster has a valid storage configuration has applied (from the previous chapter). Use the location id and cluster id ***NOT*** the name
-
-    ```sh
-    ibmcloud sat location ls
-    ibmcloud oc cluster ls --provider satellite
-    ibmcloud sat storage assignment  ls --location <location id> --cluster <cluster id>
-    ```
-
-    ![output](images/odf1.png)
-
-1. What you also will see that we already have AWS Storage classes deployed, which could be used by ODF. Connect to your cluster and list the storage classes:
-
-    ```sh
-    # remove endpoint parameter if you connect via public IPs
-    # use endpoint parameter if you connect from cloudshell
-    ibmcloud ks cluster config -c <your cluster> --admin --endpoint link
-    oc get storageclass
-    ```
-
-    ![output](images/odf2.png)  
-
-1. Create an IBM API Key
-
-    ```sh
-    ibmcloud iam api-key-create odf --file apikey.json
-    ```
-
-    Open the JSON File and extract the apikey value. Don't share the key with anyone else!.
-
-1. With that we could tell the Satellite based ODF deployment to use the AWS EBS Storage class configured by our Satellite Storage Configuration from the previous chapter. Please review before proceeeding the following article and parameters, we need to select a storage Class which has Volume Binding Mode Wait on first Consumer, because we have a multizone ROKS Cluster in AWS. 
-
-    <https://cloud.ibm.com/docs/satellite?topic=satellite-config-storage-odf-remote&interface=cli#odf-remote-49-params>
-
-    Execute the following command on your cluster to install ODF
-
-    ```sh
-    ibmcloud sat storage config create --name odf --location <your sat location id> --template-name odf-remote --template-version 4.9 -p "osd-storage-class=sat-aws-block-gold-metro" -p "osd-size=100Gi" -p "num-of-osd=1" -p "iam-api-key=<Your API Key>"
-    ```
-
-    ![output](images/odf3.png)
-
-1. Assign the Configuration to the Cluster using the Console UI
-Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You will see now a second configuration for ODF.
-
-    ![assign](images/odf4.png)
-
-    Assign the Configuration to your ROKS cluster.
-
-    ![assign](images/odf5.png)
-
-1. Monitor the deployment using the oc CLI
-
-    ```sh
-    oc get storagecluster -n openshift-storage
-    oc get pods -n openshift-storage
-    ```
-
-1. Grab a cup of coffee and wait until you see that all pods have been started
-
-    ```sh
-    oc get pods -n openshift-storage
-    NAME                                                              READY   STATUS      RESTARTS   AGE
-    csi-cephfsplugin-fshbp                                            3/3     Running     0          8m3s
-    csi-cephfsplugin-g6h88                                            3/3     Running     0          8m3s
-    csi-cephfsplugin-nzpql                                            3/3     Running     0          8m3s
-    csi-cephfsplugin-provisioner-5b9c6d55cd-jz2rz                     6/6     Running     0          8m2s
-    csi-cephfsplugin-provisioner-5b9c6d55cd-r8zdg                     6/6     Running     0          8m2s
-    csi-rbdplugin-5fn6g                                               3/3     Running     0          8m4s
-    csi-rbdplugin-c5wv5                                               3/3     Running     0          8m4s
-    csi-rbdplugin-l4sfl                                               3/3     Running     0          8m4s
-    csi-rbdplugin-provisioner-5b674484d-j8wgb                         6/6     Running     0          8m4s
-    csi-rbdplugin-provisioner-5b674484d-s6vvn                         6/6     Running     0          8m4s
-    noobaa-core-0                                                     1/1     Running     0          2m13s
-    noobaa-db-pg-0                                                    1/1     Running     0          2m13s
-    noobaa-endpoint-79cddbdfb8-plnfp                                  1/1     Running     0          57s
-    noobaa-operator-6b5d8ffbc7-ftbtx                                  1/1     Running     0          8m49s
-    ocs-metrics-exporter-6659bcdcfb-djkjg                             1/1     Running     0          8m39s
-    ocs-operator-5bc589f4c4-p2vrh                                     1/1     Running     0          8m40s
-    odf-console-85b7f578c9-lkpvf                                      1/1     Running     0          8m39s
-    odf-operator-controller-manager-6f885fcc64-7xvmc                  2/2     Running     0          8m39s
-    rook-ceph-crashcollector-ip-10-0-1-240.ec2.internal-76dc77c9pbl   1/1     Running     0          3m32s
-    rook-ceph-crashcollector-ip-10-0-2-207.ec2.internal-69dbd62z65s   1/1     Running     0          3m33s
-    rook-ceph-crashcollector-ip-10-0-3-177.ec2.internal-548768d84t5   1/1     Running     0          3m40s
-    rook-ceph-mds-ocs-storagecluster-cephfilesystem-a-7dbfdc74h4nnp   2/2     Running     0          2m53s
-    rook-ceph-mds-ocs-storagecluster-cephfilesystem-b-865b799c7gjd2   2/2     Running     0          2m52s
-    rook-ceph-mgr-a-54b76869f4-47x5l                                  2/2     Running     0          3m40s
-    rook-ceph-mon-a-688cb46bf9-c2sk5                                  2/2     Running     0          6m52s
-    rook-ceph-mon-b-6c84db899-b8gfj                                   2/2     Running     0          4m18s
-    rook-ceph-mon-c-b766fc6c-wlhbw                                    2/2     Running     0          4m1s
-    rook-ceph-operator-7b5b5f9676-94nnr                               1/1     Running     0          8m39s
-    rook-ceph-osd-0-77895b746b-kfqdk                                  2/2     Running     0          3m23s
-    rook-ceph-osd-1-75cfcbfcc9-dtkgs                                  2/2     Running     0          3m23s
-    rook-ceph-osd-2-5fd659646f-dj9jp                                  2/2     Running     0          3m15s
-    rook-ceph-osd-prepare-ocs-deviceset-0-data-0kd9zz--1-h9cfm        0/1     Completed   0          3m37s
-    rook-ceph-osd-prepare-ocs-deviceset-1-data-0nhdwc--1-2dskm        0/1     Completed   0          3m37s
-    rook-ceph-osd-prepare-ocs-deviceset-2-data-0frg8b--1-wp2w6        0/1     Completed   0          3m36s
-    rook-ceph-rgw-ocs-storagecluster-cephobjectstore-a-66c4b76g6qjt   2/2     Running     0          2m51s
-    ```
-
-1. Review the new ODF storage classes
-
-    ```sh
-    oc get storageclass
-    ````
-
-    ![output](images/odf6.png)
-
-1. Test the storage class using the following yamls
-
-    ```yaml
-    # save to pvc.yaml
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: odf-pvc
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-      storageClassName: ocs-storagecluster-ceph-rbd
-    ```
-
-1. Apply the pvc.yaml and check the pvcs
-
-    ```sh
-    oc project default
-    oc apply -f pvc.yaml
-    oc get pvc
-    ```
-
-    ![output](images/odf7.png)  
-
-1. Now deploy an application using that pvc and connect to the pod:
-
-    ```yaml
-    # copy to pod.yaml
-    apiVersion: v1
-    kind: Pod
-    metadata:
-    name: app
-    spec:
-    containers:
-    - name: app
-        image: nginx
-        command: ["/bin/sh"]
-        args: ["-c", "while true; do echo $(date -u) >> /test/test.txt; sleep 600; done"]
-        volumeMounts:
-        - name: persistent-storage
-        mountPath: /test
-    volumes:
-    - name: persistent-storage
-        persistentVolumeClaim:
-        claimName: odf-pvc
-    ```
-
-    ```sh
-    oc apply -f pod.yaml
-    oc get po
-    ````
-
-    ![output](images/odf8.png)
-
-1. Login into your pod and verify you could write to the volume
-
-    ```sh
-    oc exec app -it -- bash
-    cat /test/test.txt
-    touch /test/hello.txt
-    ```
-
-    ![output](images/odf9.png)
+### Event Streams Monitoring
+- [Monitoring Event Streams metrics using IBM Cloud Monitoring](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-metrics)
