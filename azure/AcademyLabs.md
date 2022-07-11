@@ -199,36 +199,7 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
 
 ![image-20220611210421332](.pastes/image-20220611210421332.png)
 
-Also you can validate listing the resources groups with the azure cli, as this is a "controlled" environment generated from scratch for the academy you will not have more resource groups.
 
-```
-az group list
-[
-  {
-    "id": "/subscriptions/d4a70861-bd5f-46fb-99b4-3aa512929baf/resourceGroups/NetworkWatcherRG",
-    "location": "eastus",
-    "managedBy": null,
-    "name": "NetworkWatcherRG",
-    "properties": {
-      "provisioningState": "Succeeded"
-    },
-    "tags": null,
-    "type": "Microsoft.Resources/resourceGroups"
-  },
-  {
-    "id": "/subscriptions/d4a70861-bd5f-46fb-99b4-3aa512929baf/resourceGroups/jordax-academy-4-9602",
-    "location": "eastus",
-    "managedBy": null,
-    "name": "jordax-academy-4-9602",
-    "properties": {
-      "provisioningState": "Succeeded"
-    },
-    "tags": {},
-    "type": "Microsoft.Resources/resourceGroups"
-  }
-]
-
-```
 
 ```
 az vm list --resource-group jordax-academy-4-9602 | grep name | grep -v -i Disk | grep -v admin
