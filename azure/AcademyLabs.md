@@ -1,6 +1,7 @@
 # Table of contents
 
 - [Azure Labs](#azure-labs)
+  - [Lab0 - Student VSI](#lab-0---student-vsi)
   - [Lab1 - Check status](#lab1---check-status)
     - [UI](#ui)
     - [CLI](#cli)
@@ -26,6 +27,7 @@
       - [Create storage template configuration](#create-storage-template-configuration)
       - [Assign template to a cluster](#assign-template-to-a-cluster)
       - [Test ODF](#test-odf)
+  
 - [Apendix](#apendix)
   - [Create new hosts using terraform](#create-new-hosts-using-terraform)
     - [Install terraform](#install-terraform)
