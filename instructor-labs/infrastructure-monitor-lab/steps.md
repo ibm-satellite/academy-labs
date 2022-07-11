@@ -4,72 +4,25 @@ In this example we are going to show how IBM Cloud Satellite monitors location h
 
 ### Lab Steps
 
-1) In an existing healthy coreos-enabled location: disable the Satellite link IAM endpoint
+1. In an existing healthy coreos-enabled location: disable the Satellite link IAM endpoint. [Relevant link](https://cloud.ibm.com/satellite/locations/)
+   ![Disable IAM](.pastes/disable_iam.png)
 
-While waiting do activity tracker lab
+2. While waiting for location to detect problem we will go through the [activity tracker lab](../activity-tracker-lab/steps.md)
+
+3. Wait a few minutes for location to enter unhealthy state.
+   ![Unhealthy Location State](.pastes/unhealthy_location_state.png)
 
 
-3) Wait a couple minutes for location to enter unhealthy state show the status
-```
-ibmcloud sat location get --location can3j0ql0pcg357njmqg
-Retrieving location...
-OK
-                                   
-Name:                           tyler-hypershift-eu-gb-1   
-ID:                             can3j0ql0pcg357njmqg   
-Created:                        2022-06-18 15:45:55 -0500 (1 week ago)   
-Managed From:                   lon   
-State:                          action required   
-Ready for deployments:          no   
-Message:                        R0057: Outbound traffic to IBM Cloud IAM is failing. To ensure that all host requirements are met, see https://ibm.biz/sat-host-reqs. More information is available in the IBM Cloud Platform Logs. If the issue persists, contact IBM Cloud Support and include your Satellite location ID.   
-Hosts Available:                0   
-Hosts Total:                    8   
-Host Zones:                     eu-gb-1, eu-gb-2, eu-gb-3   
-Provider:                       -   
-Provider Region:                -   
-Provider Credentials:           no   
-Public Service Endpoint URL:    https://c116-e.eu-gb.satellite.cloud.ibm.com:31778   
-Private Service Endpoint URL:   -   
-OpenVPN Server Port:            -   
-Ignition Server Port:           32257   
-Konnectivity Server Port:       31036   
-Logging Key Set:                no   
-Activity Tracker Key Set:       no   
-```
+4. Then go to platform logs and view relevant logs to error. [Relevant link](https://cloud.ibm.com/observe/logging):
+   ![Platform Log Overview](.pastes/platform_log_overview.png)
+   ![Platform Log Dashboard](.pastes/platform_log_dashboard.png)
+   ![Detailed Error Log](.pastes/detailed_error_log.png)
 
-3) Then go to platform logs and find:
-```
-Check iam-test is failing on host: t-can3j0ql0pcg357njmqg-3
-Failure Message: Readiness probe failed: error curling IAM health endpoint
-+ IAM_ENDPOINT=iam.cloud.ibm.com
-+ [[ '' == \s\t\a\g\e* ]]
-```
+5. Using that information now let's turn back on IAM endpoint and then wait for location to go healthy
+   ![Enable IAM](.pastes/enable_iam.png)
+   ![Healthy Location](.pastes/healthy_location_state.png)
 
-4) Using that information now let's turn back on IAM endpoint and then wait for location to go healthy
 
-```
-bx sat location get --location can3j0ql0pcg357njmqg
-Retrieving location...
-OK
-                                   
-Name:                           tyler-hypershift-eu-gb-1   
-ID:                             can3j0ql0pcg357njmqg   
-Created:                        2022-06-18 15:45:55 -0500 (1 week ago)   
-Managed From:                   lon   
-State:                          normal   
-Ready for deployments:          yes   
-Message:                        R0001: The Satellite location is ready for operations.   
-Hosts Available:                0   
-Hosts Total:                    8   
-Host Zones:                     eu-gb-1, eu-gb-2, eu-gb-3   
-Provider:                       -   
-Provider Region:                -   
-Provider Credentials:           no   
-Public Service Endpoint URL:    https://c116-e.eu-gb.satellite.cloud.ibm.com:31778   
-Private Service Endpoint URL:   -   
-OpenVPN Server Port:            -   
-Ignition Server Port:           32257   
-Konnectivity Server Port:       31036   
-Logging Key Set:                no   
-Activity Tracker Key Set:       no
-```
+Congrats! The lab is now complete.
+
+Authors: Tyler Lisowski
