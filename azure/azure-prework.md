@@ -211,8 +211,6 @@ https://github.com/terraform-ibm-modules/terraform-ibm-satellite/releases/downlo
 
 If you are familiar with terraform and not with schematics you can always download the terraform and use it locally... In this case take a look to the Setting section of the schematics workspace to see the variables values.
 
-In case of errors with schematics see [Clean up](#clean-up)
-
 ### Verify Satellite location is created
 
 1. Go to the left navigation menu, on top left corner to the left of IBM Cloud and the click on Satellite Locations
@@ -454,5 +452,5 @@ URL:        https://j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.
 
 ```
 
-# Clean up
+# 
 
