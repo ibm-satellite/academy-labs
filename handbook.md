@@ -246,7 +246,7 @@ This is an instructor led lab activity where you will see how to use observeabil
 
 This is an instructor led lab activity where you will see how to use observability
 
-## Download IBM CLI Plugins to work with Satellite enabled services such as ICD, CoS, ES and KP
+### Download IBM CLI Plugins to work with Satellite enabled services such as ICD, CoS, ES and KP
 
 TBD
 
@@ -256,7 +256,7 @@ TBD
 
 Please engage with Product management team and clarify your questions or customer objections to be able to differentiate IBM Cloud Satellite against competition with good value proposition.
 
-## Instructor led Satellite services labs
+### Instructor led Satellite services labs
 
 Here is the overview of what students are expected to learn by performing hands-on exercises on this day
 
@@ -272,7 +272,7 @@ Here is the overview of what students are expected to learn by performing hands-
   - CoS
   - Event Streams
 
-## Satellite for FS and SCC
+### Satellite for FS and SCC
 
 [Show and tell of techzone demo](https://techzone.ibm.com/collection/SatelliteForFSControls)
 
