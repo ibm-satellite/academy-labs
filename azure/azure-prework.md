@@ -497,7 +497,7 @@ Using the Azure credentials received by mail or gathered from Tech Zone web:
 
 ```
 az login --service-principal -u 58d21686-2688-426f-892e-c7aabed76a51 -p xxx --tenant 4e7730a0-17bb-4dfa-8dad-7c54d3e761b7
-az grou delete -n jordax-academy-4-9602
+az group delete -n jordax-academy-4-9602
 ```
 
 This removes the resource group and all its resources
