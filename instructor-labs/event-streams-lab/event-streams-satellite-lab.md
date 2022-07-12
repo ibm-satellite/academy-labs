@@ -1,7 +1,9 @@
-# Event Streams - WORK IN PROGRESS, NOT READY FOR USE...Doug Beauchene  dougbeau@us.ibm.com
+# IBM® Event Streams for IBM Cloud® - IBM Cloud Satellite® plan
+
+# WORK IN PROGRESS, NOT READY FOR USE...Doug Beauchene  dougbeau@us.ibm.com
 
 ## Introduction
-IBM® Event Streams for IBM Cloud® is a high-throughput message bus that is built with Apache Kafka.
+IBM Event Streams for IBM Cloud is a high-throughput message bus that is built with Apache Kafka.
 
 To get started with Event Streams and start sending and receiving messages, you can use the Java™ sample.  This lab will walk through deploying the sample program and running it using a preprovisioned Event Streams service instance.
 
@@ -51,7 +53,7 @@ In the sections below...
    - Link endpoints
      | Item | Value | Description |
      | --- | --- | --- |
-     | xxxxx | `yyyyyy` | zzzzzzzzzzzzzzzzzzzzzzzzzzz |
+     | Endpoints | `event-streams-mh-sat-tksycbbsdyyvckqz` | Sat location endpoint created by the Event Streams provision process, enables access for the CLI plug-in and REST API |
 
      ![satlocendpoints](images/satlocendpoints.png)
    - Storage - **Configuration**
@@ -98,7 +100,7 @@ In the sections below...
    | Action | Protocol | Port range | Source type | Description |
    | --- | --- | --- | --- | --- |
    | Enabled | TCP | 9093 - 9093 | Any | Kafka brokers listen on port 9093 |
-   | Enabled | TCP | 9093 - 9093 | Any | Kafka admin/http listen on port 443 |
+   | Enabled | TCP | 443 - 443 | Any | Kafka admin/http listen on port 443 |
    | **Disabled** | TCP | 22 - 22 | Any | SSH access |
 
    We disable (remove) any inbound rule for port 22 so no SSH connection/login attempts can be made to the Event Streams hosts.  The security tooling will detect these attempts, IBM Security Operations Center will be notified, SOC will page Event Streams operations support to investigate.  It should also be noted that ROKS disables the root SSH user on the cluster.
@@ -114,16 +116,15 @@ Use the steps below to set up the tools needed to build the sample program.  The
 
    `ssh -i privatekey root@xxx.xxx.xxx.xxx`
 1. Run the following commands to install git and java
-   1. `yum install git` ...at least this version 1.8.3.1-23.el7_8
-   1. `yum install java` ...at least this versoin 1:1.8.0.7.10-1jpp.1.el7
-   1. `yum install java-1.8.0-openjdk-devel`
+   1. `sudo apt-get install git`
+   1. `sudo apt-get install openjdk-8-jdk`
+   1. `sudo apt-get install unzip`
 1. Run the following commands to download, set up, and verify gradle per instrucions at https://gradle.org/install/
    1. `wget https://services.gradle.org/distributions/gradle-7.4.2-bin.zip`
    1. `mkdir /opt/gradle`
    1. `unzip -d /opt/gradle gradle-7.4.2-bin.zip`
-   1. `ls /opt/gradle/gradle-7.4.2`
+   1. `ls -la /opt/gradle/gradle-7.4.2`
       ```
-      # ls /opt/gradle/gradle-7.4.2
       total 44
       drwxr-xr-x. 5 root root    85 Feb  1  1980 .
       drwx------. 3 root root    26 Jul  9 18:36 ..
@@ -204,8 +205,9 @@ The steps below will have you use two terminal sessions...one session will produ
 1. Start the consumer program
    1. Select one of the terminal sessions and run the following commands
    1. `cd /event-streams-samples/kafka-java-console-sample`
-   1. `java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093 1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc -topic student-topic-name -consumer`
-      - **kafka-2.mh-sat-xtpgnbtywyksbrpp...** is the comma separated list of kafka brokers in the Service credentials "kafka_brokers_sasl"
+   1. `java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093 xxxxxxxxxxxxxxxx -topic student-topic-name -consumer`
+      - **kafka-2.mh-sat-tksycbbsdyyvckqz...** is the comma separated list of kafka brokers in the Service credentials "kafka_brokers_sasl"
+      - **xxxxxxxxxx** is the API Key value in the Service credentials "apikey"
       - **student-topic-name** is a unique name for your message data that will be created in the Event Streams instance, use something unique to you
 
       The consumer is ready and running when you see output similar to
@@ -217,8 +219,9 @@ The steps below will have you use two terminal sessions...one session will produ
 1. Start the producer program
    1. Select one of the terminal sessions and run the following commands
    1. `cd /event-streams-samples/kafka-java-console-sample`
-   1. `java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093 1C86nlALK1jxpqQblYZ20UxYZNXXjQaYe41H_SwEdVrc -topic student-topic-name -producer`
+   1. `java -jar ./build/libs/kafka-java-console-sample-2.0.jar kafka-2.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093,kafka-1.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093,kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093 xxxxxxxxxxxxxxxx -topic student-topic-name -producer`
       - **kafka-2.mh-sat-xtpgnbtywyksbrpp...** is the comma separated list of kafka brokers in the Service credentials "kafka_brokers_sasl"
+      - **xxxxxxxxxx** is the API Key value in the Service credentials "apikey"
       - **student-topic-name** is a unique name for your message data that will be created in the Event Streams instance, use something unique to you
 
       The producer is ready and running when you see output similar to
@@ -247,10 +250,10 @@ The steps below will show you how to use the API to get the list of topics in th
 1. SSH into your virtual server
 
    `ssh -i privatekey root@xxx.xxx.xxx.xxx`
-1. `curl -i -X GET -H 'Accept: application/json' -H 'Content-Type: application/json' -u token:xxxxxxxx https://mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com/admin/topics`
+1. `curl -i -X GET -H 'Accept: application/json' -H 'Content-Type: application/json' -u token:xxxxxxxxxxxxxxxx https://mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com/admin/topics`
    
-   - **xxxxxxxx** is the token/API Key in the Service credentials "apikey"
-   - **https://mh-sat-xtpgnbtywyksbrpp.....** is the URL in the Service credentials "kafka_http_url"
+   - **xxxxxxxxxx** is the API Key value in the Service credentials "apikey"
+   - **https://mh-sat-tksycbbsdyyvckqz.....** is the URL in the Service credentials "kafka_http_url"
 
    - The output will be similar to
      ```
@@ -282,25 +285,28 @@ Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows yo
 1. Login to IBM Cloud
 
    `ibmcloud login -a cloud.ibm.com --sso`
+
+   - Select account: **itztsglenablement20 (17bf6dc6cf59464780a356f5ae6f49a1) <-> 2566194**
+   - Select region: **us-east**
 1. Get name of the Event Streams instance.  We want the instance that is deployed to the satellite location
 
    `ibmcloud resource service-instances`
 
    The output will be similar to
    ```
-   Name:      Event-Streams-Sat-Dallas
-   Location:  satloc_dal_c88plk8d0q2jcqk3hglg
+   Name:      academy-instructor-eventstreams
+   Location:  satloc_wdc_caghu83w0b2dtc7takug
    ```
 1. Initialize the plug-in to the Event Streams instance deployed to satellite
 
-   `ibmcloud es init --instance-name Event-Streams-Sat-Dallas`
+   `ibmcloud es init --instance-name academy-instructor-eventstreams`
 
    The output will be similar to
    ```
-   API Endpoint:		https://c88plk8d0q2jcqk3hglg-gpooy.private.us-south.link.satellite.cloud.ibm.com
+   API Endpoint:		https://caghu83w0b2dtc7takug-ugjki.private.us-east.link.satellite.cloud.ibm.com
    Service endpoints:	public
    Sorage size:		2048 GB
-   Throughput:		    150 MB/s
+   Throughput:		   150 MB/s
    ```
 1. Get a list of the topics in the Event Streams instance
 
@@ -310,7 +316,6 @@ Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows yo
    ```    
    Topic name   
    __consumer_offsets   
-   dougbeau-new-topic   
    kafka-java-console-sample-topic   
    student-topic-name   
    ```
@@ -322,13 +327,13 @@ Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows yo
    ```    
    Details for broker
    ID   Host                                                                              Port   Rack   
-   0    kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-2   
+   0    kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com   9093   us-east-2   
 
    Details for broker configuration
    Name                   Value                                                                                                  Sensitive?   
    broker.id              0                                                                                                      false   
-   broker.rack            us-south-2                                                                                             false   
-   advertised.listeners   SASL_EXTERNAL://kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093   false  
+   broker.rack            us-east-2                                                                                              false   
+   advertised.listeners   SASL_EXTERNAL://kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093   false  
    ```
 
    Run it again with --json
@@ -337,7 +342,7 @@ Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows yo
 
    The output will be similar to
    ```    
-   {"host":"kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":0,"rack":"us-south-2","configs":[{"name":"broker.id","value":"0"},{"name":"broker.rack","value":"us-south-2"},{"name":"advertised.listeners","value":"SASL_EXTERNAL://kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com:9093"}]} 
+   {"host":"kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com","port":9093,"id":0,"rack":"us-east-2","configs":[{"name":"broker.id","value":"0"},{"name":"broker.rack","value":"us-east-2"},{"name":"advertised.listeners","value":"SASL_EXTERNAL://kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com:9093"}]}
    ```
 1. Display the details of the cluster
 
@@ -347,13 +352,13 @@ Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows yo
    ```    
    Details for cluster
    Cluster ID                Controller   
-   mh-sat-xtpgnbtywyksbrpp   1   
+   mh-sat-tksycbbsdyyvckqz   1   
 
    Details for brokers
    ID   Host                                                                              Port   Rack   
-   0    kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-2   
-   2    kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-1   
-   1    kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com   9093   us-south-3   
+   0    kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com   9093   us-east-2   
+   2    kafka-2.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com   9093   us-east-3   
+   1    kafka-1.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com   9093   us-east-1   
    No cluster-wide dynamic configurations found.
    ```
 
@@ -363,7 +368,7 @@ Event Streams provides a plug-in for the **ibmcloud** CLI.  The plugin allows yo
 
    The output will be similar to
    ```    
-   {"id":"mh-sat-xtpgnbtywyksbrpp","controller":{"host":"kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":1,"rack":"us-south-3"},"brokers":[{"host":"kafka-0.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":0,"rack":"us-south-2"},{"host":"kafka-2.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":2,"rack":"us-south-1"},{"host":"kafka-1.mh-sat-xtpgnbtywyksbrpp.c88plk8d0q2jcqk3hglg.eventstreams.cloud.ibm.com","port":9093,"id":1,"rack":"us-south-3"}]}
+   {"id":"mh-sat-tksycbbsdyyvckqz","controller":{"host":"kafka-1.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com","port":9093,"id":1,"rack":"us-east-1"},"brokers":[{"host":"kafka-0.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com","port":9093,"id":0,"rack":"us-east-2"},{"host":"kafka-2.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com","port":9093,"id":2,"rack":"us-east-3"},{"host":"kafka-1.mh-sat-tksycbbsdyyvckqz.caghu83w0b2dtc7takug.eventstreams.cloud.ibm.com","port":9093,"id":1,"rack":"us-east-1"}]}
 
    ```
 
