@@ -1,6 +1,6 @@
 # Satellite Tech Academy 2022 Pre-Work
 
-This page provides instructions for participants of Satellite Academy Session #1.
+This page provides instructions for participants of Satellite Academy Session.
 
 The environment Pre-Work has been randomly assigned to all the participants for which you should have received an email indicating which environment (AWS, Azure, VMWare onprem) you should use.
 
