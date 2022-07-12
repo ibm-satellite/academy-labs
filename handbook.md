@@ -55,21 +55,21 @@ on-prem infrastructure.
 
 There are two parts to the lab environment, one that is required for the student to use and other for the instructor led scenarios. Please see below diagrams for Students env for those pre-assigned to AWS, Azure or on-prem.
 
-Source .drawio file for the **Student** Lab env is available [**here**](https://ibm.box.com/s/wyi0ueqz272sf3nrsaoha1dmmjnrotl0)
+Source .drawio file for the **Student** Lab env is available [**here**](drawio/Satellite%20Academy%20Student%20Lab%20env.drawio)
 
-Student Lab env using AWS Infrastructure for Satellite location
+AWS Infrastructure environment
 
 ![aws](./images/Student-Lab-AWS.png)
 
-Student Lab env using Azure Infrastructure for Satellite location
+Azure Infrastructure environment
 
 ![azure](./images/Student-Lab-Azure.png)
 
-Student Lab env using on-prem, vmware Infrastructure for Satellite location
+VMWare on-prem Infrastructure environment
 
 ![vmware](./images/Student-Lab-on-prem.png)
 
-Source .drawio file for the **Instructor** Lab env is available [**here**](https://ibm.box.com/s/ae0b0l1ldg6xh0i4fgrv1pren89idrch)
+Source .drawio file for the **Instructor** Lab env is available [**here**](drawio/Satellite%20Academy%20Instructor%20lab%20env.drawio)
 
 Instructor Lab env with Satellite enabled services deployed in Hybrid cloud using two Satellite locations, one on-prem and other in AWS. On-prem satellite locations is emulated using IBM VPC IaaS, for demo purposes, but it can deployed in customer data centers same way.
 
@@ -238,17 +238,13 @@ TBD Link to be added to Matt's Gitrepo
 
 This is an instructor led lab activity where you will see how to use observeability.
 
-#### Instructor Lab Example - Using Activity Tracking
+- Using **Activity Tracker** to track events by toggling Link endpoint. Click [**here**](instructor-labs/activity-tracker-lab/steps.md)
 
-Here is a way to see activity tracker events by toggling Link endpoint, Please click [**here**](instructor-labs/activity-tracker-lab/steps.md) for simple steps
-
-#### Instructor Lab Example - Using Monitoring
-
-Here is a way to see monitoring in action for Health of Satellite location, Please click [**here**](instructor-labs/infrastructure-monitor-lab/steps.md) for simple steps
+- Using **Monitoring** to see monitoring in action for Health of Satellite location. Click [**here**](instructor-labs/infrastructure-monitor-lab/steps.md)
 
 ### Instructor Lab - Perform troubleshooting, debugging and RCA
 
-This is an instructor led lab activity where you will see how to use observeability
+This is an instructor led lab activity where you will see how to use observability
 
 ## Download IBM CLI Plugins to work with Satellite enabled services such as ICD, CoS, ES and KP
 
