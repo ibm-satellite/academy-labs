@@ -4,17 +4,15 @@
 
 1. Download IBM Cloud CLI from [here](https://github.com/IBM-Cloud/ibm-cloud-cli-release)
 
+1. Install the IBM Cloud plug-in for Kubernetes Service.
+
+    ```sh
+    ibmcloud plugin install container-service
+    ```
+
+    > This plug-in includes `ibmcloud sat` commands to manage Satellite resources and `ibmcloud oc` to manage Red Hat OpenShift cluster resources.
+
 1. Install private endpoints from [here](https://cloud.ibm.com/docs/cli?topic=cli-cli-private-endpoints)
-
-## Install IBM Cloud Plugins
-
-Install the IBM Cloud plug-in for Kubernetes Service.
-
-```sh
-ibmcloud plugin install container-service
-```
-
-> This plug-in includes `ibmcloud sat` commands to manage Satellite resources and `ibmcloud oc` to manage Red Hat OpenShift cluster resources.
 
 For more information, refer to the [doc](https://cloud.ibm.com/docs/satellite?topic=satellite-setup-cli).
 
