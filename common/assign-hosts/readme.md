@@ -82,7 +82,6 @@ Finally...
 
 ![image-20220616134937985](images/image-20220616134937985.png)
 
-
 # Add new worker to ROKS
 
 Review the vCPU, Memory and Zone of the worker you attached, in this case it was:
@@ -103,7 +102,7 @@ Check in the location that the "Unassigned" node is now "Assigned" to our cluste
 
 ![image-20220616140311959](images/image-20220616140311959.png)
 
-# Fix public IP Assignment for Control Plane
+## Fix public IP Assignment for Control Plane
 Because we have now changed the Hosts in the Satellite Control Plane we need to update the Sattelite DNS. Please follow the steps for the Control Plane only:
-* For Azure: [Reset public IPs](https://github.ibm.com/satellite-academy/student-labs/blob/main/azure/AcademyLabs.md#lab4---remove-and-replace-an-existinghost---control-plane)
-* For AWS: [https://github.ibm.com/satellite-academy/student-labs/blob/main/aws/aws-access-roks-inet.md](https://github.ibm.com/satellite-academy/student-labs/blob/main/aws/aws-access-roks-inet.md)
+* For Azure: [Reset public IPs](azure/AcademyLabs.md#lab4---remove-and-replace-an-existinghost---control-plane)
+* For AWS: [aws/aws-access-roks-inet.md](aws/aws-access-roks-inet.md)
