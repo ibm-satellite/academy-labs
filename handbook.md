@@ -171,64 +171,44 @@ Please follow steps [here](https://github.ibm.com/satellite-academy/student-labs
 
 Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands
 
-### Lab 2: Expose OpenShift Cluster to public internet
+### Labs 2 to 7
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
-| Lab2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A |
-| Lab3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab3---add-new-hosts-to-the-location) |  TBD |
-| Lab4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
-| Lab5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
+| Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A |
+| Lab 3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab3---add-new-hosts-to-the-location) |  TBD |
+| Lab 4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
+| Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
+| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry) | [common](common/cos-image-registry) | [common](common/cos-image-registry) |
+| Lab 7: Configure activity tracker and logging instances | [common](common/observability) | [common](common/observability) | [common](common/observability) |
 
-### Lab 6: Configure OCP Image registry using IBM CoS
-
-When you install Cloud Pak for Data, the installer is going to copy the images Cloud Pak for Data will use to your local image registry. This is done to greatly improve the speed of the installation process. The first thing we are going to do is create an IBM Cloud Object Storage instance and bucket. Note: if you already have an instance of IBM Cloud Object Storage you can skip to section 2.2
-
-This lab is common to all envs (AWS, Azure, and VMWare onprem)
-[Configure Image Registry with IBM COS](common/cos-image-registry)
-
-### Lab 7: Configure activity tracker and logging instances for Satellite in Student's lab
-
-This lab is common to all envs (AWS, Azure, and VMWare onprem)
-[Observability](common/observability)
+> About Lab 6: Configure OCP Image registry using IBM CoS
+>
+> When you install Cloud Pak for Data, the installer is going to copy the images Cloud Pak for Data will use to your local image registry. This is done to greatly improve the speed of the installation process. The first thing we are going to do is create an IBM Cloud Object Storage instance and bucket.
 
 ### Lab 8: Perform Satellite location troubleshooting by Sigex team
 
 ## Day 3
 
-Here is the overview of what students are expected to learn by performing hands-on exercises on this day
+Here is the overview of what students are expected to learn by performing hands-on exercises on this day:
 
-    Configure Satellite storage template using Red Hat OpenShift Data Foundation (ODF) (formerly known as Openshift Container Storage OCS). Labs included are to deploy ODF with remote disks as well as local disks.
-    
-        AWS 
-    
-        Azure
-    
-        on-prem
+- Configure Satellite storage template using Red Hat OpenShift Data Foundation (ODF) (formerly known as Openshift Container Storage OCS). Labs included are to deploy ODF with remote disks as well as local disks.
 
- Create Satellite Link endpoint and test them to access resources in the cloud or in the location.
+- Create Satellite Link endpoint and test them to access resources in the cloud or in the location.
 
- Aspects of Observeability by using Activity tracking, Logging and monitoring from the Satellite location, ROKS cluster and application deployed.
+- Aspects of Observeability by using Activity tracking, Logging and monitoring from the Satellite location, ROKS cluster and application deployed.
 
- Watch how to troubleshoot and debug Satellite related issues.
+- Watch how to troubleshoot and debug Satellite related issues.
 
-### Lab 9 : Configure ODF
+### Lab 9 to 10
 
-**AWS:**
-Please click here to follow steps to [**Install ODF in Satellite location using AWS Infrastructure**](aws/aws-odf-ebs.md)
+| Labs          | AWS           | Azure  | VMWare On-prem  |
+| ------------- |:-------------:| ------:| ----------------:|
+| Lab 9 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab9---deploy-odf) | vmware/wmware-odf.md |
+| Lab 10: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
 
-**Azure:**
-Please click here to follow steps in the section "Lab9 - Deploy ODF" to [**Install ODF in Satellite location using Azure Infrastructure**](azure/AcademyLabs.md#lab9---deploy-odf)
-
-**VMWare On-prem:**
-Please click here to follow steps to [**Install ODF in Satellite location using on-prem VMware Infrastructure**](vmware/wmware-odf.md
-
-**Troubleshooting ODF**
-Steps [**here**](common/odf-troubleshootings) help you troubleshoot ODF related issues.
-
-### Lab 10: Configure Link Endpoints
-
-Please click on the link [**here**](link/satellite-link-config-lab.md) to know how to create Satellite link endpoints and use them.
+> Troubleshooting ODF
+> Some command lines [**here**](common/odf-troubleshootings) to help you troubleshoot ODF related issues.
 
 ### Deploy test application using Satellite config
 
