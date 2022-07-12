@@ -77,7 +77,7 @@ Instructor Lab env with Satellite enabled services deployed in Hybrid cloud usin
 
 ## Student's tasks to be performed
 
-For dertails of session agenda and labs to be performed by the students during the workshop by day please click on the link below
+For details of session agenda and labs to be performed by the students during the workshop by day please click on the link below
 
 ![agenda](./images/Academy-Session-agenda-and-labs.png)
 
@@ -103,7 +103,7 @@ Students are expected to complete pre-requisites in order to be ready for the wo
 - IBM Cloud Satellite training:
     <https://www.ibm.com/training/path/ibmcloudsatellite>
 
-Participants are required to complete all the pre-requisites prior to making travel arrangements.
+Participants are required to complete all the pre-work prior to making travel arrangements.
 
 ### Pre-work
 
@@ -112,7 +112,7 @@ TechZone demos that are pre-assigned are available [**here**](https://techzone.i
 
 ### Environments
 
-Please use the following instructions to create your Satellite location depending on your environment:**
+Please use the following instructions to create your Satellite location depending on your environment:
 
 1. [AWS](aws/aws-prework.md)
 1. [Azure](azure/azure-prework.md)
@@ -130,7 +130,7 @@ Students are required to make sure the following pre-work are completed before D
 
 NOTE: You can not access OpenShift console until you perform necessary labs during the session
 
-As mentioned above, please use the links below to complete pre-reqs
+As mentioned above, please use the links below to complete the pre-reqs
 <https://techzone.ibm.com/collection/cloud-platform-tech-academy-satellite>
 
 > **Support:** If you have any questions or need help during the pre-work, please post them in the [slack channel](https://ibm-cloudplatform.slack.com/archives/C03NE5ASPAM)
