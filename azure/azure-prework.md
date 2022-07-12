@@ -341,7 +341,7 @@ It will be in "Action Required" for like 1h while the control planes are assigne
 
 ### Review satellite and ROKS resources with ibmcloud CLI
 
-Install IBM CLI
+Install IBM CLI and ROKS/IKS/Satellite plugin
 
 https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli
 
@@ -350,6 +350,8 @@ curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 
 ibmcloud version
 ibmcloud version 1.3.0+4308925-2020-12-16T07:53:49+00:00
+
+ibmcloud plugin install container-service
 ```
 
 During login use "--sso" in case you have SSO configured with IBM Cloud, like for example the case of IBM users.
