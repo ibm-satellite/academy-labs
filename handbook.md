@@ -45,7 +45,7 @@ their FLM's to attend.
 
 For more information about **SKO Technical Academy for Cloud Platform** is available [**here**](https://ibm.seismic.com/Link/Content/DCHhRX6CMCggXGWFGhjVhqB86Phd)
 
-Note: In this document reference to "participants" or "students" is for those who are nominated to attend the Academy session to gain hands-on experience.
+> Note: In this document reference to "participants" or "students" is for those who are nominated to attend the Academy session to gain hands-on experience.
 
 ## Lab environment
 

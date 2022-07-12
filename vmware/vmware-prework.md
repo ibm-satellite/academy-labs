@@ -330,7 +330,7 @@ Below is a potential errors you might see during the install process:
 
 1. Now look for host name ending with worker-0, click on 3 dots on the right and click Assign host.
 
-1. Select the Red Hat OpenShift cluster `mycluster-satellite-XXX`, zone "csplab-zone-1" and click Assign Host at the bottom.
+1. Select the Red Hat OpenShift cluster `mycluster-satellite-XXX`, zone `csplab-zone-1` and click Assign Host at the bottom.
 
     ![img](./images/image33.png)
 
@@ -375,6 +375,8 @@ Below is a potential errors you might see during the install process:
     brew install node
     ```
 
+    > Note: Node.js installer can also be downloaded from [here](https://nodejs.org/en/download/)
+
 1. Install http-proxy-to-socks (hpts) by running the command
 
     ```sh
@@ -400,6 +402,8 @@ Below is a potential errors you might see during the install process:
     ```sh
     ibmcloud login --apikey <your IBM Cloud API Key>
     ```
+
+    > Note: if you haven't installed IBM Cloud CLI, go to [here](../common/clis/clis.md)
 
 1. Download the key or copy paste into a file to reuse in next steps.
 
