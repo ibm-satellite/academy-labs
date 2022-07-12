@@ -4,8 +4,8 @@
 ## Lab1 - Check status of your Satellite location and ROKS cluster
 
 - [Lab1 - Check status](#lab1---check-status)
-    - [UI](#ui)
-    - [CLI](#cli)
+    - [UI](#check-status-from-UI)
+    - [CLI](#check-status-using-satellite-cli)
 
 ### Check status from UI
 
