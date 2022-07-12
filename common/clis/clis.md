@@ -20,7 +20,27 @@ For more information, refer to the [doc](https://cloud.ibm.com/docs/satellite?to
 
 ## OpenShift CLI
 
-Follow those [installation Steps](https://docs.openshift.com/container-platform/4.9/cli_reference/openshift_cli/getting-started-cli.html#installing-openshift-cli)
+1. Download the OpenShift CLI from this [mirror site](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/)
+
+1. Select the appropriate version.
+
+1. Download and unpack this archive.
+
+    ```sh
+    tar xvzf <file>
+    ```
+
+1. Place the oc binary in a directory that is on your PATH. To check your PATH, execute the following command:
+
+    ```sh
+    echo $PATH
+    ```
+
+1. After you install the OpenShift CLI, it is available using the oc command:
+
+    ```sh
+    oc <command>
+    ```
 
 ## AWS CLI
 
