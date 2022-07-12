@@ -188,7 +188,7 @@ Some of steps later one will require you to be connected via VPN to the Private 
 
 1. Go to your [My reservations](https://techzone.ibm.com/my/reservations). Select your reservation.
 
-    ![reservation](./images/myreservation.png)
+    ![reservation](./images/myreservation-vsphere.png)
 
 1. Write down the **username**, and the **password** at the top of the page.
 
