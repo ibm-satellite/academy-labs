@@ -6,6 +6,8 @@ In your IBM Cloud Account it has been created a VSI you can use to execute CLI c
 
 You should have in your inbox a mail containing the private key you will use to access to the student VSI by ssh.
 
+Or ask in the support slack channel for it...#satellite-academy-support https://ibm-cloudplatform.slack.com/archives/C03NE5ASPAM
+
 ## Gather VSI public IP
 
 ![image-20220711114128272](.pastes/image-20220711114128272.png)
