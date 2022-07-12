@@ -1,55 +1,58 @@
-# Table of contents
-
-- [Azure Labs](#azure-labs)
-  - [Lab0 - Student VSI](#lab-0---student-vsi)
-  - [Lab1 - Check status](#lab1---check-status)
-    - [UI](#ui)
-    - [CLI](#cli)
-  - [Lab2 - Expose ROKS](#lab2---expose-roks)
-    - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
-    - [Reconfigure with public IPs](#reconfigure-with-public-ips)
-    - [Access OpenShift Console](#access-openshift-console)
-  - [Lab3 - Add new hosts to the location](#lab3---add-new-hosts-to-the-location)
-    - [Gather data. Resource Group and Prefix](#gather-data-resource-group-and-prefix)
-    - [Create VMs using AZ CLI](#create-vms-using-az-cli)
-    - [Attach hosts to the location](#attach-hosts-to-the-location)
-      - [Prepare VM](#prepare-vm)
-      - [Get and execute attach script](#get-and-execute-attach-script)
-  - [Lab4 - Remove and replace an existinghost - Control plane](#lab4---remove-and-replace-an-existinghost---control-plane)
-    - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
-    - [Reconfigure with public IPs](#reconfigure-with-public-ips)
-  - [Lab 6 - Configure Registry with Object Storage](#lab-6---configure-registry-with-object-storage)
-  - [Lab9 - Deploy ODF](#lab9---deploy-odf)
-    - [Configure Azure Disks](#configure-azure-disks)
-      - [Create storage template configuration](#create-storage-template-configuration)
-      - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
-    - [Configure and deploy ODF](#configure-and-deploy-odf)
-      - [Create storage template configuration](#create-storage-template-configuration)
-      - [Assign template to a cluster](#assign-template-to-a-cluster)
-      - [Test ODF](#test-odf)
-  
-- [Apendix](#apendix)
-  - [Create new hosts using terraform](#create-new-hosts-using-terraform)
-    - [Install terraform](#install-terraform)
-    - [Terraform files](#terraform-files)
-    - [Init terraform](#init-terraform)
-    - [Create the VM](#create-the-vm)
-  - [Login to IBM Cloud](#login-to-ibm-cloud)
-    - [Install CLI](#install-cli)
-    - [Login](#login)
-  - [Recover your Azure credentials](#recover-your-azure-credentials)
-  - [Service IDs](#service-ids)
-  - [Login to Azure](#login-to-azure)
-    - [Install azure CLI on CentOS](#install-azure-cli-on-centos)
-    - [Login](#login)
-  - [Configure Container Registry with Azure Object Storage](#configure-container-registry-with-azure-object-storage)
-    - [Create Azure "bucket"](#create-azure-bucket)
-    - [Configure ROKS Registry to use Azure Object Storage (BLOB)](#configure-roks-registry-to-use-azure-object-storage-blob)
-    - [Test deployment](#test-deployment)
-  - [Location behavior when a nodes get "unresponsive"](#location-behavior-when-a-nodes-get-unresponsive)
-    - [Remove the VM in Azure IaaS](#remove-the-vm-in-azure-iaas)
-    - [Replace Control plane](#replace-control-plane)
-      - [Remove host from location](#remove-host-from-location)
+- - - - Table of contents
+      
+        - [Table of contents](#table-of-contents)
+        - [Azure Labs](#azure-labs)
+          - [Lab 0 - Student VSI](#lab-0---student-vsi)
+          - [Lab1 - Check status](#lab1---check-status)
+            - [UI](#ui)
+            - [CLI](#cli)
+          - [Lab2 - Expose ROKS](#lab2---expose-roks)
+            - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
+            - [Reconfigure with public IPs](#reconfigure-with-public-ips)
+            - [Access OpenShift Console](#access-openshift-console)
+          - [Lab3 - Add new hosts to the location](#lab3---add-new-hosts-to-the-location)
+            - [Gather data. Resource Group and Prefix](#gather-data-resource-group-and-prefix)
+            - [Create VMs using AZ CLI](#create-vms-using-az-cli)
+            - [Attach hosts to the location](#attach-hosts-to-the-location)
+              - [Prepare VM](#prepare-vm)
+              - [Get and execute attach script](#get-and-execute-attach-script)
+          - [Lab4 - Remove and replace an existinghost - Control plane](#lab4---remove-and-replace-an-existinghost---control-plane)
+            - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
+            - [Reconfigure with public IPs](#reconfigure-with-public-ips)
+          - [Lab 6 - Configure Registry with Object Storage](#lab-6---configure-registry-with-object-storage)
+          - [Lab9 - Deploy ODF](#lab9---deploy-odf)
+            - [Configure Azure Disks](#configure-azure-disks)
+              - [Create storage template configuration](#create-storage-template-configuration)
+              - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
+            - [Configure and deploy ODF](#configure-and-deploy-odf)
+              - [Create storage template configuration](#create-storage-template-configuration)
+              - [Assign template to a cluster](#assign-template-to-a-cluster)
+              - [Test ODF](#test-odf)
+        - [Apendix](#apendix)
+          - [Login to IBM Cloud](#login-to-ibm-cloud)
+            - [Install CLI and plugins](#install-cli-and-plugins)
+            - [Login](#login)
+          - [Login to Azure](#login-to-azure)
+            - [Install azure CLI on CentOS](#install-azure-cli-on-centos)
+            - [Login](#login)
+          - [Download OpenShift CLI](#download-openshift-cli)
+          - [Create new hosts using terraform](#create-new-hosts-using-terraform)
+            - [Install terraform](#install-terraform)
+            - [Terraform files](#terraform-files)
+            - [Init terraform](#init-terraform)
+            - [Create the VM](#create-the-vm)
+          - [Recover your Azure credentials](#recover-your-azure-credentials)
+          - [Service IDs](#service-ids)
+          - [Configure Container Registry with Azure Object Storage](#configure-container-registry-with-azure-object-storage)
+            - [Create Azure "bucket"](#create-azure-bucket)
+            - [Configure ROKS Registry to use Azure Object Storage (BLOB)](#configure-roks-registry-to-use-azure-object-storage-blob)
+            - [Test deployment](#test-deployment)
+          - [Location behavior when a nodes get "unresponsive"](#location-behavior-when-a-nodes-get-unresponsive)
+            - [Remove the VM in Azure IaaS](#remove-the-vm-in-azure-iaas)
+            - [Replace Control plane](#replace-control-plane)
+              - [Remove host from location](#remove-host-from-location)
+      
+        
 
 # Azure Labs
 
@@ -198,8 +201,6 @@ And in variables look for "az_resource_group", in this case it is "jordax-academ
 For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-academy-4-8097"
 
 ![image-20220611210421332](.pastes/image-20220611210421332.png)
-
-
 
 ```
 az vm list --resource-group jordax-academy-4-9602 | grep name | grep -v -i Disk | grep -v admin
@@ -1097,6 +1098,8 @@ ibm-cos-secret-key   Secret access key   Your IBM COS HMAC secret access key.   
 
 We will create an ODF deployment with 3 replicas with 100GB storage available, this implies deploy ODF in three workers each one will configure a Persistent Volume of 100GB
 
+To use OpenShift CLI see [Download OpenShift CLI](#download-openshift-cli)
+
 Gather worker nodes names:
 
 ```
@@ -1406,6 +1409,82 @@ pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            Delete     
 
 # Apendix
 
+## Login to IBM Cloud
+
+### Install CLI and plugins
+
+https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli
+
+```
+curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
+
+ibmcloud version
+ibmcloud version 1.3.0+4308925-2020-12-16T07:53:49+00:00
+
+ibmcloud plugin install container-service
+```
+
+### Login
+
+During login use "--sso" in case you have SSO configured with IBM Cloud, like for example the case of IBM users.
+
+```
+ibmcloud login --sso
+
+Select an account:
+18. itztsglenablement23 (20c282cbc5174bdbaddb0a5b94025d9f) <-> 2566264
+Enter a number> 18
+
+ibmcloud target -r us-east
+ibmcloud target -g academyrg
+```
+
+## Login to Azure
+
+### Install azure CLI on CentOS
+
+```
+yum install -y dnf
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
+
+dnf install azure-cli
+```
+
+### Login
+
+From ITZ (See [Azure credentials](#Recover-your-azure-credentials)) use:
+
+- clientid in place of app_id after -u
+- clientSecret for password-or-secret after -p
+- tenantId for tenant
+
+```
+az login --service-principal -u 58d21686-2688-426f-892e-c7aabed76a51 -p xxx --tenant 4e7730a0-17bb-4dfa-8dad-7c54d3e761b7
+```
+
+## Download OpenShift CLI
+
+```
+https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.9.33/openshift-client-linux-4.9.33.tar.gz
+https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.9.33/openshift-client-windows-4.9.33.zip
+https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.9.33/openshift-client-mac-4.9.33.tar.gz
+```
+
+```
+wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.9.33/openshift-client-linux-4.9.33.tar.gz
+tar -xvf openshift-client-linux-4.9.33.tar.gz
+mv oc kubectl /usr/local/bin/
+```
+
+
+
 ## Create new hosts using terraform
 
 ### Install terraform
@@ -1672,36 +1751,6 @@ Changes to Outputs:
 
 
 
-## Login to IBM Cloud
-
-### Install CLI
-
-https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli
-
-```
-curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
-
-ibmcloud version
-ibmcloud version 1.3.0+4308925-2020-12-16T07:53:49+00:00
-```
-
-### Login
-
-During login use "--sso" in case you have SSO configured with IBM Cloud, like for example the case of IBM users.
-
-```
-ibmcloud login --sso
-
-Select an account:
-18. itztsglenablement23 (20c282cbc5174bdbaddb0a5b94025d9f) <-> 2566264
-Enter a number> 18
-
-ibmcloud target -r us-east
-ibmcloud target -g academyrg
-```
-
-
-
 ## Recover your Azure credentials
 
 Recover your credentials provided by the TechZone environment, in TechZone portal go to My Library and click on My Reservations
@@ -1767,36 +1816,6 @@ Assign Access Group.
 
 ```
 ibmcloud iam access-group-service-id-add <access_group_name> ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42
-```
-
-## Login to Azure
-
-### Install azure CLI on CentOS
-
-```
-yum install -y dnf
-rpm --import https://packages.microsoft.com/keys/microsoft.asc
-
-echo -e "[azure-cli]
-name=Azure CLI
-baseurl=https://packages.microsoft.com/yumrepos/azure-cli
-enabled=1
-gpgcheck=1
-gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
-
-dnf install azure-cli
-```
-
-### Login
-
-From ITZ (See [Azure credentials](#Recover-your-azure-credentials)) use:
-
-- clientid in place of app_id after -u
-- clientSecret for password-or-secret after -p
-- tenantId for tenant
-
-```
-az login --service-principal -u 58d21686-2688-426f-892e-c7aabed76a51 -p xxx --tenant 4e7730a0-17bb-4dfa-8dad-7c54d3e761b7
 ```
 
 
