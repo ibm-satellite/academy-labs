@@ -106,7 +106,17 @@ Name               ID                     Status   Ready   Created        Hosts 
 jordax-academy-4   cahrvp4w07i0nklqkbpg   normal   yes     20 hours ago   6 / 6                wdc
 
 
-ibmcloud sat location get --location jordax-academy-4
+
+```
+
+
+
+```
+# user your values
+location=jordax-academy-4
+# ---
+
+ibmcloud sat location get --location $location
 Retrieving location...
 OK
 
@@ -125,6 +135,8 @@ Private Service Endpoint URL:   -
 OpenVPN Server Port:            -
 ```
 
+
+
 "R0001: The Satellite location is ready for operations." is the correct message when the location is enabled and ready.
 
 If status indicates warning with an error code, refer to steps needed to fix it as in cloud docs https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug
@@ -137,12 +149,21 @@ OK
 Name                      ID                     State    Created        Workers   Location           Version                 Resource Group Name   Provider
 jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   11 hours ago   3         jordax-academy-4   4.9.33_1540_openshift   academyrg             satellite
 
+```
 
-ibmcloud ks cluster get --cluster jordax-academy-cluster1 | grep Status
+```
+# user your values
+clusterName=jordax-academy-cluster1
+# ---
+
+ibmcloud ks cluster get --cluster $clusterName | grep Status
+
 Status:                         All Workers Normal
 Ingress Status:                 Normal
 Status:     Ready
 ```
+
+
 
 ## Lab2 - Expose ROKS
 
@@ -155,7 +176,11 @@ ROKS services domains, like the console or API is configured with the private IP
 If we check how IBM Cloud configure the DNS for the ROKS instance you will see the IPs are private, 10.x.x.x
 
 ```
-ibmcloud oc nlb-dns ls --cluster jordax-academy-cluster1
+# user your values
+clusterName=jordax-academy-cluster1
+# ---
+
+ibmcloud oc nlb-dns ls --cluster $clusterName
 
 OK
 Hostname                                                                                           IP(s)                        Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
@@ -168,7 +193,11 @@ Take note of the Hostname, we will use it later: "jordax-academy-cluster1-22bfd3
 Satellite location also has a DNS configuration, as we are going to change also the IPs of the control planes we will have to update also this configuration.
 
 ```
-ibmcloud sat location dns ls --location jordax-academy-4
+# user your values
+location=jordax-academy-4
+# ---
+
+ibmcloud sat location dns ls --location $location
 Retrieving location subdomains...
 OK
 Hostname                                                                                        Records                                                                                         SSL Cert Status   SSL Cert Secret Name                                          Secret Namespace
@@ -202,17 +231,7 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
 
 ![image-20220611210421332](.pastes/image-20220611210421332.png)
 
-```
-az vm list --resource-group jordax-academy-4-9602 | grep name | grep -v -i Disk | grep -v admin
 
-    "name": "jordax-academy-4-8097-vm-0",
-    "name": "jordax-academy-4-8097-vm-1",
-    "name": "jordax-academy-4-8097-vm-2",
-    "name": "jordax-academy-4-8097-vm-3",
-    "name": "jordax-academy-4-8097-vm-4",
-    "name": "jordax-academy-4-8097-vm-5",
-
-```
 
 ### Reconfigure with public IPs
 
@@ -469,7 +488,7 @@ ibmcloud oc nlb-dns rm classic --ip 10.0.3.4 --cluster $clusterName --nlb-host $
 Check the IPs
 
 ```
-ibmcloud oc nlb-dns ls --cluster jordax-academy-cluster1
+ibmcloud oc nlb-dns ls --cluster $clusterName
 
 OK
 Hostname                                                                                           IP(s)                                                                Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
@@ -527,8 +546,10 @@ az login --service-principal -u 58d21686-2688-426f-892e-c7aabed76a51 -p xxx --te
 Create VMs:
 
 ```
+# user your values
 SAT_RG=jordax-academy-4-9602
 VM_PREFIX=jordax-academy-4-8097
+# ---
 
 az vm create --name "$VM_PREFIX"-cp4 --resource-group $SAT_RG --admin-user adminuser --admin-password LongPassw0rd! --image RedHat:RHEL:7-LVM:latest --nsg "$VM_PREFIX"-sg --os-disk-name "$VM_PREFIX"-cp4-disk1 --os-disk-size-gb 128 --data-disk-sizes-gb 100 --size Standard_D16as_v4 --zone 1 --vnet-name "$VM_PREFIX"-vpc --subnet "$VM_PREFIX"-subnet-1 --public-ip-sku Standard
 
@@ -688,7 +709,11 @@ Login to IBM Cloud: [Login IBM Cloud](#login-to-ibm-cloud)
 If we check location DNS configuration we can see that the private IPs are being used again
 
 ```
-ibmcloud sat location dns ls --location jordax-academy-4
+# user your values
+location=jordax-academy-4
+# ---
+
+ibmcloud sat location dns ls --location $location
 Retrieving location subdomains...
 OK
 Hostname                                                                                        Records                                                                                         SSL Cert Status   SSL Cert Secret Name                                          Secret Namespace
@@ -700,7 +725,7 @@ j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.ap
 
 ```
 
-We have to generate a public IP for the new control plane and reconfigure the location DNS.
+We have to generate a public IP for the new control plane and reconfigure the location DNS
 
 ### Gather azure resource group and VMs prefix
 
@@ -982,7 +1007,12 @@ jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   2 days ago   3        
 Apply template
 
 ```
-ibmcloud sat storage assignment create --cluster cai4c1ew0o3o3vme5fa0 --config azure-disk
+# user your values
+clusterID=cai4c1ew0o3o3vme5fa0
+clusterName=jordax-academy-cluster1
+# ---
+
+ibmcloud sat storage assignment create --cluster $clusterID --config azure-disk
 
 Creating assignment...
 OK
@@ -992,7 +1022,7 @@ Assignment  was successfully created with ID ed1fb94b-95e0-4770-b4e6-0f3b9a66fc8
 Get kubeconfig (login as admin to ROKS)
 
 ```
-ibmcloud ks cluster config --cluster jordax-academy-cluster1 --admin
+ibmcloud ks cluster config --cluster $clusterName --admin
 ```
 
 Check storage pods
@@ -1110,7 +1140,7 @@ Name                      ID                     State    Created      Workers  
 jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   4 days ago   3         jordax-academy-4   4.9.33_1540_openshift   academyrg             satellite
 
 
-ibmcloud ks cluster config --cluster jordax-academy-cluster1 --admin
+ibmcloud ks cluster config --cluster $clusterName --admin
 
 OK
 The configuration for jordax-academy-cluster1 was downloaded successfully.
@@ -1198,7 +1228,11 @@ jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   2 days ago   3        
 Apply template
 
 ```
-ibmcloud sat storage assignment create --cluster cai4c1ew0o3o3vme5fa0 --config odf-config
+# user your values
+clusterID=cai4c1ew0o3o3vme5fa0
+# ---
+
+ibmcloud sat storage assignment create --cluster $clusterID --config odf-config
 Creating assignment...
 OK
 Assignment  was successfully created with ID 683acd7e-a453-4aaa-80c3-2f5c23b959e4.
@@ -1796,7 +1830,11 @@ Locked        false
 Create API Key
 
 ```
-ibmcloud iam service-api-key-create academy ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42 --description "API key"
+# use the ID o fr your service-id
+serviceID=ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42
+#----
+
+ibmcloud iam service-api-key-create academy $serviceID --description "API key"
 Creating API key academy of service ID ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42 under account 20c282cbc5174bdbaddb0a5b94025d9f as javier.ordax@es.ibm.com...
 OK
 Service ID API key academy is created
@@ -1815,7 +1853,7 @@ Locked        false
 Assign Access Group.
 
 ```
-ibmcloud iam access-group-service-id-add <access_group_name> ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42
+ibmcloud iam access-group-service-id-add <access_group_name> $serviceID
 ```
 
 
