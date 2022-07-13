@@ -4,9 +4,41 @@
 
 1. Download IBM Cloud CLI from [here](https://github.com/IBM-Cloud/ibm-cloud-cli-release)
 
-1. Install plugins from [here](https://cloud.ibm.com/docs/cli?topic=cli-install-devtools-manually)
+1. Install the IBM Cloud plug-in for Kubernetes Service.
+
+    ```sh
+    ibmcloud plugin install container-service
+    ```
+
+    > This plug-in includes `ibmcloud sat` commands to manage Satellite resources and `ibmcloud oc` to manage Red Hat OpenShift cluster resources.
 
 1. Install private endpoints from [here](https://cloud.ibm.com/docs/cli?topic=cli-cli-private-endpoints)
+
+For more information, refer to the [doc](https://cloud.ibm.com/docs/satellite?topic=satellite-setup-cli).
+
+## OpenShift CLI
+
+1. Download the OpenShift CLI from this [mirror site](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/)
+
+1. Select the appropriate version.
+
+1. Download and unpack this archive.
+
+    ```sh
+    tar xvzf <file>
+    ```
+
+1. Place the oc binary in a directory that is on your PATH. To check your PATH, execute the following command:
+
+    ```sh
+    echo $PATH
+    ```
+
+1. After you install the OpenShift CLI, it is available using the oc command:
+
+    ```sh
+    oc <command>
+    ```
 
 ## AWS CLI
 
