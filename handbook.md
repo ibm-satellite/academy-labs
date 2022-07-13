@@ -223,7 +223,7 @@ This is an instructor led lab activity where you will see how to use observeabil
 
 This is an instructor led lab activity where you will see how to use observability
 
-### Create a student VSI in Instructor's account to work with Satellite enabled services such as ICD, CoS, ES and KP
+### Prep for Day4: Verify access to student VSI in Instructor's account to work with Satellite enabled services such as ICD, CoS, ES and KP.
 
 TBD
 
