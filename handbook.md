@@ -175,10 +175,10 @@ Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-
 | ------------- |:-------------:| ------:| ----------------:|
 | Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A |
 | Lab 3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab3---add-new-hosts-to-the-location) |  TBD |
-| Lab 4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
-| Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
-| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry) | [common](common/cos-image-registry) | [common](common/cos-image-registry) |
-| Lab 7: Configure activity tracker and logging instances | [common](common/observability) | [common](common/observability) | [common](common/observability) |
+| Lab 4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
+| Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
+| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) |
+| Lab 7: Configure activity tracker and logging instances | [common](common/observability/readme.md) | [common](common/observability/readme.md) | [common](common/observability/readme.md) |
 
 > About Lab 6: Configure OCP Image registry using IBM CoS
 >
