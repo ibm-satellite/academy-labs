@@ -230,6 +230,12 @@ It will be in "Action Required" for like 1h while the control planes are assigne
 
 ![image](https://media.github.ibm.com/user/54680/files/57598400-e7f9-11ec-8769-521aeb17b92f)
 
+Below is a potential errors you might see during the control plan assign process, with the schematics template the first two actions, attach hosts and assign hosts as control planes are automatically done.
+
+![errors](https://ibm-satellite.github.io/academy-labs/vmware/images/satellite-install-progressbar.png)
+
+
+
 
 3. On the Overview page, see AZURE infrastructure is used and number of hosts attached
 
