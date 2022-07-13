@@ -854,6 +854,8 @@ Configure Container registry with IBM Cloud Object Storage go to [Registry with 
 
 https://cloud.ibm.com/docs/satellite?topic=satellite-config-storage-odf-remote&interface=cli
 
+In this lab we drive the deployment using CLI, after finishing this lab take a look to [odf on aws](https://github.com/ibm-satellite/academy-labs/blob/main/aws/aws-odf-ebs.md#configure-aws-ebs-storage-configuration-in-satellite) to see how would it be using IBM Cloud Console.
+
 Login to IBM Cloud: See [Login](#login-to-ibm-cloud)
 
 We will use Azure Disk CSI Driver as the storage for ODF, to use Azure Disk CSI Driver first we have to configure / deploy it to the ROKS cluster, then we will deploy ODF.
