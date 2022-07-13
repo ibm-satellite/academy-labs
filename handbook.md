@@ -71,7 +71,7 @@ There are two parts to the lab environment, one that is required for the student
 
 ![vmware](./images/Student-Lab-on-prem.png)
 
-> Download source [].drawio](drawio/Satellite%20Academy%20Student%20Lab%20env.drawio) file for the **Student** Lab env.
+> Download source [.drawio](drawio/Satellite%20Academy%20Student%20Lab%20env.drawio) file for the **Student** Lab env.
 
 **Instructor Lab** env with Satellite enabled services deployed in Hybrid cloud using two Satellite locations, one on-prem and other in AWS. On-prem satellite locations is emulated using IBM VPC IaaS, for demo purposes, but it can deployed in customer data centers same way.
 
