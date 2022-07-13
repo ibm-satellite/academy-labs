@@ -155,7 +155,11 @@ ROKS services domains, like the console or API is configured with the private IP
 If we check how IBM Cloud configure the DNS for the ROKS instance you will see the IPs are private, 10.x.x.x
 
 ```
-ibmcloud oc nlb-dns ls --cluster jordax-academy-cluster1
+# user your values
+clusterName=jordax-academy-cluster1
+# ---
+
+ibmcloud oc nlb-dns ls --cluster $clusterName
 
 OK
 Hostname                                                                                           IP(s)                        Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
@@ -168,7 +172,11 @@ Take note of the Hostname, we will use it later: "jordax-academy-cluster1-22bfd3
 Satellite location also has a DNS configuration, as we are going to change also the IPs of the control planes we will have to update also this configuration.
 
 ```
-ibmcloud sat location dns ls --location jordax-academy-4
+# user your values
+location=jordax-academy-4
+# ---
+
+ibmcloud sat location dns ls --location $loca
 Retrieving location subdomains...
 OK
 Hostname                                                                                        Records                                                                                         SSL Cert Status   SSL Cert Secret Name                                          Secret Namespace
@@ -202,17 +210,7 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
 
 ![image-20220611210421332](.pastes/image-20220611210421332.png)
 
-```
-az vm list --resource-group jordax-academy-4-9602 | grep name | grep -v -i Disk | grep -v admin
 
-    "name": "jordax-academy-4-8097-vm-0",
-    "name": "jordax-academy-4-8097-vm-1",
-    "name": "jordax-academy-4-8097-vm-2",
-    "name": "jordax-academy-4-8097-vm-3",
-    "name": "jordax-academy-4-8097-vm-4",
-    "name": "jordax-academy-4-8097-vm-5",
-
-```
 
 ### Reconfigure with public IPs
 
@@ -1796,7 +1794,11 @@ Locked        false
 Create API Key
 
 ```
-ibmcloud iam service-api-key-create academy ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42 --description "API key"
+# use the ID o fr your service-id
+serviceID=ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42
+#----
+
+ibmcloud iam service-api-key-create academy $serviceID --description "API key"
 Creating API key academy of service ID ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42 under account 20c282cbc5174bdbaddb0a5b94025d9f as javier.ordax@es.ibm.com...
 OK
 Service ID API key academy is created
@@ -1815,7 +1817,7 @@ Locked        false
 Assign Access Group.
 
 ```
-ibmcloud iam access-group-service-id-add <access_group_name> ServiceId-e9bf1d88-7821-4a37-98f0-5f6b8fbedd42
+ibmcloud iam access-group-service-id-add <access_group_name> $serviceID
 ```
 
 
