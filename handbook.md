@@ -8,14 +8,14 @@
 1. Satellite Session #2 August 15th -- 18th
 1. Satellite Session #3 August 29th -- Sept 1st
 
-Format: Classroom
-Location: Raleigh, North Carolina
+> Format: Classroom
+> Location: Raleigh, North Carolina
 
 ## Table of Contents
 
 1. [Overview](#overview)
+1. [Agenda](#agenda)
 1. [Lab environment](#lab-environment)
-1. [Student's tasks to be performed](#students-tasks-to-be-performed)
 1. [Student Pre-requisites](#student-pre-requisites)
 1. [Readiness for the academy Labs](#readiness-for-the-academy-labs)
 1. [Day 1](#day-1)
@@ -34,52 +34,50 @@ The Cloud Platform SKO Technical Academy teaches the skills needed to
 - Provision and configure solution​ in a complex hybrid cloud environment
 - Build customizable use case driven demos
 
-The attendee will begin to gain expert skills which will enable them to handle complex use case scenarios independently. When the attendee successfully completes this class they will be prepared to mentor and help develop less experienced employees in his/her assigned subject area. Three tracks are offered that focus on delivering deep level of training and this handbook is for the Academy sessions
+The attendee will begin to gain expert skills which will enable them to handle complex use case scenarios independently. When the attendee successfully completes this class they will be prepared to mentor and help develop less experienced employees in his/her assigned subject area. Three tracks are offered that focus on delivering deep level of training and this handbook is for the **IBM Cloud Satellite** Academy Session.
 
-- **IBM Cloud Satellite**
-
-This is an invitation only event and to qualify to attend, you must
-complete the following pre-req's and pre-work defined for the track you
-wish to attend. We also require all IBM employees to have a sign of from
+This is an invitation only event and to qualify to attend, you must complete the following pre-req's and pre-work defined for the track you wish to attend. We also require all IBM employees to have a sign of from
 their FLM's to attend.
 
-For more information about **SKO Technical Academy for Cloud Platform** is available [**here**](https://ibm.seismic.com/Link/Content/DCHhRX6CMCggXGWFGhjVhqB86Phd)
+For more information about [**Technical Academy for Cloud Platform**](https://ibm.seismic.com/Link/Content/DCHhRX6CMCggXGWFGhjVhqB86Phd)
 
 > Note: In this document reference to "participants" or "students" is for those who are nominated to attend the Academy session to gain hands-on experience.
+
+## Agenda
+
+For details of session agenda and labs to be performed by the students during the workshop by day
+
+![agenda](./images/Academy-Session-agenda-and-labs.png)
+
+Full detailed agenda is available [here](https://ibm.box.com/s/708gcq65v7yx1u2nqez163s74xsrhrht).
 
 ## Lab environment
 
 Infrastructure required for the lab is provided by IBM Technology Zone, for the students to perform hands-on exercises during the workshop.
-Infrastructure provided by TechZone includes IBM cloud account, credentials required to create Satellite locations using AWS, Azure and
-on-prem infrastructure.
+
+Infrastructure provided by TechZone includes IBM cloud account, credentials required to create Satellite locations using AWS, Azure and on-prem infrastructure.
 
 There are two parts to the lab environment, one that is required for the student to use and other for the instructor led scenarios. Please see below diagrams for Students env for those pre-assigned to AWS, Azure or on-prem.
 
-Source .drawio file for the **Student** Lab env is available [**here**](drawio/Satellite%20Academy%20Student%20Lab%20env.drawio)
-
-AWS Infrastructure environment
+**AWS** Infrastructure environment
 
 ![aws](./images/Student-Lab-AWS.png)
 
-Azure Infrastructure environment
+**Azure** Infrastructure environment
 
 ![azure](./images/Student-Lab-Azure.png)
 
-VMWare on-prem Infrastructure environment
+**VMWare** on-prem Infrastructure environment
 
 ![vmware](./images/Student-Lab-on-prem.png)
 
-Source .drawio file for the **Instructor** Lab env is available [**here**](drawio/Satellite%20Academy%20Instructor%20lab%20env.drawio)
+> Download source [.drawio](drawio/Satellite%20Academy%20Student%20Lab%20env.drawio) file for the **Student** Lab env.
 
-Instructor Lab env with Satellite enabled services deployed in Hybrid cloud using two Satellite locations, one on-prem and other in AWS. On-prem satellite locations is emulated using IBM VPC IaaS, for demo purposes, but it can deployed in customer data centers same way.
+**Instructor Lab** env with Satellite enabled services deployed in Hybrid cloud using two Satellite locations, one on-prem and other in AWS. On-prem satellite locations is emulated using IBM VPC IaaS, for demo purposes, but it can deployed in customer data centers same way.
 
 ![lab](./images/Instructor-Lab.png)
 
-## Student's tasks to be performed
-
-For details of session agenda and labs to be performed by the students during the workshop by day please click on the link below
-
-![agenda](./images/Academy-Session-agenda-and-labs.png)
+> Download source [.drawio](drawio/Satellite%20Academy%20Instructor%20lab%20env.drawio) file for the **Instructor** Lab env.
 
 ## Student Pre-requisites
 
@@ -167,9 +165,9 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ### Lab 1: Review status of Satellite location
 
-Please follow steps [here](https://github.ibm.com/satellite-academy/student-labs/blob/main/common/healthstatus/readme.md) to check status of Satellite location and cluster
+Please follow steps [here](common/healthstatus/readme.md) to check status of Satellite location and cluster.
 
-Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands
+Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands.
 
 ### Labs 2 to 7
 
@@ -304,7 +302,9 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ## Get certified
 
-TBD
+Here is the certification overview, objectives, exam preparation and registration for [Cloud Satellite v1 Specialty](https://www.ibm.com/training/certification/S0010800).
+
+![certif](images/certification-learning-path.png)
 
 ## Lab cleanup
 
