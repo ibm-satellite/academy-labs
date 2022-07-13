@@ -304,7 +304,9 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ## Get certified
 
-TBD
+Here is the certification overview, objectives, exam preparation and registration for [Cloud Satellite v1 Specialty](https://www.ibm.com/training/certification/S0010800).
+
+![certif](images/certification-learning-path.png)
 
 ## Lab cleanup
 
