@@ -403,9 +403,11 @@ clusterName=jordax-academy-cluster1
 Update location DNS IPs
 
 ```
+# user your values
 ip0=52.142.29.196
 ip1=52.142.30.90
 ip2=52.147.219.59
+# ----
 
 ibmcloud sat location dns register --location $location --ip $ip0 --ip $ip1 --ip $ip2
 
@@ -452,10 +454,12 @@ Ingress Subdomain:              jordax-academy-cluster1-edab36f30dbf4e1837574d4d
 
 
 ```
+# user your values
 roksDomain=jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud
 ip3=52.147.219.163
 ip4=52.147.219.235
 ip5=20.185.74.178
+# ----
 
 ibmcloud oc nlb-dns add --ip $ip3 --cluster $clusterName --nlb-host $roksDomain
 
@@ -477,11 +481,17 @@ jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers
 Remove private ones:
 
 ```
-ibmcloud oc nlb-dns rm classic --ip 10.0.1.4 --cluster $clusterName --nlb-host $roksDomain
+# user your values
+rmIp1=10.0.1.4
+rmIp2=10.0.2.4
+rmIp3=10.0.4.4
+# ---
 
-ibmcloud oc nlb-dns rm classic --ip 10.0.2.4 --cluster $clusterName --nlb-host $roksDomain
+ibmcloud oc nlb-dns rm classic --ip $rmIp1 --cluster $clusterName --nlb-host $roksDomain
 
-ibmcloud oc nlb-dns rm classic --ip 10.0.3.4 --cluster $clusterName --nlb-host $roksDomain
+ibmcloud oc nlb-dns rm classic --ip $rmIp2 --cluster $clusterName --nlb-host $roksDomain
+
+ibmcloud oc nlb-dns rm classic --ip $rmIp3 --cluster $clusterName --nlb-host $roksDomain
 
 ```
 
@@ -1457,6 +1467,8 @@ ibmcloud version 1.3.0+4308925-2020-12-16T07:53:49+00:00
 
 ibmcloud plugin install container-service
 ```
+
+The IKS, ROKS and Satellite plugin is installed with the "container-service" plugin
 
 ### Login
 
