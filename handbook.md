@@ -165,9 +165,9 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ### Lab 1: Review status of Satellite location
 
-Please follow steps [here](https://github.ibm.com/satellite-academy/student-labs/blob/main/common/healthstatus/readme.md) to check status of Satellite location and cluster
+Please follow steps [here](common/healthstatus/readme.md) to check status of Satellite location and cluster.
 
-Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands
+Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands.
 
 ### Labs 2 to 7
 
