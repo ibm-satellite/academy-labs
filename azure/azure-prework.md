@@ -465,6 +465,8 @@ URL:        https://j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.
 
 # Clean up
 
+Do NOT execute this section, until end of the Academy or if you have issues during the creation of the location.
+
 For Clean Up you have to remove Azure resources and IBM Cloud Location
 
 ## 1. Remove Azure resources
