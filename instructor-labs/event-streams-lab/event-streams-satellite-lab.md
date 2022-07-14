@@ -1,7 +1,5 @@
 # IBM® Event Streams for IBM Cloud® - IBM Cloud Satellite® plan
 
-# WORK IN PROGRESS, NOT READY FOR USE...Doug Beauchene  dougbeau@us.ibm.com
-
 ## Introduction
 IBM Event Streams for IBM Cloud is a high-throughput message bus that is built with Apache Kafka.
 

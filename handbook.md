@@ -175,16 +175,15 @@ Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-
 | ------------- |:-------------:| ------:| ----------------:|
 | Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A |
 | Lab 3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab3---add-new-hosts-to-the-location) |  TBD |
-| Lab 4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
-| Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) | [common](common/assign-hosts#add-new-worker-to-roks) |
-| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry) | [common](common/cos-image-registry) | [common](common/cos-image-registry) |
-| Lab 7: Configure activity tracker and logging instances | [common](common/observability) | [common](common/observability) | [common](common/observability) |
+| Lab 4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
+| Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
+| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) |
+| Lab 7: Configure activity tracker and logging instances | [common](common/observability/readme.md) | [common](common/observability/readme.md) | [common](common/observability/readme.md) |
 
 > About Lab 6: Configure OCP Image registry using IBM CoS
 >
 > When you install Cloud Pak for Data, the installer is going to copy the images Cloud Pak for Data will use to your local image registry. This is done to greatly improve the speed of the installation process. The first thing we are going to do is create an IBM Cloud Object Storage instance and bucket.
 
-### Lab 8: Perform Satellite location troubleshooting by Sigex team
 
 ## Day 3
 
@@ -198,21 +197,21 @@ Here is the overview of what students are expected to learn by performing hands-
 
 - Watch how to troubleshoot and debug Satellite related issues.
 
-### Lab 9 to 10
+### Lab 8 to 9
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
-| Lab 9 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab9---deploy-odf) | vmware/wmware-odf.md |
-| Lab 10: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
+| Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab9---deploy-odf) | vmware/wmware-odf.md |
+| Lab 9: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
 
 > Troubleshooting ODF
 > Some command lines [**here**](common/odf-troubleshootings) to help you troubleshoot ODF related issues.
 
-### Deploy test application using Satellite config
+### Lab 10: Deploy test application using Satellite config
 
 TBD Link to be added to Matt's Gitrepo
 
-### How to use Activity Tracker, Logging and Monitoring
+### Lab 11: How to use Activity Tracker, Logging and Monitoring
 
 This is an instructor led lab activity where you will see how to use observeability.
 
@@ -220,11 +219,11 @@ This is an instructor led lab activity where you will see how to use observeabil
 
 - Using **Monitoring** to see monitoring in action for Health of Satellite location. Click [**here**](instructor-labs/infrastructure-monitor-lab/steps.md)
 
-### Instructor Lab - Perform troubleshooting, debugging and RCA
+### Lab12: Instructor Lab - Perform troubleshooting, debugging and RCA
 
 This is an instructor led lab activity where you will see how to use observability
 
-### Download IBM CLI Plugins to work with Satellite enabled services such as ICD, CoS, ES and KP
+### Prep for Day4: Verify access to student VSI in Instructor's account to work with Satellite enabled services such as ICD, CoS, ES and KP.
 
 TBD
 
@@ -254,49 +253,13 @@ Here is the overview of what students are expected to learn by performing hands-
 
 [Show and tell of techzone demo](https://techzone.ibm.com/collection/SatelliteForFSControls)
 
-### Lab 11: Instructor led ICD hands-on experience
+### Lab 12: Instructor led ICD hands-on experience
 
-1. Connect to a PostgreSQL database deployed in an ICD instance running in a Satellite location
+### Lab 13: KP hands-on experience
 
-    a.  Configure CLI, Redli, Pgadmin, DBVisualizer
+### Lab 14: CoS hands-on experience
 
-    b.  Connect to a sample DB using above tools
-
-    c.  Create a sample schema, table,
-
-    d.  Insert, update data
-
-    e.  Backup the database
-
-    f.  Check backup history
-
-    g.  Check logs for the sample table
-
-    h.  Restore
-
-1. Connect to Redis database
-
-    a.  onfigure CLI, Redli, Pgadmin, DBVisualizer
-
-    b.  Connect to a sample DB using above tools
-
-    c.  Create a sample schema, table,
-
-    d.  Insert, update data
-
-    e.  Backup the database
-
-    f.  Check backup history
-
-    g.  Check logs for the sample table
-
-    h.  Restore
-
-### Lab 12: KP hands-on experience
-
-### Lab 13: CoS hands-on experience
-
-### Lab 14: Event Streams hands-on experience
+### Lab 15: Event Streams hands-on experience
 
 ### Open Q&A Session
 

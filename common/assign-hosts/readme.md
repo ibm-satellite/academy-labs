@@ -32,8 +32,6 @@ The new host we attached is on eastus-1
 
 1. Going over the Information icon, you will see this messages, R0012 will be the final one.
 
-    
-
     > R0047: IBM Cloud is unable to use the health check endpoint to check the location's health. For more information, see 'https://ibm.biz/satloc-ts-healthcheck'. For more information, see the [docs](https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug).
 
     > R0043: The location does not meet the following requirement: Hosts must have TCP/UDP/ICMP Layer 3 connectivity for all ports across hosts https://ibm.biz/sat-loc-debug#R0043. If you still have issues, contact IBM Cloud Support and include your Satellite location ID.
@@ -56,7 +54,7 @@ The new host we attached is on eastus-1
     Message:                        R0012: The location control plane does not have hosts in all 3 zones. Add available hosts to your location for the control plane.
     ```
 
-## Assign a new host as Control Plane
+### Assign a new host as Control Plane
 
 ![image-20220616133314527](images/image-20220616133314527.png)
 
@@ -82,7 +80,7 @@ Finally...
 
 ![image-20220616134937985](images/image-20220616134937985.png)
 
-# Add new worker to ROKS
+## Add new worker to ROKS
 
 Review the vCPU, Memory and Zone of the worker you attached, in this case it was:
 
