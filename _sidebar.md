@@ -3,8 +3,8 @@
   - [Azure](azure/azure-prework.md)
   - [VMWare Onprem](vmware/vmware-prework.md)
 
-<!-- - Academy
-  - [Handbook](handbook.md) -->
+- Academy
+  - [Handbook](handbook.md)
 
 - Appendixes
   - [Command Lines](common/clis/clis.md)
