@@ -122,6 +122,15 @@ For more detailled descriptions of the following steps look also in the [Satelli
 
     ![output](images/odf1.png)
 
+1. You can check the config is being applied to your cluster listing Razee "RemoteResource"
+
+    ```
+    oc get rr -n razeedeploy
+    NAME                                                       AGE
+    clustersubscription-6cd6ea3d-c348-45e2-8048-67e319f4177d   8m24s
+    clustersubscription-system-primaryorgkey                   46h
+    ```
+
 1. What you also will see that we already have Storage classes deployed, which could be used by ODF. Connect to your cluster and list the storage classes:
 
     ```sh
@@ -131,17 +140,156 @@ For more detailled descriptions of the following steps look also in the [Satelli
     oc get storageclass
     ```
 
-    ![output](images/odf2.png)  
+    ![output](images/odf2.png)
+
+    
+
+1. You can list Persistent volumes to see that ODF hast created "local storage" PVs
+
+    ```
+    oc get pv
+    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                           STORAGECLASS                  REASON   AGE
+    local-pv-c9518652                          500Gi      RWO            Delete           Bound    openshift-storage/ocs-deviceset-1-data-09fjjv   localblock                             3m35s
+    local-pv-e9ba63bd                          500Gi      RWO            Delete           Bound    openshift-storage/ocs-deviceset-2-data-0x8pss   localblock                             3m35s
+    local-pv-ed0dd215                          500Gi      RWO            Delete           Bound    openshift-storage/ocs-deviceset-0-data-0ljhbh   localblock                             3m35s
+    ```
+
+    
+
+1. Check pods. This is the main pod to check logs if something is not going ok
+
+    ```
+    oc get pods -n kube-system | grep ibm-ocs
+    ibm-ocs-operator-controller-manager-768c8fd559-5bdl4                           1/1     Running     0          14m
+    ```
+
+    ```
+    oc get pods -n openshift-storage
+    NAME                                                              READY   STATUS      RESTARTS   AGE
+    csi-cephfsplugin-9gp2g                                            3/3     Running     0          12m
+    csi-cephfsplugin-9vnjq                                            3/3     Running     0          12m
+    csi-cephfsplugin-jh4c8                                            3/3     Running     0          12m
+    csi-cephfsplugin-provisioner-7b4b8bf596-2jbmh                     6/6     Running     0          12m
+    csi-cephfsplugin-provisioner-7b4b8bf596-tnxjd                     6/6     Running     0          12m
+    csi-rbdplugin-h8trn                                               3/3     Running     0          12m
+    csi-rbdplugin-kl8bv                                               3/3     Running     0          12m
+    csi-rbdplugin-l4tqg                                               3/3     Running     0          12m
+    csi-rbdplugin-provisioner-5b4b47b7b6-7tsdn                        6/6     Running     0          12m
+    csi-rbdplugin-provisioner-5b4b47b7b6-9sqt6                        6/6     Running     0          12m
+    noobaa-core-0                                                     1/1     Running     0          9m12s
+    noobaa-db-pg-0                                                    1/1     Running     0          9m12s
+    noobaa-endpoint-6b45d9d594-dfstc                                  1/1     Running     0          7m50s
+    noobaa-operator-7d67f7878b-pdq5t                                  1/1     Running     0          12m
+    ocs-metrics-exporter-6867f9f-mgsq2                                1/1     Running     0          12m
+    ocs-operator-587cd7cccc-m7skf                                     1/1     Running     0          12m
+    odf-console-59bf4b596b-dbv2h                                      1/1     Running     0          13m
+    odf-operator-controller-manager-bf669c695-4nkd8                   2/2     Running     0          13m
+    rook-ceph-crashcollector-48ecf34a4b4226f88c1d77b0d35976f8-6t662   1/1     Running     0          10m
+    rook-ceph-crashcollector-c9ada7e32b0f9df4cc6e97f2d808fd0f-5j7fb   1/1     Running     0          9m55s
+    rook-ceph-crashcollector-cb307ac9b5d16a6665e41e0232124206-9q7n6   1/1     Running     0          9m57s
+    rook-ceph-mds-ocs-storagecluster-cephfilesystem-a-55b5cc7cnx5f9   2/2     Running     0          9m57s
+    rook-ceph-mds-ocs-storagecluster-cephfilesystem-b-798bf47crmh5r   2/2     Running     0          9m56s
+    rook-ceph-mgr-a-5545d5d555-9swtf                                  2/2     Running     0          10m
+    rook-ceph-mon-a-5f87b86c95-k6jm9                                  2/2     Running     0          11m
+    rook-ceph-mon-b-67b65fcb88-25vqv                                  2/2     Running     0          11m
+    rook-ceph-mon-c-9bb8d58d4-vz6v7                                   2/2     Running     0          10m
+    rook-ceph-operator-78c646489b-ndh5f                               1/1     Running     0          12m
+    rook-ceph-osd-0-6d678b6fd8-nfv4c                                  2/2     Running     0          10m
+    rook-ceph-osd-1-cd49997bb-jdsql                                   2/2     Running     0          10m
+    rook-ceph-osd-2-6575bd8b87-sx2m2                                  2/2     Running     0          10m
+    rook-ceph-osd-prepare-ocs-deviceset-0-data-0ljhbh--1-c46lw        0/1     Completed   0          10m
+    rook-ceph-osd-prepare-ocs-deviceset-1-data-09fjjv--1-8mbxw        0/1     Completed   0          10m
+    rook-ceph-osd-prepare-ocs-deviceset-2-data-0x8pss--1-f5kbl        0/1     Completed   0          10m
+    rook-ceph-rgw-ocs-storagecluster-cephobjectstore-a-845874dqwhff   2/2     Running     0          9m54s
+    
+    ```
+
+1. Check Storage Cluster resource. It is can be in "Error" phase during the deployment.
+
+    ```
+    oc get storagecluster -n openshift-storage
+    NAME                 AGE   PHASE   EXTERNAL   CREATED AT             VERSION
+    ocs-storagecluster   13m   Ready              2022-07-15T10:36:30Z   4.9.0
+    
+    ```
+
+    
+
+1. Test ODF with a sample pod.
+
+    
+
+    ```
+    vi test.yaml
+    
+    kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: test-claim
+      namespace: default
+    spec:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Mi
+      storageClassName: sat-ocs-cephfs-gold
+          
+    ---
+    kind: Pod
+    apiVersion: v1
+    metadata:
+      name: test-pod
+      namespace: default
+    spec:
+      containers:
+      - name: test-pod
+        image: gcr.io/google_containers/busybox:1.24
+        command:
+          - "/bin/sh"
+        args:
+          - "-c"
+          - "touch /mnt/SUCCESS && echo 'success' && exit 0 || exit 1"
+        volumeMounts:
+          - name: odf-pvc
+            mountPath: "/mnt"
+      restartPolicy: "Never"
+      volumes:
+        - name: odf-pvc
+          persistentVolumeClaim:
+            claimName: test-claim    
+     
+    oc create -f test.yaml
+    
+    persistentvolumeclaim/test-claim created
+    pod/test-pod created
+    
+    
+    oc get pods -n default
+    
+    NAME       READY   STATUS      RESTARTS   AGE
+    test-pod   0/1     Completed   0          51s
+    
+    oc logs test-pod -n default
+    success
+    
+    
+    oc get pvc -n default
+    
+    NAME         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
+    test-claim   Bound    pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            sat-ocs-cephfs-gold   99s
+    
+    
+    oc get pv | grep test-claim
+    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                           STORAGECLASS                  REASON   AGE
+    pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            Delete           Bound    default/test-claim                              sat-ocs-cephfs-gold                    96s
+    ```
+
+    
+
+    
 
 ## Resources
 
 * [Host storage and attached devices](https://cloud.ibm.com/docs/satellite?topic=satellite-reqs-host-storage)
 
-1. I don't see any namespace openshift-storage created.
-
-    ```sh
-    oc get storagecluster -n openshift-storage
-    oc get pods -n openshift-storage
-    ```
-
-    ![odf-issue](images/odf-issue.png)

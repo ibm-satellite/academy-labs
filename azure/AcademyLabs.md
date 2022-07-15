@@ -1250,7 +1250,7 @@ OK
 Assignment  was successfully created with ID 683acd7e-a453-4aaa-80c3-2f5c23b959e4.
 ```
 
-Verify
+Verify that the configuration has been applied. You can list Razee "RemoteResource"
 
 ```
 oc -n razeedeploy get rr
@@ -1259,6 +1259,15 @@ clustersubscription-107aa355-197e-470b-b0b8-f22f45ed2843   8m37s
 clustersubscription-474e6330-3187-4e98-a2b0-268a99d2bc81   4m7s
 clustersubscription-system-primaryorgkey                   7h49m
 ```
+
+This is the main pod to check logs if something is not going ok
+
+```
+oc get pods -n kube-system | grep ibm-ocs
+ibm-ocs-operator-controller-manager-768c8fd559-5bdl4                           1/1     Running     0          14m
+```
+
+
 
 It is possible that you see as "PHASE" value "Error"... it is normal...
 
@@ -1435,11 +1444,11 @@ oc get pods -n default
 NAME       READY   STATUS      RESTARTS   AGE
 test-pod   0/1     Completed   0          51s
 
-oc logs test-pod
+oc logs test-pod -n default
 success
 
 
-oc get pvc
+oc get pvc -n def
 
 NAME         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
 test-claim   Bound    pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            sat-ocs-cephfs-gold   99s
