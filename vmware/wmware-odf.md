@@ -5,7 +5,7 @@
 1. [Introduction](#introduction)
 1. [Create a storage worker pool in the cluster](#create-a-storage-worker-pool-in-the-cluster)
 1. [Configure ODF for local devices storage configuration in Satellite](#configure-odf-for-local-devices-storage-configuration-in-satellite)
-1. [Check the ODF deployment in your cluster](#check-the-odf-deployment-in-your-cluster)
+1. [Check the ODF deployment through the CLI](#check-the-odf-deployment-through-the-cli)
 
 ## Introduction
 
