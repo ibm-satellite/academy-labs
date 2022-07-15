@@ -1,9 +1,9 @@
-- Pre-Work
+- Academy Pre-Work
   - [AWS](aws/aws-prework.md)
   - [Azure](azure/azure-prework.md)
   - [VMWare Onprem](vmware/vmware-prework.md)
 
-- Academy
+- Academy Labs
   - [Handbook](handbook.md)
 
 - Appendixes
