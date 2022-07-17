@@ -138,7 +138,7 @@ For more detailled descriptions of the following steps look also in the [Satelli
     ibmcloud oc cluster ls --provider satellite
     ```
 
-1. Verify that your cluster has a valid storage configuration has applied. 
+1. Verify that your cluster has a valid storage configuration has applied.
 
     > Make sure to use the location and cluster id and ***NOT*** the name.
 
@@ -243,7 +243,7 @@ For more detailled descriptions of the following steps look also in the [Satelli
 
     ```bash
     oc apply -f - <<EOF
-    --
+    ---
     kind: PersistentVolumeClaim
     apiVersion: v1
     metadata:
@@ -283,31 +283,23 @@ For more detailled descriptions of the following steps look also in the [Satelli
     EOF
     ```
 
-1. Deploy this pvc
-    
+    Console Output:
+
+    ```bash
     persistentvolumeclaim/test-claim created
     pod/test-pod created
-    
-    
-    oc get pods -n default
-    
-    NAME       READY   STATUS      RESTARTS   AGE
-    test-pod   0/1     Completed   0          51s
-    
-    oc logs test-pod -n default
-    success
-    
-    
-    oc get pvc -n default
-    
-    NAME         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
-    test-claim   Bound    pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            sat-ocs-cephfs-gold   99s
-    
-    
-    oc get pv | grep test-claim
-    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                           STORAGECLASS                  REASON   AGE
-    pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            Delete           Bound    default/test-claim                              sat-ocs-cephfs-gold                    96s
     ```
+
+1. Get the info about the deployed pod, its logs, the claim and its persitence volume.
+
+    ```bash
+    oc get pods -n default
+    oc logs test-pod -n default
+    oc get pvc -n default
+    oc get pv | grep test-claim
+    ```
+
+    ![pvc](images/oc-pvc-console.png)
 
 ## Resources
 
