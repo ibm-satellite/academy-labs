@@ -323,7 +323,7 @@ az network nic list-effective-nsg --name $VM_PREFIX-nic-0 --resource-group $SAT_
 
 So communication is allowed from internet (0.0.0.0/0) to the ports 80, 443 and 30000-32767 
 
-What makes logic as that is configured in the terraform template used to generate the AWS assets
+What makes logic as that is configured in the terraform template used to generate the Azure assets
 
 ```
 module "network-security-group" {
