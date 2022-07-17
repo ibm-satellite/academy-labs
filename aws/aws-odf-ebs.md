@@ -1,5 +1,12 @@
 # Install Openshift Data Foundation on Satellite based ROKS Clusters on AWS using EBS volumes
 
+## Table of Content
+
+* [Introduction](#introduction)
+* [Configure AWS EBS storage configuration in Satellite](#configure-aws-ebs-storage-configuration-in-satellite)
+* [Deploy ODF using EBS volumes in AWS](#deploy-odf-using-ebs-volumes-in-aws)
+* [Test ODF with an example application](#test-odf-with-an-example-application)
+
 ## Introduction
 
 We would like to deploy OpenShift Data Foundation Add-on to our Satellite based OpenShift Cluster on AWS using EBS volumes. The procedure contains the following major steps
@@ -25,7 +32,7 @@ We would like to deploy OpenShift Data Foundation Add-on to our Satellite based 
 
 5. On the Storage classes tab, review the storage classes that are deployed by the configuration or create a custom storage class.
 
-    ![](images/ebs4.png)  
+    ![ebs4](images/ebs4.png)
 
 6. On the Assign to service tab, select your cluster that you want to assign your configuration to.
 
@@ -49,7 +56,7 @@ For sake of simplicity we will not configre Nooba COS backing store.
 
     ![output](images/ibm-cloud-rg.png)
 
-2. Verify that your cluster has a valid storage configuration has applied (from the previous chapter). Use the location id and cluster id ***NOT*** the name
+1. Verify that your cluster has a valid storage configuration has applied (from the previous chapter). Use the location id and cluster id ***NOT*** the name
 
     ```sh
     ibmcloud sat location ls
@@ -59,7 +66,7 @@ For sake of simplicity we will not configre Nooba COS backing store.
 
     ![output](images/odf1.png)
 
-3. What you also will see that we already have AWS Storage classes deployed, which could be used by ODF. Connect to your cluster and list the storage classes:
+1. What you also will see that we already have AWS Storage classes deployed, which could be used by ODF. Connect to your cluster and list the storage classes:
 
     ```sh
     # remove endpoint parameter if you connect via public IPs
@@ -70,7 +77,7 @@ For sake of simplicity we will not configre Nooba COS backing store.
 
     ![output](images/odf2.png)  
 
-4. Create an IBM API Key
+1. Create an IBM API Key
 
     ```sh
     ibmcloud iam api-key-create odf --file apikey.json
@@ -78,7 +85,7 @@ For sake of simplicity we will not configre Nooba COS backing store.
 
     Open the JSON File and extract the apikey value. Don't share the key with anyone else!.
 
-5. With that we could tell the Satellite based ODF deployment to use the AWS EBS Storage class configured by our Satellite Storage Configuration from the previous chapter. Please review before proceeeding the following article and parameters, we need to select a storage Class which has Volume Binding Mode Wait on first Consumer, because we have a multizone ROKS Cluster in AWS. 
+1. With that we could tell the Satellite based ODF deployment to use the AWS EBS Storage class configured by our Satellite Storage Configuration from the previous chapter. Please review before proceeeding the following article and parameters, we need to select a storage Class which has Volume Binding Mode Wait on first Consumer, because we have a multizone ROKS Cluster in AWS.
 
     <https://cloud.ibm.com/docs/satellite?topic=satellite-config-storage-odf-remote&interface=cli#odf-remote-49-params>
 
@@ -90,7 +97,7 @@ For sake of simplicity we will not configre Nooba COS backing store.
 
     ![output](images/odf3.png)
 
-6. Assign the Configuration to the Cluster using the Console UI
+1. Assign the Configuration to the Cluster using the Console UI
 Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You will see now a second configuration for ODF.
 
     ![assign](images/odf4.png)
@@ -99,14 +106,14 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
 
     ![assign](images/odf5.png)
 
-7. Monitor the deployment using the oc CLI
+1. Monitor the deployment using the oc CLI
 
     ```sh
     oc get storagecluster -n openshift-storage
     oc get pods -n openshift-storage
     ```
 
-8. Grab a cup of coffee and wait until you see that all pods have been started
+1. Grab a cup of coffee and wait until you see that all pods have been started
 
     ```sh
     oc get pods -n openshift-storage
@@ -159,22 +166,23 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
     ![output](images/odf6.png)
 
 1. Test the storage class using the following yamls
-    
+
     [pvc.yaml](./pvc.yaml)
-    
+
     [pod.yaml](./pod.yaml)
 
-2. Apply the pvc.yaml and check the pvcs
+1. Apply the pvc.yaml and check the pvcs
 
     ```sh
     oc project default
     oc apply -f pvc.yaml
     oc get pvc
     ```
+
     ![output](images/odf7.png)  
 
-3. Now deploy an application using that pvc and connect to the pod:
-    
+1. Now deploy an application using that pvc and connect to the pod:
+
     ```sh
     oc apply -f pod.yaml
     oc get po
@@ -182,7 +190,7 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
 
     ![output](images/odf8.png)
 
-4. Login into your pod and verify you could write to the volume
+1. Login into your pod and verify you could write to the volume
 
     ```sh
     oc exec app -it -- bash

@@ -201,7 +201,7 @@ Here is the overview of what students are expected to learn by performing hands-
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
-| Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab9---deploy-odf) | vmware/wmware-odf.md |
+| Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab9---deploy-odf) | [link](vmware/wmware-odf.md) |
 | Lab 9: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
 
 > Troubleshooting ODF
