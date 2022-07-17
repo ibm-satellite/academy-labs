@@ -26,7 +26,7 @@ Copy the private key to your system and give it needed privileges.
 
 With Linux:
 
-```
+```bash
 vi student_rsa
 
 -----BEGIN OPENSSH PRIVATE KEY-----
@@ -38,7 +38,6 @@ MfqXCg4LPJp6fQAAAAt0ZWNoYWNhZGVteQECAwQFBg==
 chmod 400 student_rsa
 ```
 
-```
+```bash
 ssh -i student_rsa root@169.63.100.152
 ```
-

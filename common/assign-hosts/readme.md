@@ -33,9 +33,9 @@ The new host we attached is on eastus-1
 1. Going over the Information icon, you will see this messages, R0012 will be the final one.
 
     > R0047: IBM Cloud is unable to use the health check endpoint to check the location's health. For more information, see 'https://ibm.biz/satloc-ts-healthcheck'. For more information, see the [docs](https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug).
-
+    >
     > R0043: The location does not meet the following requirement: Hosts must have TCP/UDP/ICMP Layer 3 connectivity for all ports across hosts https://ibm.biz/sat-loc-debug#R0043. If you still have issues, contact IBM Cloud Support and include your Satellite location ID.
-
+    >
     > R0012: The location control plane does not have hosts in all 3 zones.  Add available hosts to your location for the control plane. For more information, see the [docs](https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug).
 
 1. Check the status of the location with the CLI
@@ -72,9 +72,7 @@ Normal "on-going states" even if the control plane is Assigned and normal
 
 https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug#R0012
 
-```
-If you just assigned hosts to the control plane, wait a while for the bootstrapping process to complete. Otherwise, assign at least one host to each of the three zones for the location itself, to run control plane operations. 
-```
+> If you just assigned hosts to the control plane, wait a while for the bootstrapping process to complete. Otherwise, assign at least one host to each of the three zones for the location itself, to run control plane operations.
 
 Finally...
 
@@ -100,10 +98,11 @@ Check in the location that the "Unassigned" node is now "Assigned" to our cluste
 
 ![image-20220616140311959](images/image-20220616140311959.png)
 
-# Fix public IP Assignment for Control Plane
+## Fix public IP Assignment for Control Plane
 
 Do this lab once the control plane has been successfully assigned and the location status is green again.
 
 Because we have now changed the Hosts in the Satellite Control Plane we need to update the Sattelite DNS. Please follow the steps for the Control Plane only:
-* For Azure: [Reset public IPs](azure/AcademyLabs.md#lab4---remove-and-replace-an-existinghost---control-plane)
-* For AWS: [Public IPs](https://github.com/ibm-satellite/academy-labs/blob/main/aws/aws-access-roks-inet.md)
+
+- For Azure: [Reset public IPs](azure/AcademyLabs.md#lab4---remove-and-replace-an-existinghost---control-plane)
+- For AWS: [Public IPs](../../aws/aws-access-roks-inet.md)

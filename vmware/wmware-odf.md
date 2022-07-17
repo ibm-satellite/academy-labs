@@ -4,8 +4,10 @@
 
 1. [Introduction](#introduction)
 1. [Create a storage worker pool in the cluster](#create-a-storage-worker-pool-in-the-cluster)
+1. [Retrieve the worker node names](#retrieve-the-worker-node-names)
 1. [Configure ODF for local devices storage configuration in Satellite](#configure-odf-for-local-devices-storage-configuration-in-satellite)
 1. [Check the ODF deployment through the CLI](#check-the-odf-deployment-through-the-cli)
+1. [Test ODF with an example application](#test-odf-with-an-example-application)
 
 ## Introduction
 
@@ -34,7 +36,7 @@ ODF could be installed across all the worker nodes of the cluster. Yet, the VMWa
 
     ![cluster-add-storage-pool](images/cluster-add-storage-pool.png)
 
-1. Click **Get values from available hosts** to match the 
+1. Click **Get values from available hosts** to match the sizing host
 
     ![cluster-pool-match](images/cluster-pool-match.png)
 
@@ -46,47 +48,69 @@ ODF could be installed across all the worker nodes of the cluster. Yet, the VMWa
 
     ![cluster-storage-pool-deploying](images/cluster-storage-pool-deploying.png)
 
-1. Write down the three storage worker names. You will need them in the next step.
+1. Make sure the new worker nodes for storage have the Status `Normal`.
 
     ![node name](images/cluster-storage-pool-name.png)
 
 > Deploying the new storage worker pools will take 30-40 minutes. You may see the error mesage `Critical - Not Ready` after a while. Wait a bit more and your worker pool will turn on `Normal`.
 
+## Retrieve the worker node names
+
+ODF could be installed on all the worker nodes of the cluster. Yet, we decided to install ODF only on the Dedicated Storage worker nodes. Thus, we need to retrieve the worker node names before we install the storage configuration.
+
+1. Connect to the cluster throught the Cloud Shell following those [instructions](../common/cloud-shell/readme.md).
+
+1. Run the command
+
+    ```bash
+    oc get nodes
+    ```
+
+    ![ooc-get-nodes](images/oc-get-storage-nodes.png)
+
+    For example, the 3 storage node names in this cluster are:
+    * satellite-270002r30a-lo5bhqm7-storage-0.csplab.local
+    * satellite-270002r30a-lo5bhqm7-storage-1.csplab.local
+    * satellite-270002r30a-lo5bhqm7-storage-2.csplab.local
+
 ## Configure ODF for local devices storage configuration in Satellite
 
 1. From the Satellite locations dashboard, select the location where you want to create a storage configuration.
 
-1. Select Storage > Create storage configuration
+1. Select Storage > **Create storage configuration**.
 
-    ![config](images/storage-create-config.png)
+    ![config](images/odf-create-storage-config.png)
 
-1. Enter a name such as `vmware-odf-storage` for your configuration. Select the Storage type **OpenShift Data Foundation for local devices** and the Version **4.9**. Then, click Next.
+1. Enter a name such as `vmware-odf-storage` for your configuration. Select the Storage type **OpenShift Data Foundation for local devices** and the Version **4.10**. Then, click Next.
 
-    ![type](images/storage-create-config2.png)  
+    <!-- ![type](images/odf-config-basics-49.png) -->
+    ![type](images/odf-config-basics-410.png)
 
-1. In the Parameters tab, enter the 3 worker node names and then set the value **Automatic storage volume discovery** to true.
+1. In the Parameters tab, make sure the value **Automatic storage volume discovery** is set to true. Enter the name of the 3 worker nodes you retrieved in the previous steps separated by comma.
 
-    ![config](images/odf-parameters1.png)
+    ![config](images/odf-parameters1-410.png)
 
-1. On the **Secrets** tab, leave both the Access key ID and Secret access key empty. Enter your IAM API key.
+1. Keep the default values for all the other options.
 
-    ![config](images/odf-parameters2.png)
+    ![parameters](images/odf-parameters11-410.png)
+
+1. On the **Secrets** tab, enter your IAM API key which is mandatory. Keep the other options empty.
+
+    <!-- ![config](images/odf-secrets-49.png) -->
+    ![config](images/odf-secrets-410.png)
 
 1. On the **Storage classes** tab, review the storage classes that are deployed by the configuration.
 
-    ![config](images/odf-parameters3.png)
+    <!-- ![config](images/odf-storage-classes-49.png) -->
+    ![config](images/odf-assign-service-410.png)
 
 1. On the **Assign to service** tab, select your cluster that you want to assign your configuration to.
 
-    ![config](images/odf-parameters4.png)
+    ![config](images/odf-assign-service-49.png)
 
 1. Click **Complete** to assign your storage configuration.
 
-    > You might face the following error. Just wait a bit.
-    >
-    > Unable to fetch header secret data. { name: clustersubscription-98ec439b-1021-4b4f-8ae8-1cde95a09898-secret, namespace: razeedeploy, key: razee-api-org-key }: secrets "clustersubscription-98ec439b-1021-4b4f-8ae8-1cde95a09898-secret" is forbidden: User "IAM#xxx.xxx@fr.ibm.com" cannot get resource "secrets" in API group "" in the namespace "razeedeploy"
-
-1. Once the deployment is complete, you should see 2 deployments:
+1. Once the deployment is complete, you should see 1 deployment:
 
     ![odf](images/odf-complete.png)
 
@@ -114,7 +138,9 @@ For more detailled descriptions of the following steps look also in the [Satelli
     ibmcloud oc cluster ls --provider satellite
     ```
 
-1. Verify that your cluster has a valid storage configuration has applied. Use the location id and cluster id ***NOT*** the name.
+1. Verify that your cluster has a valid storage configuration has applied. 
+
+    > Make sure to use the location and cluster id and ***NOT*** the name.
 
     ```sh
     ibmcloud sat storage assignment  ls --location <location_id> --cluster <cluster_id>
@@ -124,7 +150,7 @@ For more detailled descriptions of the following steps look also in the [Satelli
 
 1. You can check the config is being applied to your cluster listing Razee "RemoteResource"
 
-    ```
+    ```bash
     oc get rr -n razeedeploy
     NAME                                                       AGE
     clustersubscription-6cd6ea3d-c348-45e2-8048-67e319f4177d   8m24s
@@ -136,17 +162,15 @@ For more detailled descriptions of the following steps look also in the [Satelli
     ```sh
     # remove endpoint parameter if you connect via public IPs
     # use endpoint parameter if you connect from cloudshell
-    ibmcloud ks cluster config -c <your cluster> --admin --endpoint link
+    ibmcloud ks cluster config --admin --endpoint link -c <your cluster> 
     oc get storageclass
     ```
 
     ![output](images/odf2.png)
 
-    
-
 1. You can list Persistent volumes to see that ODF hast created "local storage" PVs
 
-    ```
+    ```bash
     oc get pv
     NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                           STORAGECLASS                  REASON   AGE
     local-pv-c9518652                          500Gi      RWO            Delete           Bound    openshift-storage/ocs-deviceset-1-data-09fjjv   localblock                             3m35s
@@ -154,16 +178,14 @@ For more detailled descriptions of the following steps look also in the [Satelli
     local-pv-ed0dd215                          500Gi      RWO            Delete           Bound    openshift-storage/ocs-deviceset-0-data-0ljhbh   localblock                             3m35s
     ```
 
-    
-
 1. Check pods. This is the main pod to check logs if something is not going ok
 
-    ```
+    ```bash
     oc get pods -n kube-system | grep ibm-ocs
     ibm-ocs-operator-controller-manager-768c8fd559-5bdl4                           1/1     Running     0          14m
     ```
 
-    ```
+    ```bash
     oc get pods -n openshift-storage
     NAME                                                              READY   STATUS      RESTARTS   AGE
     csi-cephfsplugin-9gp2g                                            3/3     Running     0          12m
@@ -206,22 +228,22 @@ For more detailled descriptions of the following steps look also in the [Satelli
 
 1. Check Storage Cluster resource. It is can be in "Error" phase during the deployment.
 
-    ```
+    ```bash
     oc get storagecluster -n openshift-storage
     NAME                 AGE   PHASE   EXTERNAL   CREATED AT             VERSION
     ocs-storagecluster   13m   Ready              2022-07-15T10:36:30Z   4.9.0
     
     ```
 
-    
+> For more ODF troubleshootings, refer to these [commands](../common/odf-troubleshootings/readme.md).
+
+## Test ODF with an example application
 
 1. Test ODF with a sample pod.
 
-    
-
-    ```
-    vi test.yaml
-    
+    ```bash
+    oc apply -f - <<EOF
+    --
     kind: PersistentVolumeClaim
     apiVersion: v1
     metadata:
@@ -257,9 +279,11 @@ For more detailled descriptions of the following steps look also in the [Satelli
       volumes:
         - name: odf-pvc
           persistentVolumeClaim:
-            claimName: test-claim    
-     
-    oc create -f test.yaml
+            claimName: test-claim
+    EOF
+    ```
+
+1. Deploy this pvc
     
     persistentvolumeclaim/test-claim created
     pod/test-pod created
@@ -285,11 +309,6 @@ For more detailled descriptions of the following steps look also in the [Satelli
     pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            Delete           Bound    default/test-claim                              sat-ocs-cephfs-gold                    96s
     ```
 
-    
-
-    
-
 ## Resources
 
 * [Host storage and attached devices](https://cloud.ibm.com/docs/satellite?topic=satellite-reqs-host-storage)
-

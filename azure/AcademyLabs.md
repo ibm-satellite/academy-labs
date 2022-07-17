@@ -1,68 +1,65 @@
-- - - - Table of contents
-      
-        - [Table of contents](#table-of-contents)
-        - [Azure Labs](#azure-labs)
-          - [Lab 0 - Student VSI](#lab-0---student-vsi)
-          - [Lab1 - Check status](#lab1---check-status)
-            - [UI](#ui)
-            - [CLI](#cli)
-          - [Lab2 - Expose ROKS](#lab2---expose-roks)
-            - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
-            - [Reconfigure with public IPs](#reconfigure-with-public-ips)
-            - [Access OpenShift Console](#access-openshift-console)
-          - [Lab3 - Add new hosts to the location](#lab3---add-new-hosts-to-the-location)
-            - [Gather data. Resource Group and Prefix](#gather-data-resource-group-and-prefix)
-            - [Create VMs using AZ CLI](#create-vms-using-az-cli)
-            - [Attach hosts to the location](#attach-hosts-to-the-location)
-              - [Prepare VM](#prepare-vm)
-              - [Get and execute attach script](#get-and-execute-attach-script)
-          - [Lab4 - Remove and replace an existinghost - Control plane](#lab4---remove-and-replace-an-existinghost---control-plane)
-            - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
-            - [Reconfigure with public IPs](#reconfigure-with-public-ips)
-          - [Lab 6 - Configure Registry with Object Storage](#lab-6---configure-registry-with-object-storage)
-          - [Lab9 - Deploy ODF](#lab9---deploy-odf)
-            - [Configure Azure Disks](#configure-azure-disks)
-              - [Create storage template configuration](#create-storage-template-configuration)
-              - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
-            - [Configure and deploy ODF](#configure-and-deploy-odf)
-              - [Create storage template configuration](#create-storage-template-configuration)
-              - [Assign template to a cluster](#assign-template-to-a-cluster)
-              - [Test ODF](#test-odf)
-        - [Apendix](#apendix)
-          - [Login to IBM Cloud](#login-to-ibm-cloud)
-            - [Install CLI and plugins](#install-cli-and-plugins)
-            - [Login](#login)
-          - [Login to Azure](#login-to-azure)
-            - [Install azure CLI on CentOS](#install-azure-cli-on-centos)
-            - [Login](#login)
-          - [Download OpenShift CLI](#download-openshift-cli)
-          - [Create new hosts using terraform](#create-new-hosts-using-terraform)
-            - [Install terraform](#install-terraform)
-            - [Terraform files](#terraform-files)
-            - [Init terraform](#init-terraform)
-            - [Create the VM](#create-the-vm)
-          - [Recover your Azure credentials](#recover-your-azure-credentials)
-          - [Service IDs](#service-ids)
-          - [Configure Container Registry with Azure Object Storage](#configure-container-registry-with-azure-object-storage)
-            - [Create Azure "bucket"](#create-azure-bucket)
-            - [Configure ROKS Registry to use Azure Object Storage (BLOB)](#configure-roks-registry-to-use-azure-object-storage-blob)
-            - [Test deployment](#test-deployment)
-          - [Location behavior when a nodes get "unresponsive"](#location-behavior-when-a-nodes-get-unresponsive)
-            - [Remove the VM in Azure IaaS](#remove-the-vm-in-azure-iaas)
-            - [Replace Control plane](#replace-control-plane)
-              - [Remove host from location](#remove-host-from-location)
-      
-        
-
 # Azure Labs
+
+## Table of contents
+
+- [Azure Labs](#azure-labs)
+  - [Lab 0 - Student VSI](#lab-0---student-vsi)
+  - [Lab 1 - Check status](#lab-1---check-status)
+    - [UI](#ui)
+    - [CLI](#cli)
+  - [Lab 2 - Expose ROKS](#lab-2---expose-roks)
+    - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
+    - [Reconfigure with public IPs](#reconfigure-with-public-ips)
+    - [Access OpenShift Console](#access-openshift-console)
+  - [Lab 3 - Add new hosts to the location](#lab-3---add-new-hosts-to-the-location)
+    - [Gather data. Resource Group and Prefix](#gather-data-resource-group-and-prefix)
+    - [Create VMs using AZ CLI](#create-vms-using-az-cli)
+    - [Attach hosts to the location](#attach-hosts-to-the-location)
+      - [Prepare VM](#prepare-vm)
+      - [Get and execute attach script](#get-and-execute-attach-script)
+  - [Lab 4 - Remove and replace an existinghost - Control plane](#lab-4---remove-and-replace-an-existinghost---control-plane)
+    - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
+    - [Reconfigure with public IPs](#reconfigure-with-public-ips)
+  - [Lab 6 - Configure Registry with Object Storage](#lab-6---configure-registry-with-object-storage)
+  - [Lab 9 - Deploy ODF](#lab-9---deploy-odf)
+    - [Configure Azure Disks](#configure-azure-disks)
+      - [Create storage template configuration](#create-storage-template-configuration)
+      - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
+    - [Configure and deploy ODF](#configure-and-deploy-odf)
+      - [Create storage template configuration](#create-storage-template-configuration)
+      - [Assign template to a cluster](#assign-template-to-a-cluster)
+      - [Test ODF](#test-odf)
+- [Apendix](#apendix)
+  - [Login to IBM Cloud](#login-to-ibm-cloud)
+    - [Install CLI and plugins](#install-cli-and-plugins)
+    - [Login](#login)
+  - [Login to Azure](#login-to-azure)
+    - [Install azure CLI on CentOS](#install-azure-cli-on-centos)
+    - [Login](#login)
+  - [Download OpenShift CLI](#download-openshift-cli)
+  - [Create new hosts using terraform](#create-new-hosts-using-terraform)
+    - [Install terraform](#install-terraform)
+    - [Terraform files](#terraform-files)
+    - [Init terraform](#init-terraform)
+    - [Create the VM](#create-the-vm)
+  - [Recover your Azure credentials](#recover-your-azure-credentials)
+  - [Service IDs](#service-ids)
+  - [Configure Container Registry with Azure Object Storage](#configure-container-registry-with-azure-object-storage)
+    - [Create Azure "bucket"](#create-azure-bucket)
+    - [Configure ROKS Registry to use Azure Object Storage (BLOB)](#configure-roks-registry-to-use-azure-object-storage-blob)
+    - [Test deployment](#test-deployment)
+  - [Location behavior when a nodes get "unresponsive"](#location-behavior-when-a-nodes-get-unresponsive)
+    - [Remove the VM in Azure IaaS](#remove-the-vm-in-azure-iaas)
+    - [Replace Control plane](#replace-control-plane)
+      - [Remove host from location](#remove-host-from-location)
 
 ## Lab 0 - Student VSI
 
 You can use the VSI created in your IBM Cloud account to execute the CLI commands, this is just a linux machine to help you with a pre-provisioned virtual server instance but you could use any other system as long as you can install and execute the ibmcloud and Azure CLI.
 
-See [Student VSI](https://github.com/ibm-satellite/academy-labs/tree/main/common/student-vsi)
+See [Student VSI](../common/student-vsi/readme.md)
 
-## Lab1 - Check status
+## Lab 1 - Check status
 
 ### UI
 
@@ -163,9 +160,7 @@ Ingress Status:                 Normal
 Status:     Ready
 ```
 
-
-
-## Lab2 - Expose ROKS
+## Lab 2 - Expose ROKS
 
 Login to Azure: [Login Azure](#login-to-azure)
 
@@ -519,9 +514,7 @@ Here sometimes I faces authentication issue, I just logout / login and give a bi
 
 ![image-20220610151324074](.pastes/image-20220610151324074.png)
 
-
-
-## Lab3 - Add new hosts to the location
+## Lab 3 - Add new hosts to the location
 
 We will use terraform to create two new hosts in Azure.
 
@@ -708,7 +701,7 @@ Copy and execute the script in the second VM, the script is always the same for 
 
 ![image-20220613231544017](.pastes/image-20220613231544017.png)
 
-## Lab4 - Remove and replace an existinghost - Control plane
+## Lab 4 - Remove and replace an existinghost - Control plane
 
 After [Replace control plane](https://github.ibm.com/satellite-academy/student-labs/tree/main/common/assign-hosts#replace-control-plane) the location domain DNS is reset and configured again with the hosts IPs, this is the private IPs, so we have to reconfigure the Domain to use the public IPs.
 
@@ -850,11 +843,11 @@ Configure Container registry with Azure Object Storage go to [Registry with Azur
 
 Configure Container registry with IBM Cloud Object Storage go to [Registry with IBM Cloud Object Storage](https://github.ibm.com/satellite-academy/student-labs/tree/main/common/cos-image-registry)
 
-## Lab9 - Deploy ODF
+## Lab 9 - Deploy ODF
 
 https://cloud.ibm.com/docs/satellite?topic=satellite-config-storage-odf-remote&interface=cli
 
-In this lab we drive the deployment using CLI, after finishing this lab take a look to [odf on aws](https://github.com/ibm-satellite/academy-labs/blob/main/aws/aws-odf-ebs.md#configure-aws-ebs-storage-configuration-in-satellite) to see how would it be using IBM Cloud Console.
+In this lab we drive the deployment using CLI, after finishing this lab take a look to [odf on aws](../aws/aws-odf-ebs.md#configure-aws-ebs-storage-configuration-in-satellite) to see how would it be using IBM Cloud Console.
 
 Login to IBM Cloud: See [Login](#login-to-ibm-cloud)
 
@@ -862,7 +855,7 @@ We will use Azure Disk CSI Driver as the storage for ODF, to use Azure Disk CSI 
 
 ### Configure Azure Disks
 
-We will use Satellite storage templates to configure Azure Disk CSI Driver: 
+We will use Satellite storage templates to configure Azure Disk CSI Driver:
 
 - https://cloud.ibm.com/docs/satellite?topic=satellite-sat-storage-template-ov&interface=cli
 - https://cloud.ibm.com/docs/satellite?topic=satellite-config-storage-azure-csi&interface=cli
