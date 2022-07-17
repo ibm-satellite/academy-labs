@@ -1448,7 +1448,7 @@ oc logs test-pod -n default
 success
 
 
-oc get pvc -n def
+oc get pvc -n default
 
 NAME         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
 test-claim   Bound    pvc-c94783e9-c592-43e0-9d23-e78fd7f3b19c   1Mi        RWX            sat-ocs-cephfs-gold   99s
