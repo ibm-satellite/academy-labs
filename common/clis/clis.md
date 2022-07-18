@@ -42,7 +42,7 @@ For more information, refer to the [doc](https://cloud.ibm.com/docs/satellite?to
 
 ## AWS CLI
 
-1. Download the aws cli from https://aws.amazon.com/cli/
+1. Download the aws cli from [AWS website](https://aws.amazon.com/cli/)
 
 1. To login into your AWS account use the below command on your terminal
 
