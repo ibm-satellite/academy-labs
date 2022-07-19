@@ -4,11 +4,11 @@
 
 The following resources are created by the VMWare template in the account you've been invited to
 
-- 1 Bastion host
+- 1 host for the bastion
 - 3 hosts named master for the Satellite Control Plane
 - 3 hosts named worker for the OpenShift worker nodes
-- 3 hosts for the the storage and ODF
-- 2 hosts spared not attached to the location.
+- 3 hosts named storage for ODF
+- 2 hosts spared not attached to the location yet.
 
 ## Retrieve the IPs of the bastion and the two RHEL hosts
 
@@ -36,7 +36,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
 
 Let's attach the hosts to our IBM Cloud Satellite location.
 
-1. In the bastion, connect via IBM Cloud CLI to the IBM Cloud account
+1. From the bastion, connect via IBM Cloud CLI to the IBM Cloud account
   
    ```sh
    ibmcloud login --sso
@@ -57,7 +57,7 @@ Let's attach the hosts to our IBM Cloud Satellite location.
    ibmcloud sat location ls
    ```
 
-1. Download the Satellite Location Host attach script
+1. Download the Satellite Location Host register script
   
    ```sh
    ibmcloud sat host attach --location <your-location-ID>
@@ -65,21 +65,15 @@ Let's attach the hosts to our IBM Cloud Satellite location.
 
    ![attach](images/host-attach.png)
 
-1. Store the path to the generated script into an environment variable.
+1. Open the registration script. 
 
    ```sh
-   export SCRIPT=<your-script-path>
-   ```
-
-   For example:
-
-   ```sh
-   export SCRIPT=/tmp/register-host_cb6pupjd0brfjav4hnlg_1671478741.sh
+   vi <path_to_register-host.sh>
    ```
 
 1. Edit the Script to enable RHEL repos
 
-   Open the registration script. After the `REGION` line, add a section to pull the required RHEL packages with the subscription manager.
+   After the `REGION` line, add a section to pull the required RHEL packages with the subscription manager.
 
    ```sh
    subscription-manager refresh
@@ -92,41 +86,53 @@ Let's attach the hosts to our IBM Cloud Satellite location.
 
     ![edit](images/edit-attach.png)  
 
-1. Copy the Script to the spared instances you identifed in the previous section.
+1. Copy the script from the bastion machine to the spared host.
 
    ```sh
-   scp $SCRIPT itzuser@172.50.114.21:/home/itzuser/
+   scp <path_to_register-host.sh> itzuser@<spared_host_ip_address>:/home/itzuser/
    ```
 
 1. SSH into the spare machine
 
    ```sh
-   ssh itzuser@172.50.114.21
+   ssh itzuser@<spared_host_ip_address>
    ```
+
+   ![host](images/host-script.png)
 
 1. Make the script executable
 
    ```sh
-   cd /home/itzuser/
-   chmod +x <your-register-script>
+   chmod +x <path_to_register-host.sh>
    ```
 
-1. Instructs the system to continue running it even if the session is disconnected
+1. You need to be root on the machine to run the script.
 
    ```sh
-   sudo nohup bash $SCRIPT &
+   sudo su
+   ```
+
+   > Request the password to the instructor.
+
+1. Run the registration script on your machine even if the session is disconnected
+
+   ```sh
+   nohup bash <path_to_register-host.sh> &
    ```
 
 1. Monitor the progress of the registration script. Wait.
 
    ```sh
-   sudo journalctl -f -u ibm-host-attach
+   journalctl -f -u ibm-host-attach
    ```
-
-   <!-- TBD ![journal](images/journal.png) -->
-
-1. Repeat Step 4-6 on your 2 new hosts.
+1. Repeat thoses steps on the second spare host.
 
 1. Check that your hosts are shown in the **Hosts** tab of your Sattelite location.
 
-   <!-- TBD ![location](images/location.png) -->
+   ![location](images/satellite-host-pending.png)
+
+## Troubleshooting
+
+1. The attach script may fail if the Red Hat `Downloads` and the `Subscription Management Frontent` are having an outage. That happened to me! Check its status on [https://status.redhat.com/](https://status.redhat.com/).
+
+   ![status](images/rh-status-outage.png)
