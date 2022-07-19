@@ -365,7 +365,7 @@ In case of errors with Schematics, refer to the section [Clean up](#clean-up).
 1. Retrieve the hosts your location
 
     ```bash
-    ibmcloud sat host ls --location SAT_LOC_NAME
+    ibmcloud sat host ls --location $SAT_LOC_NAME
     ```
 
     Console Output:
