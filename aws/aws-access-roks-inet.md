@@ -16,7 +16,7 @@ Satellite location is registered with DNS using private IP addresses of the host
 
     d.  AWS Secret Access Key: **************
 
-    e.  Default region name: us-east-2
+    e.  Default region name: us-east-1
 
     f.  Default output format: json
 
@@ -32,7 +32,9 @@ Satellite location is registered with DNS using private IP addresses of the host
 
 6. Easier way to identify your hosts is copy the output in a file ( txt) and search manually
 
-    a.  ### Eg: aws ec2 describe-instances \> ec2.txt
+    ```sh
+    aws ec2 describe-instances \> ec2.txt
+    ```
 
 7. This would save the output in the ec2.txt file, now search your relevant hosts through hostname or private Ips to identify their respective public IP's
 
