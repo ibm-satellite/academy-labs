@@ -2,12 +2,9 @@
 
 ## Table of contents
 
-- [Observabilty](#observabilty)
-  - [Logging](#logging)
-  - [Monitoring](#monitoring)
-  - [Activity Tracker](#activity-tracker)
-- [Appendix](#appendix)
-  - [Login to IBM Cloud](#login-to-ibm-cloud)
+- [Logging](#logging)
+- [Monitoring](#monitoring)
+- [Activity Tracker](#activity-tracker)
 
 ## Logging
 

@@ -304,3 +304,4 @@ For more detailled descriptions of the following steps look also in the [Satelli
 ## Resources
 
 * [Host storage and attached devices](https://cloud.ibm.com/docs/satellite?topic=satellite-reqs-host-storage)
+* Some Troubleshooting [command lines](common/odf-troubleshootings) for ODF related issues.

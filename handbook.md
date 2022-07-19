@@ -187,15 +187,12 @@ Here is the overview of what students are expected to learn by performing hands-
 
 - Watch how to troubleshoot and debug Satellite related issues.
 
-### Lab 8 to 9
+### Day 3 Labs
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
 | Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab9---deploy-odf) | [link](vmware/wmware-odf.md) |
 | Lab 9: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
-
-> Troubleshooting ODF
-> Some command lines [**here**](common/odf-troubleshootings) to help you troubleshoot ODF related issues.
 
 ### Lab 10: Deploy test application using Satellite config
 
