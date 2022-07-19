@@ -103,6 +103,7 @@
     ```
 
     Console ouput
+
     ```sh
     OK
     Name                      ID                     State    Created        Workers   Location           Version                 Resource Group Name   Provider
@@ -120,3 +121,7 @@
     Ingress Status:                 -
     Status:     Ready
     ```
+
+## Resources
+
+* [Satellite Location documentation](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands.

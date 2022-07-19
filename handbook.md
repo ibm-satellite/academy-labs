@@ -163,27 +163,17 @@ Here is the overview of what students are expected to learn by performing hands-
 - Perform common troubleshooting scenarios
 - Perform Satellite location troubleshooting
 
-### Lab 1: Review status of Satellite location
-
-Please follow steps [here](common/healthstatus/readme.md) to check status of Satellite location and cluster.
-
-Please review [cloud docs](https://cloud.ibm.com/docs/satellite?topic=satellite-locations) for additional commands.
-
-### Labs 2 to 7
+### Day 2 Labs
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
+| Lab 1: Review status of Satellite location and cluster | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) |
 | Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A (Private Only) |
 | Lab 3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab-3---add-new-hosts-to-the-location) |  [link](vmware/vmware-add-hosts.md) |
 | Lab 4: Remove and replace an existinghost - Control plane | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
 | Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
 | Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) |
 | Lab 7: Configure activity tracker and logging instances | [common](common/observability/readme.md) | [common](common/observability/readme.md) | [common](common/observability/readme.md) |
-
-> About Lab 6: Configure OCP Image registry using IBM CoS
->
-> When you install Cloud Pak for Data, the installer is going to copy the images Cloud Pak for Data will use to your local image registry. This is done to greatly improve the speed of the installation process. The first thing we are going to do is create an IBM Cloud Object Storage instance and bucket.
-
 
 ## Day 3
 
