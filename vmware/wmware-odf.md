@@ -8,6 +8,7 @@
 1. [Configure ODF for local devices storage configuration in Satellite](#configure-odf-for-local-devices-storage-configuration-in-satellite)
 1. [Check the ODF deployment through the CLI](#check-the-odf-deployment-through-the-cli)
 1. [Test ODF with an example application](#test-odf-with-an-example-application)
+1. [Check ODF Deployment in the Console](#check-odf-deployment-in-the-console)
 
 ## Introduction
 
@@ -300,6 +301,12 @@ For more detailled descriptions of the following steps look also in the [Satelli
     ```
 
     ![pvc](images/oc-pvc-console.png)
+
+## Check ODF Deployment in the Console
+
+1. You can find a **Data Foundation** page with some performance (i.e. IOPS, Latency, and Throughput) in the Administrator perspective of the Cluster Console.
+
+    ![Data Foundation](images/odf-console.png)
 
 ## Resources
 

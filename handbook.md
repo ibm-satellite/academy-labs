@@ -173,7 +173,7 @@ Here is the overview of what students are expected to learn by performing hands-
 | Lab 4: Remove and replace an existing host - Control plane | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
 | Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
 | Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) |
-| Lab 7: Configure activity tracker and logging instances | [common](common/observability/readme.md) | [common](common/observability/readme.md) | [common](common/observability/readme.md) |
+| Lab 7: Configure activity tracker and logging instances (Optional) | [common](common/observability/readme.md) | [common](common/observability/readme.md) | N/A |
 
 ## Day 3
 
