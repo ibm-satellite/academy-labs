@@ -164,7 +164,7 @@ Some of steps later one will require you to be connected via VPN to the Private 
 
 1. Write down the **Bastion SSH IP**, the **Bastion SSH Username** (e.g. itzuser) and the **Bastion SSH Password**.
 
-1. Download the **SSH Private Key** by clicking the button at the bottom of this page. You should be downloaded a file with the name `pem_bastion_download.cer`.
+1. Download the **SSH Private Key** by clicking the button at the bottom of this page. You should be downloaded a file with the name `pem_bastion_download.cer` or `pem_bastion_download.pem`
 
 1. Set the right permission of this SSH key.
 
