@@ -1,5 +1,14 @@
 # Lab 6: Configure OCP Image registry using IBM CoS
 
+## Table of Content
+
+- [Introduction](#introduction)
+- [Provision IBM Cloud Object Storage](#provision-ibm-cloud-object-storage)
+- [Create a Bucket for your Image Repository](#create-a-bucket-for-your-image-repository)
+- [Create Service Credentials including HMAC](#create-service-credentials-including-hmac)
+- [Configure OpenShift to use Object Storage for the Image Registry](#configure-openshift-to-use-object-storage-for-the-image-registry)
+- [Deploy example App to check that Registry is working - Optional](#deploy-example-app-to-check-that-registry-is-working---optional)
+
 ## Introduction
 
 When you deploy a ROKS cluster via IBM Cloud Sattelite the Image Registry is not configured. There are many storage backends possible in such a scenario depending on what infrastructure is used. For sake of simplicity we will use IBM Cloud Object Storage in our example, but the same would be possible with other storage backends like AWS S3, local storage.
@@ -8,7 +17,7 @@ See also <https://docs.openshift.com/container-platform/4.9/registry/index.html>
 
 > When you install Cloud Pak for Data, the installer is going to copy the images Cloud Pak for Data will use to your local image registry. This is done to greatly improve the speed of the installation process. The first thing we are going to do is create an IBM Cloud Object Storage instance and bucket.
 
-## 1. Provision IBM Cloud Object Storage 
+## Provision IBM Cloud Object Storage
 
 To provision IBM Cloud Object Storage, from the cloud.ibm.com portal, click on Catalog, search for Object Storage and then click on the Object Storage tile.
 
@@ -18,7 +27,7 @@ On the next screen, you will want to give the instance of IBM Cloud Object Stora
 
 ![create](images/cos-2.png)  
 
-## 2. Create a Bucket for your Image Repository
+## Create a Bucket for your Image Repository
 
 The next thing we need to do, is create a bucket for our image registry.  This bucket needs to have a couple specific settings so please make sure to closely follow the guide here.
 
@@ -36,7 +45,7 @@ On the next screen, name your bucket something meaningful, bucket names need to 
 
 Select Regional for resiliency, Location: us-east and then standard as the storage class.  Note: With the exception of location, this should be whatever region is closest to your satellite location, it is important to select the values exactly as indicated.  After entering these settings, click on Create Bucket.
 
-## 2. Create Service Credentials including HMAC
+## Create Service Credentials including HMAC
 
 Now that we have created a bucket, the next step is to create Service Credentials so that our OpenShift cluster can talk to our instance of Cloud Object Storage to read and write images to the bucket we created.
 
@@ -52,7 +61,7 @@ On the next screen note down the Access Key and the Secret Access Key. Make sure
 
 ![access](images/cos-8.png)
 
-## 3. Configure OpenShift to use Object Storage for the Image Registry
+## Configure OpenShift to use Object Storage for the Image Registry
 
 Next, we need to create a secret for our image registry to talk to Cloud Object Storage.  Start your terminal, log into IBM Cloud and your cluster.
 
@@ -176,7 +185,7 @@ To find out if the registry is running as it should, click on Workload and the P
 
 On the next screen, click on the Environment tab make sure you see that your object storage is indicated.  If you don’t see object storage values like below, then try updating the config again.
 
-## 4. Deploy example App to check that Registry is working (Optional)
+## Deploy example App to check that Registry is working - Optional
 
 Another way to make sure that the internal registry is working is to deploy the OpenShift node.js example app from the OpenShift CLI, which is using soure 2 image and will push the image to the registry.
 
