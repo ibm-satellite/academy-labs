@@ -125,6 +125,7 @@ Let's attach the hosts to our IBM Cloud Satellite location.
    ```sh
    journalctl -f -u ibm-host-attach
    ```
+
 1. Repeat thoses steps on the second spare host.
 
 1. Check that your hosts are shown in the **Hosts** tab of your Sattelite location.

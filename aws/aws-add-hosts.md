@@ -21,7 +21,7 @@ The following resources are created by the template in your account.
 
 We would like to add to our existing location 2 hosts we need later for other exercises. In a real customer environment you would automate the following steps, using Terraform, Ansible or other automation capabilities.
 
-1. Download and install the AWS CLI followin those [instructions](../common/clis/clis.md#aws-cli).
+1. Download and install the AWS CLI following those [instructions](../common/clis/clis.md#aws-cli).
 
 1. To login into your aws account use the below command on your terminal
 
