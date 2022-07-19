@@ -1,4 +1,4 @@
-# Configure OpenShift Image Registry with IBM Cloud Object Storage
+# Lab 6: Configure OCP Image registry using IBM CoS
 
 ## Introduction
 

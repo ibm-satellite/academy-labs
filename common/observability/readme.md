@@ -1,4 +1,6 @@
-# Table of contents
+# Lab 7: Configure activity tracker and logging instances
+
+## Table of contents
 
 - [Observabilty](#observabilty)
   - [Logging](#logging)
@@ -7,11 +9,9 @@
 - [Appendix](#appendix)
   - [Login to IBM Cloud](#login-to-ibm-cloud)
 
-# Observabilty
-
 ## Logging
 
-### Create a logging instance 
+### Create a logging instance
 
 Go to Observability, you can do this although through the IBM Cloud Catalog
 
@@ -34,8 +34,6 @@ Go to Observability, you can do this although through the IBM Cloud Catalog
 
 
 ![image-20220615122129079](.pastes/image-20220615122129079.png)
-
-
 
 ### Configure Platform logs
 
@@ -168,8 +166,6 @@ logdna-agent-slq2m   1/1     Running   0          70s
 
 ```
 
-
-
 #### View Logs
 
 ![image-20220615133530681](.pastes/image-20220615133530681.png)
@@ -179,8 +175,6 @@ logdna-agent-slq2m   1/1     Running   0          70s
 ![image-20220615133624114](.pastes/image-20220615133624114.png)
 
 As this logging instance can be used for any other service you can filter your cluster logs as in the sample with "tag:academy-tag"
-
-
 
 ## Monitoring
 
@@ -231,8 +225,6 @@ ibmcloud resource service-key "IBM Cloud Monitoring-us-east-key-Administrator"
 ```
 
 Take note of "Sysdig Access Key"
-
-
 
 ### Deploy SysDig agent
 
@@ -298,10 +290,6 @@ Give it time also to start seeing information in the DashBoards (30 mins)
 
 ![image-20220616103238551](.pastes/image-20220616103238551.png)
 
-
-
-
-
 ## Activity Tracker
 
 ### Create an instance
@@ -323,36 +311,3 @@ Go to Observability, you can do this although through the IBM Cloud Catalog
 ### Dashboard
 
 ![image-20220616103408078](.pastes/image-20220616103408078.png)
-
-# Appendix
-
-
-
-## Login to IBM Cloud
-
-### Install CLI
-
-https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli
-
-```
-curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
-
-ibmcloud version
-ibmcloud version 1.3.0+4308925-2020-12-16T07:53:49+00:00
-```
-
-### Login
-
-During login use "--sso" in case you have SSO configured with IBM Cloud, like for example the case of IBM users.
-
-```
-ibmcloud login --sso
-
-Select an account:
-18. itztsglenablement23 (20c282cbc5174bdbaddb0a5b94025d9f) <-> 2566264
-Enter a number> 18
-
-ibmcloud target -r us-east
-ibmcloud target -g academyrg
-```
-
