@@ -12,6 +12,21 @@
 
     > This plug-in includes `ibmcloud sat` commands to manage Satellite resources and `ibmcloud oc` to manage Red Hat OpenShift cluster resources.
 
+1. Login use "--sso" in case you have SSO configured with IBM Cloud, like for example the case of IBM users.
+
+    ```sh
+    ibmcloud login --sso
+    ```
+
+    > Select an account by entering a number.
+
+1. Target the correct region and resource group.
+
+    ```sh
+    ibmcloud target -r <region>
+    ibmcloud target -g <resource-group>
+    ```
+
 1. Install private endpoints from [here](https://cloud.ibm.com/docs/cli?topic=cli-cli-private-endpoints)
 
 For more information, refer to the [doc](https://cloud.ibm.com/docs/satellite?topic=satellite-setup-cli).
