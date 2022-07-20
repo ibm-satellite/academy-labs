@@ -19,13 +19,17 @@ See also <https://docs.openshift.com/container-platform/4.9/registry/index.html>
 
 ## Provision IBM Cloud Object Storage
 
-To provision IBM Cloud Object Storage, from the cloud.ibm.com portal, click on Catalog, search for Object Storage and then click on the Object Storage tile.
+1. From the IBM Cloud [catalog](http://cloud.ibm.com/catalog), search for **Object Storage**.
 
-![catalog](images/cos-1.png)
+    ![catalog](images/cos-1.png)
 
-On the next screen, you will want to give the instance of IBM Cloud Object Storage a meaningful name, I will use Cloud Object Storage-Satellite and choose the resource group where your satellite resources are to location to keep things organized.
+1. Select the IBM Cloud Infrastructure. 
 
-![create](images/cos-2.png)  
+    ![catalog](images/cos-catalog.png)
+
+1. Give the instance of Object Storage a meaningful name such as `Cloud Object Storage-Satellite` and choose the Resource Group where your satellite resources are to location to keep things organized.
+
+    ![create](images/cos-2.png)  
 
 ## Create a Bucket for your Image Repository
 
