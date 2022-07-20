@@ -30,7 +30,7 @@ We would like to deploy OpenShift Data Foundation Add-on to our Satellite based 
 
     ![secrets](images/ebs3.png)  
 
-5. On the Storage classes tab, review the storage classes that are deployed by the configuration or create a custom storage class.
+5. On the Storage classes tab, review the storage classes that are deployed by the configuration.
 
     ![ebs4](images/ebs4.png)
 
