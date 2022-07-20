@@ -169,7 +169,7 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
 
     [pvc.yaml](pvc.yaml)
 
-    [pod.yaml](aws/pod.yaml)
+    [pod.yaml](./pod.yaml)
 
 1. Apply the pvc.yaml and check the pvcs
 
