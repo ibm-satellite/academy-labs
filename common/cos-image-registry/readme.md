@@ -63,26 +63,28 @@ On the next screen note down the Access Key and the Secret Access Key. Make sure
 
 ## Configure OpenShift to use Object Storage for the Image Registry
 
-Next, we need to create a secret for our image registry to talk to Cloud Object Storage.  Start your terminal, log into IBM Cloud and your cluster.
+Next, we need to create a secret for our image registry to talk to Cloud Object Storage.
 
-```sh
-ibmcloud login --sso # target your ITZ IBM Cloud demo account
-ibmcloud target -g academyrg -r us-south
-ibmcloud ks cluster config --cluster <cluster_name> --admin
-```
+1. Start your terminal, log into IBM Cloud and your cluster.
 
-![login](images/cos-9.png)  
+    ```sh
+    ibmcloud login --sso # target your ITZ IBM Cloud demo account
+    ibmcloud target -g <your-resource-group> -r <region>
+    ibmcloud ks cluster config --cluster <cluster_name> --admin
+    ```
+
+    ![login](images/cos-9.png)  
 
 If you use IBM Cloud Shell you could use the following IBM Cloud command to connect to the cluster:
 
 ```sh
-ibmcloud ks cluster config --admin -c <cluster name> --endpoint link
+ibmcloud ks cluster config --admin -c <cluster-name> --endpoint link
 ````
 
 Change the following command to use
 
-- "YOUR COS ACCESS KEY" is the "access_key_id" from the COS Service Credential
-- "YOUR COS SECRET KEY" is the "secret_access_key" from the COS Service Credential
+- `YOUR COS ACCESS KEY` is the `access_key_id` from the COS Service Credential
+- `YOUR COS SECRET KEY` is the `secret_access_key` from the COS Service Credential
 
 ```sh
 oc create secret generic image-registry-private-configuration-user --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=<YOUR COS ACCESS KEY> --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=<YOUR COS SECRET KEY> --namespace openshift-image-registry

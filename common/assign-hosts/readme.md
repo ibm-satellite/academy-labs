@@ -1,4 +1,4 @@
-# Replace Control Plane
+# Replace Control Plane and Worker Node
 
 In this lab, we will replace an host attached to the control plane and add a new worker to ROKS.
 
