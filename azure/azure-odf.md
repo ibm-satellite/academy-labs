@@ -8,6 +8,17 @@ Login to IBM Cloud: See [Login](#login-to-ibm-cloud)
 
 We will use Azure Disk CSI Driver as the storage for ODF, to use Azure Disk CSI Driver first we have to configure / deploy it to the ROKS cluster, then we will deploy ODF.
 
+## Table of Contents
+
+- [Configure Azure Disks](#configure-azure-disks)
+  - [Create storage template configuration](#create-storage-template-configuration)
+  - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
+- [Configure and deploy ODF](#configure-and-deploy-odf)
+  - [Create storage template configuration](#create-storage-template-configuration)
+  - [Assign template to a cluster](#assign-template-to-a-cluster)
+- [Test ODF](#test-odf)
+- [Check ODF Deployment in the Console](#check-odf-deployment-in-the-console)
+
 ## Configure Azure Disks
 
 We will use Satellite storage templates to configure Azure Disk CSI Driver:
@@ -62,7 +73,7 @@ tenantId          Tenant ID                              The Azure tenant ID tha
 ....
 ```
 
-## Create storage template configuration
+### Create storage template configuration
 
 Recover the Azure credentials: [Azure Credentials](#recover-your-azure-credentials)
 
@@ -152,7 +163,7 @@ tenantId          *****
 
 ![image-20220707023319575](.pastes/image-20220707023319575.png)
 
-## Assign a template storage configuration to a cluster
+### Assign a template storage configuration to a cluster
 
 Gather ROKS Cluster id
 
@@ -282,7 +293,7 @@ ibm-cos-secret-key   Secret access key   Your IBM COS HMAC secret access key.   
 
 ```
 
-## Create storage template configuration
+### Create storage template configuration
 
 We will create an ODF deployment with 3 replicas with 100GB storage available, this implies deploy ODF in three workers each one will configure a Persistent Volume of 100GB
 
@@ -370,7 +381,7 @@ Note: currently ODF storage template does not support taints / tolerations and /
 oc edit ocscluster 
 ```
 
-## Assign template to a cluster
+### Assign template to a cluster
 
 Gather ROKS Cluster id
 
