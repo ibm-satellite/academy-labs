@@ -403,7 +403,7 @@ Below is a potential errors you might see during the install process:
     ibmcloud login --apikey <your IBM Cloud API Key>
     ```
 
-    > Note: if you haven't installed IBM Cloud CLI, go to [here](../common/clis/clis.md)
+    > Note: if you haven't installed IBM Cloud CLI, go to [here](common/clis/clis.md)
 
 1. Download the key or copy paste into a file to reuse in next steps.
 

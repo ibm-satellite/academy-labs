@@ -59,7 +59,7 @@ ODF could be installed across all the worker nodes of the cluster. Yet, the VMWa
 
 ODF could be installed on all the worker nodes of the cluster. Yet, we decided to install ODF only on the Dedicated Storage worker nodes. Thus, we need to retrieve the worker node names before we install the storage configuration.
 
-1. Connect to the cluster throught the Cloud Shell following those [instructions](../common/cloud-shell/readme.md).
+1. Connect to the cluster throught the Cloud Shell following those [instructions](common/cloud-shell/readme.md).
 
 1. Run the command
 
@@ -236,7 +236,7 @@ For more detailled descriptions of the following steps look also in the [Satelli
     
     ```
 
-> For more ODF troubleshootings, refer to these [commands](../common/odf-troubleshootings/readme.md).
+> For more ODF troubleshootings, refer to these [commands](common/odf-troubleshootings/readme.md).
 
 ## Test ODF with an example application
 

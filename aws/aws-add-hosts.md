@@ -21,7 +21,7 @@ The following resources are created by the template in your account.
 
 We would like to add to our existing location 2 hosts we need later for other exercises. In a real customer environment you would automate the following steps, using Terraform, Ansible or other automation capabilities.
 
-1. Download and install the AWS CLI following those [instructions](../common/clis/clis.md#aws-cli).
+1. Download and install the AWS CLI following those [instructions](common/clis/clis.md#aws-cli).
 
 1. To login into your aws account use the below command on your terminal
 
@@ -35,13 +35,13 @@ We would like to add to our existing location 2 hosts we need later for other ex
 1. create a new SSH key Pair on your machine
 
    ```sh
-   ssh-keygen -t rsa -b 4096 -C "<your mail address>" -f myec2key 
+   ssh-keygen -t rsa -b 4096 -C "<your mail address>" -f myec2key-<your-initials> 
    ```
 
 1. Upload the SSH Key to your AWS account
 
    ```sh
-    aws ec2 import-key-pair --key-name "myec2key" --public-key-material fileb://./myec2key.pub
+    aws ec2 import-key-pair --key-name "myec2key-<your-initials>" --public-key-material fileb://./myec2key-<your-initials>.pub
    ```
 
    The output should look something like this:
@@ -89,7 +89,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
    With that create the instance.
 
    ```sh
-   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=cp-spare-host}]'
+   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=cp-spare-host}]'
    ```
 
    wait a minute and get the details of the machine including public IP address:
@@ -105,7 +105,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
 1. Repeat the steps 5-6 for a second host using the same subnet, m5d.4xlarge flavor and name svc-spare-host.
 
    ```sh
-   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=svc-spare-host}]'
+   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=svc-spare-host}]'
    
    ```sh
    aws ec2 describe-instances --filters "Name=tag:Name,Values=svc-spare-host"
@@ -165,13 +165,13 @@ Now we have created the 2 AWS EC2 hosts with their public IPs. Now we would like
 1. Copy the Script to the EC2 instances
 
    ```sh
-   scp -i myec2key <YOURSCRIPT> ec2-user@52.90.45.209:/home/ec2-user/
+   scp -i myec2key-<your-initials> <YOURSCRIPT> ec2-user@52.90.45.209:/home/ec2-user/
    ```
 
 1. SSH into the machine using your previously created key
 
    ```sh
-   ssh -i myec2key ec2-user@52.90.45.209
+   ssh -i myec2key-<your-initials> ec2-user@52.90.45.209
    sudo nohup bash <YOURSCRIPT> &
    ```
 
