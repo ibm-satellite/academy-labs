@@ -6,6 +6,7 @@
 * [Configure AWS EBS storage configuration in Satellite](#configure-aws-ebs-storage-configuration-in-satellite)
 * [Deploy ODF using EBS volumes in AWS](#deploy-odf-using-ebs-volumes-in-aws)
 * [Test ODF with an example application](#test-odf-with-an-example-application)
+* [Check ODF Deployment in the OpenShift Console](#-check-odf-deployment-in-the-openShift-console)
 
 ## Introduction
 
@@ -167,9 +168,9 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
 
 1. Test the storage class using the following yamls
 
-    [pvc.yaml](pvc.yaml)
+    [pvc.yaml](aws/pvc.yaml)
 
-    [pod.yaml](./pod.yaml)
+    [pod.yaml](aws/pod.yaml)
 
 1. Apply the pvc.yaml and check the pvcs
 
@@ -199,3 +200,9 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
     ```
 
     ![output](images/odf9.png)
+
+## Check ODF Deployment in the OpenShift Console
+
+You can find a **Data Foundation** page with some performance (i.e. IOPS, Latency, and Throughput) in the Administrator perspective of the Cluster Console.
+
+![Data Foundation](images/odf-console.png)
