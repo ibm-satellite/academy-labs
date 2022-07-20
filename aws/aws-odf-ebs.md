@@ -167,7 +167,7 @@ Navigate in the IBM Cloud Console to your Satellite Storage Configurations. You 
 
 1. Test the storage class using the following yamls
 
-    [pvc.yaml](aws/pvc.yaml)
+    [pvc.yaml](pvc.yaml)
 
     [pod.yaml](aws/pod.yaml)
 

@@ -193,12 +193,9 @@ Here is the overview of what students are expected to learn by performing hands-
 | ------------- |:-------------:| ------:| ----------------:|
 | Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/AcademyLabs.md#lab-9---deploy-odf) | [link](vmware/wmware-odf.md) |
 | Lab 9: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
+| Lab 10: Deploy Food Delivery App using Satellite config | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) |
 
-### Lab 10: Deploy test application using Satellite config
-
-This is a student lab performing an installation of the Food Delivery App with a variation of using Satellite Link to connect to a Mongo instance residing in the public IBM Cloud.
-
-[Github Repo](https://github.com/mcltn/food-delivery-satellite-lab)
+> Lab 10 is a student lab performing an installation of the Food Delivery App with a variation of using Satellite Link to connect to a Mongo instance residing in the public IBM Cloud.
 
 ### Lab 11: How to use Activity Tracker, Logging and Monitoring
 
