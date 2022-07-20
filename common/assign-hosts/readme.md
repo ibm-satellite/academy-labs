@@ -105,4 +105,4 @@ Do this lab once the control plane has been successfully assigned and the locati
 Because we have now changed the Hosts in the Satellite Control Plane we need to update the Sattelite DNS. Please follow the steps for the Control Plane only:
 
 - For Azure: [Reset public IPs](azure/AcademyLabs.md#lab-4---remove-and-replace-an-existinghost---control-plane)
-- For AWS: [Public IPs](../../aws/aws-access-roks-inet.md)
+- For AWS: [Public IPs](aws/aws-access-roks-inet.md)
