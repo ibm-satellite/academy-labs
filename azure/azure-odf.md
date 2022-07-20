@@ -116,11 +116,13 @@ VM_PREFIX="jordax-academy-4-8097"
 satLocation="jordax-academy-4"
 #-----
 
+
+# ---- DO NOT Replace these ones
 location=eastus
 securityGroupName="$VM_PREFIX"-sg
 vmType=standard
 vnetName="$VM_PREFIX"-vpc
-
+# ----
 
 ibmcloud sat storage config create --name azure-disk --template-name azuredisk-csi-driver --template-version 1.4.0 --location $satLocation -p tenantId="$tenantId" -p subscriptionId="$subscriptionId" -p aadClientId="$aadClientId" -p aadClientSecret="$aadClientSecret" -p resourceGroup="$SAT_RG" -p location="$location" -p vmType="$vmType" -p securityGroupName="$securityGroupName" -p vnetName="$vnetName"
 
