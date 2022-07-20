@@ -2,56 +2,55 @@
 
 ## Table of contents
 
-- [Azure Labs](#azure-labs)
-  - [Lab 0 - Student VSI](#lab-0---student-vsi)
-  - [Lab 1 - Check status](#lab-1---check-status)
-    - [UI](#ui)
-    - [CLI](#cli)
-  - [Lab 2 - Expose ROKS](#lab-2---expose-roks)
-    - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
-    - [Reconfigure with public IPs](#reconfigure-with-public-ips)
-    - [Access OpenShift Console](#access-openshift-console)
-  - [Lab 3 - Add new hosts to the location](#lab-3---add-new-hosts-to-the-location)
-    - [Gather data. Resource Group and Prefix](#gather-data-resource-group-and-prefix)
-    - [Create VMs using AZ CLI](#create-vms-using-az-cli)
-    - [Attach hosts to the location](#attach-hosts-to-the-location)
-      - [Prepare VM](#prepare-vm)
-      - [Get and execute attach script](#get-and-execute-attach-script)
-  - [Lab 4 - Remove and replace an existinghost - Control plane](#lab-4---remove-and-replace-an-existinghost---control-plane)
-    - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
-    - [Reconfigure with public IPs](#reconfigure-with-public-ips)
-  - [Lab 6 - Configure Registry with Object Storage](#lab-6---configure-registry-with-object-storage)
-  - [Lab 9 - Deploy ODF](#lab-9---deploy-odf)
-    - [Configure Azure Disks](#configure-azure-disks)
-      - [Create storage template configuration](#create-storage-template-configuration)
-      - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
-    - [Configure and deploy ODF](#configure-and-deploy-odf)
-      - [Create storage template configuration](#create-storage-template-configuration)
-      - [Assign template to a cluster](#assign-template-to-a-cluster)
-      - [Test ODF](#test-odf)
+- [Lab 0 - Student VSI](#lab-0---student-vsi)
+- [Lab 1 - Check status](#lab-1---check-status)
+  - [UI](#ui)
+  - [CLI](#cli)
+- [Lab 2 - Expose ROKS](#lab-2---expose-roks)
+  - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
+  - [Reconfigure with public IPs](#reconfigure-with-public-ips)
+  - [Access OpenShift Console](#access-openshift-console)
+- [Lab 3 - Add new hosts to the location](#lab-3---add-new-hosts-to-the-location)
+  - [Gather data. Resource Group and Prefix](#gather-data-resource-group-and-prefix)
+  - [Create VMs using AZ CLI](#create-vms-using-az-cli)
+  - [Attach hosts to the location](#attach-hosts-to-the-location)
+    - [Prepare VM](#prepare-vm)
+    - [Get and execute attach script](#get-and-execute-attach-script)
+- [Lab 4 - Remove and replace an existinghost - Control plane](#lab-4---remove-and-replace-an-existinghost---control-plane)
+  - [Gather azure resource group and VMs prefix](#gather-azure-resource-group-and-vms-prefix)
+  - [Reconfigure with public IPs](#reconfigure-with-public-ips)
+- [Lab 6 - Configure Registry with Object Storage](#lab-6---configure-registry-with-object-storage)
+- [Lab 9 - Deploy ODF](#lab-9---deploy-odf)
+  - [Configure Azure Disks](#configure-azure-disks)
+    - [Create storage template configuration](#create-storage-template-configuration)
+    - [Assign a template storage configuration to a cluster](#assign-a-template-storage-configuration-to-a-cluster)
+  - [Configure and deploy ODF](#configure-and-deploy-odf)
+    - [Create storage template configuration](#create-storage-template-configuration)
+    - [Assign template to a cluster](#assign-template-to-a-cluster)
+    - [Test ODF](#test-odf)
 - [Apendix](#apendix)
-  - [Login to IBM Cloud](#login-to-ibm-cloud)
-    - [Install CLI and plugins](#install-cli-and-plugins)
-    - [Login](#login)
-  - [Login to Azure](#login-to-azure)
-    - [Install azure CLI on CentOS](#install-azure-cli-on-centos)
-    - [Login](#login)
-  - [Download OpenShift CLI](#download-openshift-cli)
-  - [Create new hosts using terraform](#create-new-hosts-using-terraform)
-    - [Install terraform](#install-terraform)
-    - [Terraform files](#terraform-files)
-    - [Init terraform](#init-terraform)
-    - [Create the VM](#create-the-vm)
-  - [Recover your Azure credentials](#recover-your-azure-credentials)
-  - [Service IDs](#service-ids)
-  - [Configure Container Registry with Azure Object Storage](#configure-container-registry-with-azure-object-storage)
-    - [Create Azure "bucket"](#create-azure-bucket)
-    - [Configure ROKS Registry to use Azure Object Storage (BLOB)](#configure-roks-registry-to-use-azure-object-storage-blob)
-    - [Test deployment](#test-deployment)
-  - [Location behavior when a nodes get "unresponsive"](#location-behavior-when-a-nodes-get-unresponsive)
-    - [Remove the VM in Azure IaaS](#remove-the-vm-in-azure-iaas)
-    - [Replace Control plane](#replace-control-plane)
-      - [Remove host from location](#remove-host-from-location)
+- [Login to IBM Cloud](#login-to-ibm-cloud)
+  - [Install CLI and plugins](#install-cli-and-plugins)
+  - [Login](#login)
+- [Login to Azure](#login-to-azure)
+  - [Install azure CLI on CentOS](#install-azure-cli-on-centos)
+  - [Login](#login)
+- [Download OpenShift CLI](#download-openshift-cli)
+- [Create new hosts using terraform](#create-new-hosts-using-terraform)
+  - [Install terraform](#install-terraform)
+  - [Terraform files](#terraform-files)
+  - [Init terraform](#init-terraform)
+  - [Create the VM](#create-the-vm)
+- [Recover your Azure credentials](#recover-your-azure-credentials)
+- [Service IDs](#service-ids)
+- [Configure Container Registry with Azure Object Storage](#configure-container-registry-with-azure-object-storage)
+  - [Create Azure "bucket"](#create-azure-bucket)
+  - [Configure ROKS Registry to use Azure Object Storage (BLOB)](#configure-roks-registry-to-use-azure-object-storage-blob)
+  - [Test deployment](#test-deployment)
+- [Location behavior when a nodes get "unresponsive"](#location-behavior-when-a-nodes-get-unresponsive)
+  - [Remove the VM in Azure IaaS](#remove-the-vm-in-azure-iaas)
+  - [Replace Control plane](#replace-control-plane)
+    - [Remove host from location](#remove-host-from-location)
 
 ## Lab 0 - Student VSI
 
@@ -63,110 +62,102 @@ See [Student VSI](../common/student-vsi/readme.md)
 
 ### UI
 
-Go to the left navigation menu, on top left corner to the left of IBM Cloud and the click on Satellite Locations
+1. Go to the left navigation menu, on top left corner to the left of IBM Cloud and the click on Satellite Locations
 
-![image-20220610103944390](.pastes/image-20220610103944390.png)
+    ![image-20220610103944390](.pastes/image-20220610103944390.png)
 
+1. Click on the location
 
+    ![image-20220610104015815](.pastes/image-20220610104015815.png)
 
-Click on the location
+1. On the Overview page, you can see status is normal
 
-![image-20220610104015815](.pastes/image-20220610104015815.png)
+    ![image-20220611093153409](.pastes/image-20220611093153409.png)
 
+1. On left side click on Hosts to show the hosts attached to the location and all hosts in normal
 
+    ![image-20220611215131389](.pastes/image-20220611215131389.png)
 
-On the Overview page, you can see status is normal
+1. Review Cluster state:
 
-![image-20220611093153409](.pastes/image-20220611093153409.png)
+    ![image-20220616173642404](.pastes/image-20220616173642404.png)
 
-
-
-On left side click on Hosts to show the hosts attached to the location and all hosts in normal
-
-![image-20220611215131389](.pastes/image-20220611215131389.png)
-
-Review Cluster state:
-
-![image-20220616173642404](.pastes/image-20220616173642404.png)
-
-![image-20220616173613024](.pastes/image-20220616173613024.png)
+    ![image-20220616173613024](.pastes/image-20220616173613024.png)
 
 ### CLI
 
-Check location status
+1. Check location status
 
-```
-ibmcloud sat location ls
-Retrieving locations...
-OK
-Name               ID                     Status   Ready   Created        Hosts (used/total)   Managed From
-jordax-academy-4   cahrvp4w07i0nklqkbpg   normal   yes     20 hours ago   6 / 6                wdc
+    ```sh
+    ibmcloud sat location ls
+    Retrieving locations...
+    OK
+    Name               ID                     Status   Ready   Created        Hosts (used/total)   Managed From
+    jordax-academy-4   cahrvp4w07i0nklqkbpg   normal   yes     20 hours ago   6 / 6                wdc
+    ```
 
+1. Set your location name into an environmment variable.
 
+    ```sh
+    # user your values
+    location=jordax-academy-4
+    # ---
+    ```
 
-```
+1. Retrieve the location details
 
+    ```sh
+    ibmcloud sat location get --location $location
+    Retrieving location...
+    OK
 
+    Name:                           jordax-academy-4
+    ID:                             cahrvp4w07i0nklqkbpg
+    Created:                        2022-06-10 22:04:20 +0000 (20 hours ago)
+    Managed From:                   wdc
+    State:                          normal
+    Ready for deployments:          yes
+    Message:                        R0001: The Satellite location is ready for operations.
+    Hosts Available:                0
+    Hosts Total:                    6
+    Host Zones:                     eastus-1, eastus-2, eastus-3
+    Public Service Endpoint URL:    https://c117.us-east.satellite.cloud.ibm.com:30623
+    Private Service Endpoint URL:   -
+    OpenVPN Server Port:            -
+    ```
 
-```
-# user your values
-location=jordax-academy-4
-# ---
+    > "R0001: The Satellite location is ready for operations." is the correct message when the location is enabled and ready.
+    > 
+    > If status indicates warning with an error code, refer to steps needed to fix it as in cloud docs https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug
 
-ibmcloud sat location get --location $location
-Retrieving location...
-OK
+1. Check cluster status:
 
-Name:                           jordax-academy-4
-ID:                             cahrvp4w07i0nklqkbpg
-Created:                        2022-06-10 22:04:20 +0000 (20 hours ago)
-Managed From:                   wdc
-State:                          normal
-Ready for deployments:          yes
-Message:                        R0001: The Satellite location is ready for operations.
-Hosts Available:                0
-Hosts Total:                    6
-Host Zones:                     eastus-1, eastus-2, eastus-3
-Public Service Endpoint URL:    https://c117.us-east.satellite.cloud.ibm.com:30623
-Private Service Endpoint URL:   -
-OpenVPN Server Port:            -
-```
+    ```sh
+    ibmcloud ks cluster ls
+    OK
+    Name                      ID                     State    Created        Workers   Location           Version                 Resource Group Name   Provider
+    jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   11 hours ago   3         jordax-academy-4   4.9.33_1540_openshift   academyrg             satellite
+    ```
 
+    ```
+    # user your values
+    clusterName=jordax-academy-cluster1
+    # ---
 
+    ibmcloud ks cluster get --cluster $clusterName | grep Status
 
-"R0001: The Satellite location is ready for operations." is the correct message when the location is enabled and ready.
-
-If status indicates warning with an error code, refer to steps needed to fix it as in cloud docs https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug
-
-Check cluster status:
-
-```
-ibmcloud ks cluster ls
-OK
-Name                      ID                     State    Created        Workers   Location           Version                 Resource Group Name   Provider
-jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   11 hours ago   3         jordax-academy-4   4.9.33_1540_openshift   academyrg             satellite
-
-```
-
-```
-# user your values
-clusterName=jordax-academy-cluster1
-# ---
-
-ibmcloud ks cluster get --cluster $clusterName | grep Status
-
-Status:                         All Workers Normal
-Ingress Status:                 Normal
-Status:     Ready
-```
+    Status:                         All Workers Normal
+    Ingress Status:                 Normal
+    Status:     Ready
+    ```
 
 ## Lab 2 - Expose ROKS
 
-Login to Azure: [Login Azure](#login-to-azure)
+1. Login to Azure: [Login Azure](#login-to-azure)
 
-Login to IBM Cloud: [Login IBM Cloud](#login-to-ibm-cloud)
+1. Login to IBM Cloud: [Login IBM Cloud](#login-to-ibm-cloud)
 
-ROKS services domains, like the console or API is configured with the private IPs of the Azure VMs, so if you try to access to the ROKS console or execute "oc" CLI from any place outside of the Azure subnet it is going to fail, you can not reach the private IPs.
+    > ROKS services domains, like the console or API is configured with the private IPs of the Azure VMs, so if you try to access to the ROKS console or execute "oc" CLI from any place outside of the Azure subnet it is going to fail, you can not reach the private IPs.
 
 If we check how IBM Cloud configure the DNS for the ROKS instance you will see the IPs are private, 10.x.x.x
 
@@ -230,102 +221,102 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
 
 ### Reconfigure with public IPs
 
-Configure this variables with your environment values
+1. Configure this variables with your environment values
 
-```
-#----> Replace with your values
-SAT_RG=jordax-academy-4-9602
-VM_PREFIX=jordax-academy-4-8097
-#-----
-```
+  ```sh
+  #----> Replace with your values
+  export SAT_RG=jordax-academy-4-9602
+  export VM_PREFIX=jordax-academy-4-8097
+  #-----
+  ```
 
-Create public IPs
+1. Create public IPs
 
-```
-az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-0-public --version IPv4 --sku Standard --zone 1 2 3
-az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-1-public --version IPv4 --sku Standard --zone 1 2 3
-az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-2-public --version IPv4 --sku Standard --zone 1 2 3
-az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-3-public --version IPv4 --sku Standard --zone 1 2 3
-az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-4-public --version IPv4 --sku Standard --zone 1 2 3
-az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-5-public --version IPv4 --sku Standard --zone 1 2 3
-```
+  ```sh
+  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-0-public --version IPv4 --sku Standard --zone 1 2 3
+  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-1-public --version IPv4 --sku Standard --zone 1 2 3
+  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-2-public --version IPv4 --sku Standard --zone 1 2 3
+  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-3-public --version IPv4 --sku Standard --zone 1 2 3
+  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-4-public --version IPv4 --sku Standard --zone 1 2 3
+  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-5-public --version IPv4 --sku Standard --zone 1 2 3
+  ```
 
-Gather the generated IPs
+1. Gather the generated IPs
 
-```
-az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-0-public | grep ipAddress
-az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-1-public | grep ipAddress
-az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-2-public | grep ipAddress
-az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-3-public | grep ipAddress
-az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-4-public | grep ipAddress
-az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-5-public | grep ipAddress
-```
+  ```sh
+  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-0-public | grep ipAddress
+  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-1-public | grep ipAddress
+  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-2-public | grep ipAddress
+  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-3-public | grep ipAddress
+  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-4-public | grep ipAddress
+  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-5-public | grep ipAddress
+  ```
 
-In this case:
+  In this case:
 
-```
-"ipAddress": "52.142.29.196",
-"ipAddress": "52.142.30.90",
-"ipAddress": "52.147.219.59",
-"ipAddress": "52.147.219.163",
-"ipAddress": "52.147.219.235",
-"ipAddress": "20.185.74.178",
-```
+  ```
+  "ipAddress": "52.142.29.196",
+  "ipAddress": "52.142.30.90",
+  "ipAddress": "52.147.219.59",
+  "ipAddress": "52.147.219.163",
+  "ipAddress": "52.147.219.235",
+  "ipAddress": "20.185.74.178",
+  ```
 
-Update VMs IP
+1. Update VMs IP
 
-```
-az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-0 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-0-public
-az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-1 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-1-public
-az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-2 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-2-public
-az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-3 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-3-public
-az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-4 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-4-public
-az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-5 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-5-public
-```
+  ```sh
+  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-0 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-0-public
+  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-1 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-1-public
+  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-2 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-2-public
+  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-3 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-3-public
+  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-4 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-4-public
+  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-5 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-5-public
+  ```
 
-You can check the network rules applied to each NIC with this command, the output is quite long, but we will focus on the first set of rules
+1. You can check the network rules applied to each NIC with this command, the output is quite long, but we will focus on the first set of rules
 
-```
-az network nic list-effective-nsg --name $VM_PREFIX-nic-0 --resource-group $SAT_RG
+  ```sh
+  az network nic list-effective-nsg --name $VM_PREFIX-nic-0 --resource-group $SAT_RG
 
-....
-{
-          "access": "Allow",
-          "destinationAddressPrefix": "0.0.0.0/0",
-          "destinationAddressPrefixes": [
-            "0.0.0.0/0",
-            "0.0.0.0/0"
-          ],
-          "destinationPortRange": "80-80",
-          "destinationPortRanges": [
-            "80-80",
-            "30000-32767",
-            "443-443"
-          ],
-          "direction": "Inbound",
-          "expandedDestinationAddressPrefix": null,
-          "expandedSourceAddressPrefix": null,
-          "name": "securityRules/satellite",
-          "priority": 100,
-          "protocol": "All",
-          "sourceAddressPrefix": "0.0.0.0/0",
-          "sourceAddressPrefixes": [
-            "0.0.0.0/0",
-            "0.0.0.0/0"
-          ],
-          "sourcePortRange": "0-65535",
-          "sourcePortRanges": [
-            "0-65535"
-          ]
-        }
   ....
-```
+  {
+            "access": "Allow",
+            "destinationAddressPrefix": "0.0.0.0/0",
+            "destinationAddressPrefixes": [
+              "0.0.0.0/0",
+              "0.0.0.0/0"
+            ],
+            "destinationPortRange": "80-80",
+            "destinationPortRanges": [
+              "80-80",
+              "30000-32767",
+              "443-443"
+            ],
+            "direction": "Inbound",
+            "expandedDestinationAddressPrefix": null,
+            "expandedSourceAddressPrefix": null,
+            "name": "securityRules/satellite",
+            "priority": 100,
+            "protocol": "All",
+            "sourceAddressPrefix": "0.0.0.0/0",
+            "sourceAddressPrefixes": [
+              "0.0.0.0/0",
+              "0.0.0.0/0"
+            ],
+            "sourcePortRange": "0-65535",
+            "sourcePortRanges": [
+              "0-65535"
+            ]
+          }
+    ....
+  ```
 
-So communication is allowed from internet (0.0.0.0/0) to the ports 80, 443 and 30000-32767 
+  > So communication is allowed from internet (0.0.0.0/0) to the ports 80, 443 and 30000-32767.
 
-What makes logic as that is configured in the terraform template used to generate the Azure assets
+  What makes logic as that is configured in the terraform template used to generate the Azure assets
 
-```
+```terraform
 module "network-security-group" {
   source                = "Azure/network-security-group/azurerm"
   resource_group_name   = data.azurerm_resource_group.resource_group.name
@@ -711,7 +702,7 @@ Login to IBM Cloud: [Login IBM Cloud](#login-to-ibm-cloud)
 
 If we check location DNS configuration we can see that the private IPs are being used again
 
-```
+```sh
 # user your values
 location=jordax-academy-4
 # ---
@@ -725,7 +716,6 @@ j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001.us-east.satellite.ap
 j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002.us-east.satellite.appdomain.cloud   10.0.2.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002   default
 j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003.us-east.satellite.appdomain.cloud   10.0.3.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003   default
 j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.appdomain.cloud   j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00   default
-
 ```
 
 We have to generate a public IP for the new control plane and reconfigure the location DNS
@@ -752,7 +742,7 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
 
 Configure this variables with your environment values
 
-```
+```sh
 #----> Replace with your values
 SAT_RG=jordax-academy-4-9602
 VM_PREFIX=jordax-academy-4-8097
@@ -761,13 +751,13 @@ VM_PREFIX=jordax-academy-4-8097
 
 Create public IP
 
-```
+```sh
 az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-cp4-public --version IPv4 --sku Standard --zone 1 2 3
 ```
 
 Gather the generated IPs
 
-```
+```sh
 az network public-ip show -g $SAT_RG --name $VM_PREFIX-cp4-public | grep ipAddress
 az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-1-public | grep ipAddress
 az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-2-public | grep ipAddress
@@ -783,7 +773,7 @@ In this case:
 
 Update VM IP
 
-```
+```sh
 az network nic ip-config update --name ipconfig${VM_PREFIX}-cp4 --nic-name $VM_PREFIX-cp4VMNic --resource-group $SAT_RG --public-ip-address $VM_PREFIX-cp4-public
 ```
 
@@ -834,8 +824,6 @@ PING www-c000-cb2qds2w0v0b47taslm0.us-east-gtm01.akadns.net (52.142.29.196) 56(8
 ```
 
 Any way you can continue with the lab until you try to access the console, then the DNS must be updated to continue.
-
-
 
 ## Lab 6 - Configure Registry with Object Storage
 
@@ -2121,4 +2109,3 @@ Jun 16 13:17:32 satellite crn:v1:bluemix:public:satellite:us-east:a/20c282cbc517
 #### Remove host from location
 
 ![image-20220616133147327](.pastes/image-20220616133147327.png)
-

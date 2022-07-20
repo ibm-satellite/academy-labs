@@ -12,17 +12,15 @@ For the purposes of the demo register public IP addresses of control plane hosts
 
 1. To login into your aws account use the below command on your terminal
 
-    a.  aws configure
+    ```sh
+    aws configure
+    ```
 
-    b.  Fill in the details
-
-    c.  AWS Access Key ID: **************
-
-    d.  AWS Secret Access Key: **************
-
-    e.  Default region name: us-east-1
-
-    f.  Default output format: json
+    Fill in the details:
+    * AWS Access Key ID: **************
+    * AWS Secret Access Key: **************
+    * Default region name: `us-east-1`
+    * Default output format: `json`
 
 1. Now we need to identify the public ips of our hosts running on ec2 instances
 
@@ -34,7 +32,7 @@ For the purposes of the demo register public IP addresses of control plane hosts
 
 1. This might have a huge list depending on the environment used.
 
-1. Easier way to identify your hosts is copy the output in a file ( txt) and search manually
+1. Easier way to identify your hosts is copy the output in a file (e.g. ec2.txt) and search manually
 
     ```sh
     aws ec2 describe-instances > ec2.txt
@@ -54,7 +52,7 @@ For the purposes of the demo register public IP addresses of control plane hosts
 
    ![jq](images/aws-cli-jq.png)
 
-1. Note all public IPs of Control Plane and Worker Nodes for the next steps.
+1. Write down all public IPs of Control Plane and Worker Nodes for the next steps.
 
 ## Apply Public Ips to Satellite location and ROKS cluster in IBM Cloud
 
