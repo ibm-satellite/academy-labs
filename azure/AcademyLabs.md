@@ -82,6 +82,11 @@ See [Student VSI](../common/student-vsi/readme.md)
 
     ```sh
     ibmcloud sat location ls
+    ```
+
+    The output will be similar to
+
+    ```sh
     Retrieving locations...
     OK
     Name               ID                     Status   Ready   Created        Hosts (used/total)   Managed From
@@ -100,6 +105,11 @@ See [Student VSI](../common/student-vsi/readme.md)
 
     ```sh
     ibmcloud sat location get --location $location
+    ```
+
+    The output will be similar to
+
+    ```sh
     Retrieving location...
     OK
 
@@ -119,25 +129,35 @@ See [Student VSI](../common/student-vsi/readme.md)
     ```
 
     > "R0001: The Satellite location is ready for operations." is the correct message when the location is enabled and ready.
-    > 
-    > If status indicates warning with an error code, refer to steps needed to fix it as in cloud docs https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug
+    >
+    > If status indicates warning with an error code, refer to steps needed to fix it as in cloud [docs](https://cloud.ibm.com/docs/satellite?topic=satellite-ts-locations-debug)
 
 1. Check cluster status:
 
     ```sh
     ibmcloud ks cluster ls
+    ```
+
+    The output will be similar to
+
+    ```sh
     OK
     Name                      ID                     State    Created        Workers   Location           Version                 Resource Group Name   Provider
     jordax-academy-cluster1   cai4c1ew0o3o3vme5fa0   normal   11 hours ago   3         jordax-academy-4   4.9.33_1540_openshift   academyrg             satellite
     ```
 
-    ```
+    ```sh
     # user your values
     clusterName=jordax-academy-cluster1
-    # ---
+    ```
 
+    ```sh
     ibmcloud ks cluster get --cluster $clusterName | grep Status
+    ```
 
+    The output will be similar to
+
+    ```sh
     Status:                         All Workers Normal
     Ingress Status:                 Normal
     Status:     Ready
@@ -151,41 +171,49 @@ See [Student VSI](../common/student-vsi/readme.md)
 
     > ROKS services domains, like the console or API is configured with the private IPs of the Azure VMs, so if you try to access to the ROKS console or execute "oc" CLI from any place outside of the Azure subnet it is going to fail, you can not reach the private IPs.
 
-If we check how IBM Cloud configure the DNS for the ROKS instance you will see the IPs are private, 10.x.x.x
+    If we check how IBM Cloud configure the DNS for the ROKS instance you will see the IPs are private, 10.x.x.x
 
-```
-# user your values
-clusterName=jordax-academy-cluster1
-# ---
+    ```sh
+    # user your values
+    clusterName=jordax-academy-cluster1
+    ```
 
-ibmcloud oc nlb-dns ls --cluster $clusterName
+    ```sh
+    ibmcloud oc nlb-dns ls --cluster $clusterName
+    ```
 
-OK
-Hostname                                                                                           IP(s)                        Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
-jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud   10.0.1.4,10.0.2.4,10.0.3.4   disabled         created           jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000   openshift-ingress
+    The output will be similar to
+    ```sh
+    OK
+    Hostname                                                                                           IP(s)                        Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
+    jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud   10.0.1.4,10.0.2.4,10.0.3.4   disabled         created           jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000   openshift-ingress
+    ```
 
-```
+    Take note of the Hostname, we will use it later: "jordax-academy-cluster1-22bfd3cd491bdeb5a0f661fb1e2b0c44-0000.us-east.containers.appdomain.cloud"
 
-Take note of the Hostname, we will use it later: "jordax-academy-cluster1-22bfd3cd491bdeb5a0f661fb1e2b0c44-0000.us-east.containers.appdomain.cloud"
+    Satellite location also has a DNS configuration, as we are going to change also the IPs of the control planes we will have to update also this configuration.
 
-Satellite location also has a DNS configuration, as we are going to change also the IPs of the control planes we will have to update also this configuration.
+    ```sh
+    # user your values
+    location=jordax-academy-4
+    ```
 
-```
-# user your values
-location=jordax-academy-4
-# ---
+    ```sh
+    ibmcloud sat location dns ls --location $location
+    ```
 
-ibmcloud sat location dns ls --location $location
-Retrieving location subdomains...
-OK
-Hostname                                                                                        Records                                                                                         SSL Cert Status   SSL Cert Secret Name                                          Secret Namespace
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   10.0.1.5,10.0.2.5,10.0.3.5                                                                      created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000   default
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001.us-east.satellite.appdomain.cloud   10.0.1.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001   default
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002.us-east.satellite.appdomain.cloud   10.0.2.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002   default
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003.us-east.satellite.appdomain.cloud   10.0.3.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003   default
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.appdomain.cloud   j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00   default
+    The output will be similar to
 
-```
+    ```sh
+    Retrieving location subdomains...
+    OK
+    Hostname                                                                                        Records                                                                                         SSL Cert Status   SSL Cert Secret Name                                          Secret Namespace
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   10.0.1.5,10.0.2.5,10.0.3.5                                                                      created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000   default
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001.us-east.satellite.appdomain.cloud   10.0.1.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001   default
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002.us-east.satellite.appdomain.cloud   10.0.2.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002   default
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003.us-east.satellite.appdomain.cloud   10.0.3.5                                                                                        created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003   default
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.appdomain.cloud   j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   created           j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00   default
+    ```
 
 Normally customer would have a VPN to Azure so they can reach private IPs. But for the lab we are going to assign Public IPs to the Azure VMs and reconfigure ROKS and Location domains to use those Public IPs. This is a workaround with some pain points, as for example when you replace a control plane the location domains are reconfigured with the public IPs
 
@@ -209,70 +237,71 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
 
 ![image-20220611210421332](.pastes/image-20220611210421332.png)
 
-
-
 ### Reconfigure with public IPs
 
 1. Configure this variables with your environment values
 
-  ```sh
-  #----> Replace with your values
-  export SAT_RG=jordax-academy-4-9602
-  export VM_PREFIX=jordax-academy-4-8097
-  #-----
-  ```
+    ```sh
+    #----> Replace with your values
+    export SAT_RG=jordax-academy-4-9602
+    export VM_PREFIX=jordax-academy-4-8097
+    #-----
+    ```
 
 1. Create public IPs
 
-  ```sh
-  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-0-public --version IPv4 --sku Standard --zone 1 2 3
-  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-1-public --version IPv4 --sku Standard --zone 1 2 3
-  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-2-public --version IPv4 --sku Standard --zone 1 2 3
-  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-3-public --version IPv4 --sku Standard --zone 1 2 3
-  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-4-public --version IPv4 --sku Standard --zone 1 2 3
-  az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-5-public --version IPv4 --sku Standard --zone 1 2 3
-  ```
+    ```sh
+    az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-0-public --version IPv4 --sku Standard --zone 1 2 3
+    az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-1-public --version IPv4 --sku Standard --zone 1 2 3
+    az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-2-public --version IPv4 --sku Standard --zone 1 2 3
+    az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-3-public --version IPv4 --sku Standard --zone 1 2 3
+    az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-4-public --version IPv4 --sku Standard --zone 1 2 3
+    az network public-ip create --resource-group $SAT_RG --name $VM_PREFIX-vm-5-public --version IPv4 --sku Standard --zone 1 2 3
+    ```
 
 1. Gather the generated IPs
 
-  ```sh
-  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-0-public | grep ipAddress
-  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-1-public | grep ipAddress
-  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-2-public | grep ipAddress
-  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-3-public | grep ipAddress
-  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-4-public | grep ipAddress
-  az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-5-public | grep ipAddress
-  ```
+    ```sh
+    az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-0-public | grep ipAddress
+    az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-1-public | grep ipAddress
+    az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-2-public | grep ipAddress
+    az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-3-public | grep ipAddress
+    az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-4-public | grep ipAddress
+    az network public-ip show -g $SAT_RG --name $VM_PREFIX-vm-5-public | grep ipAddress
+    ```
 
-  In this case:
+    The output will be similar to
 
-  ```
-  "ipAddress": "52.142.29.196",
-  "ipAddress": "52.142.30.90",
-  "ipAddress": "52.147.219.59",
-  "ipAddress": "52.147.219.163",
-  "ipAddress": "52.147.219.235",
-  "ipAddress": "20.185.74.178",
-  ```
+    ```sh
+    "ipAddress": "52.142.29.196",
+    "ipAddress": "52.142.30.90",
+    "ipAddress": "52.147.219.59",
+    "ipAddress": "52.147.219.163",
+    "ipAddress": "52.147.219.235",
+    "ipAddress": "20.185.74.178",
+    ```
 
 1. Update VMs IP
 
-  ```sh
-  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-0 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-0-public
-  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-1 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-1-public
-  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-2 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-2-public
-  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-3 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-3-public
-  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-4 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-4-public
-  az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-5 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-5-public
-  ```
+    ```sh
+    az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-0 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-0-public
+    az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-1 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-1-public
+    az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-2 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-2-public
+    az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-3 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-3-public
+    az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-4 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-4-public
+    az network nic ip-config update --name $VM_PREFIX-nic-internal --nic-name $VM_PREFIX-nic-5 --resource-group $SAT_RG --public-ip-address $VM_PREFIX-vm-5-public
+    ```
 
 1. You can check the network rules applied to each NIC with this command, the output is quite long, but we will focus on the first set of rules
 
-  ```sh
-  az network nic list-effective-nsg --name $VM_PREFIX-nic-0 --resource-group $SAT_RG
+    ```sh
+    az network nic list-effective-nsg --name $VM_PREFIX-nic-0 --resource-group $SAT_RG
+    ```
+  
+    The output will be similar to
 
-  ....
-  {
+    ```sh
+    {
             "access": "Allow",
             "destinationAddressPrefix": "0.0.0.0/0",
             "destinationAddressPrefixes": [
@@ -302,190 +331,208 @@ For the VMs prefix look for "az_resource_prefix", in this case it is "jordax-aca
             ]
           }
     ....
-  ```
+    ```
 
-  > So communication is allowed from internet (0.0.0.0/0) to the ports 80, 443 and 30000-32767.
+    > So communication is allowed from internet (0.0.0.0/0) to the ports 80, 443 and 30000-32767.
 
-  What makes logic as that is configured in the terraform template used to generate the Azure assets
+    What makes logic as that is configured in the terraform template used to generate the Azure assets
 
-```terraform
-module "network-security-group" {
-  source                = "Azure/network-security-group/azurerm"
-  resource_group_name   = data.azurerm_resource_group.resource_group.name
-  location              = data.azurerm_resource_group.resource_group.location # Optional; if not provided, will use Resource Group location
-  security_group_name   = "${var.az_resource_prefix}-sg"
-  source_address_prefix = ["*"]
-  custom_rules = [
-    {
-      name                       = "ssh"
-      priority                   = 110
-      direction                  = "Inbound"
-      access                     = "Allow"
-      protocol                   = "tcp"
-      source_port_range          = "*"
-      destination_port_range     = "22"
-      source_address_prefix      = "*"
-      destination_address_prefix = "*"
-      description                = "description-myssh"
-    },
-    {
-      name                       = "satellite"
-      priority                   = 100
-      direction                  = "Inbound"
-      access                     = "Allow"
-      protocol                   = "*"
-      source_port_range          = "*"
-      destination_port_range     = "80,443,30000-32767"
-      source_address_prefix      = "*"
-      destination_address_prefix = "*"
-      description                = "description-http"
-    },
-  ]
-  tags = {
-    ibm-satellite = var.az_resource_prefix
-  }
-  depends_on = [data.azurerm_resource_group.resource_group]
-}
-```
+    ```terraform
+    module "network-security-group" {
+      source                = "Azure/network-security-group/azurerm"
+      resource_group_name   = data.azurerm_resource_group.resource_group.name
+      location              = data.azurerm_resource_group.resource_group.location # Optional; if not provided, will use Resource Group location
+      security_group_name   = "${var.az_resource_prefix}-sg"
+      source_address_prefix = ["*"]
+      custom_rules = [
+        {
+          name                       = "ssh"
+          priority                   = 110
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "tcp"
+          source_port_range          = "*"
+          destination_port_range     = "22"
+          source_address_prefix      = "*"
+          destination_address_prefix = "*"
+          description                = "description-myssh"
+        },
+        {
+          name                       = "satellite"
+          priority                   = 100
+          direction                  = "Inbound"
+          access                     = "Allow"
+          protocol                   = "*"
+          source_port_range          = "*"
+          destination_port_range     = "80,443,30000-32767"
+          source_address_prefix      = "*"
+          destination_address_prefix = "*"
+          description                = "description-http"
+        },
+      ]
+      tags = {
+        ibm-satellite = var.az_resource_prefix
+      }
+      depends_on = [data.azurerm_resource_group.resource_group]
+    }
+    ```
 
+1. Double check hosts used as control planes and as ROKS workers, look for this in the "hosts" section of the location in IBM Cloud console.
 
+    ![image-20220611215131389](.pastes/image-20220611215131389.png)
 
-Double check hosts used as control planes and as ROKS workers, look for this in the "hosts" section of the location in IBM Cloud console.
+    So VMs 0,1 and 2 are control planes and 3, 4 and 5 are workers (are assigned to cluster "jordax-academy-cluster1")
 
-![image-20220611215131389](.pastes/image-20220611215131389.png)
+    These are the new IPs we generated:
 
-So VMs 0,1 and 2 are control planes and 3, 4 and 5 are workers (are assigned to cluster "jordax-academy-cluster1")
+    ```
+    vm0: 52.142.29.196
+    vm1: 52.142.30.90
+    vm2: 52.147.219.59
+    vm3: 52.147.219.163
+    vm4: 52.147.219.235
+    vm5: 20.185.74.178
+    ```
 
-These are the new IPs we generated:
+1. Set some variables we will use
 
-```
-vm0: 52.142.29.196
-vm1: 52.142.30.90
-vm2: 52.147.219.59
-vm3: 52.147.219.163
-vm4: 52.147.219.235
-vm5: 20.185.74.178
-```
+    ```sh
+    # Name of your Satellite Location
+    location=jordax-academy-4
+    # Name of your ROKS Cluster
+    clusterName=jordax-academy-cluster1
+    ```
 
-Set some variables we will use
+1. Update location DNS IPs
 
-```
-# Name of your Satellite Location
-location=jordax-academy-4
-# Name of your ROKS Cluster
-clusterName=jordax-academy-cluster1
-```
+    ```sh
+    # user your values
+    ip0=52.142.29.196
+    ip1=52.142.30.90
+    ip2=52.147.219.59
+    # ----
+    ```
 
+    ```sh
+    ibmcloud sat location dns register --location $location --ip $ip0 --ip $ip1 --ip $ip2
+    ```
 
+    The output will be similar to
 
-Update location DNS IPs
+    ```sh
+    Registering a subdomain for control plane hosts...
+    OK
+    Subdomain                                                                                       Records
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   52.142.29.196, 52.142.30.90, 52.147.219.59
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001.us-east.satellite.appdomain.cloud   52.142.29.196
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002.us-east.satellite.appdomain.cloud   52.142.30.90
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003.us-east.satellite.appdomain.cloud   52.147.219.59
+    j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.appdomain.cloud   j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
+    ```
 
-```
-# user your values
-ip0=52.142.29.196
-ip1=52.142.30.90
-ip2=52.147.219.59
-# ----
+1. It will take time for the global DNSs to update, if you ping to one of the previous domains now you will see the returned IP is the old one, give it some time
 
-ibmcloud sat location dns register --location $location --ip $ip0 --ip $ip1 --ip $ip2
+    ```sh
+    ping j4ef98edf3a64120b2621-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
+    ```
 
-Registering a subdomain for control plane hosts...
-OK
-Subdomain                                                                                       Records
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud   52.142.29.196, 52.142.30.90, 52.147.219.59
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c001.us-east.satellite.appdomain.cloud   52.142.29.196
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c002.us-east.satellite.appdomain.cloud   52.142.30.90
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c003.us-east.satellite.appdomain.cloud   52.147.219.59
-j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.appdomain.cloud   j80e9ce1185365420fe2d-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
-```
+    The output will be similar to
 
-It will take time for the global DNSs to update, if you ping to one of the previous domains now you will see the returned IP is the old one, give it some time
+    ```sh
+    PING www-c000-cb2qds2w0v0b47taslm0.us-east-gtm01.akadns.net (10.0.1.5) 56(84) bytes of data.
+    ```
 
-```
-ping j4ef98edf3a64120b2621-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
+    After some minutes
 
-PING www-c000-cb2qds2w0v0b47taslm0.us-east-gtm01.akadns.net (10.0.1.5) 56(84) bytes of data.
-....
-```
+    ```
+    ping j4ef98edf3a64120b2621-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
 
-After some minutes
+    PING www-c000-cb2qds2w0v0b47taslm0.us-east-gtm01.akadns.net (52.142.29.196) 56(84) bytes of data.
+    ....
+    ```
 
-```
-ping j4ef98edf3a64120b2621-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
+    > Anyway you can continue with the lab until you try to access the console, then the DNS must be updated to continue.
 
-PING www-c000-cb2qds2w0v0b47taslm0.us-east-gtm01.akadns.net (52.142.29.196) 56(84) bytes of data.
-....
-```
+1. Update ROKS DNS
 
-Any way you can continue with the lab until you try to access the console, then the DNS must be updated to continue.
+    ```sh
+    ibmcloud ks cluster get --cluster $clusterName | grep "Ingress Subdomain"
+    ```
 
+    The output will be similar to
 
+    ```sh
+    Ingress Subdomain:              jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud
+    ```
 
-Update ROKS DNS
+1. Set your values
 
-```
-ibmcloud ks cluster get --cluster $clusterName | grep "Ingress Subdomain"
+    ```sh
+    # user your values
+    roksDomain=jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud
+    ip3=52.147.219.163
+    ip4=52.147.219.235
+    ip5=20.185.74.178
+    # ----
+    ```
 
-Ingress Subdomain:              jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud
-```
+    ```sh
+    ibmcloud oc nlb-dns add --ip $ip3 --cluster $clusterName --nlb-host $roksDomain
 
+    ibmcloud oc nlb-dns add --ip $ip4 --cluster $clusterName --nlb-host $roksDomain
 
+    ibmcloud oc nlb-dns add --ip $ip5 --cluster $clusterName --nlb-host $roksDomain
+    ```
 
-```
-# user your values
-roksDomain=jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud
-ip3=52.147.219.163
-ip4=52.147.219.235
-ip5=20.185.74.178
-# ----
+1. Check the IPs
 
-ibmcloud oc nlb-dns add --ip $ip3 --cluster $clusterName --nlb-host $roksDomain
+    ```sh
+    ibmcloud oc nlb-dns ls --cluster $clusterName
+    ```
 
-ibmcloud oc nlb-dns add --ip $ip4 --cluster $clusterName --nlb-host $roksDomain
+    The output will be similar to
 
-ibmcloud oc nlb-dns add --ip $ip5 --cluster $clusterName --nlb-host $roksDomain
-```
+    ```sh
+    OK
+    Hostname                                                                                           IP(s)                                                                    Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
+    jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud   10.0.1.4,10.0.2.4,10.0.3.4,20.185.74.178,52.147.219.163,52.147.219.235   disabled         created           jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000   openshift-ingress
+    ```
 
-Check the IPs
+1. Remove private ones:
 
-```
-ibmcloud oc nlb-dns ls --cluster $clusterName
+    ```sh
+    # user your values
+    rmIp1=10.0.1.4
+    rmIp2=10.0.2.4
+    rmIp3=10.0.4.4
+    # ---
+    ```
 
-OK
-Hostname                                                                                           IP(s)                                                                    Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
-jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000.us-east.containers.appdomain.cloud   10.0.1.4,10.0.2.4,10.0.3.4,20.185.74.178,52.147.219.163,52.147.219.235   disabled         created           jordax-academy-cluster1-edab36f30dbf4e1837574d4d2fc52fab-0000   openshift-ingress
-```
+    ```sh
+    ibmcloud oc nlb-dns rm classic --ip $rmIp1 --cluster $clusterName --nlb-host $roksDomain
 
-Remove private ones:
+    ibmcloud oc nlb-dns rm classic --ip $rmIp2 --cluster $clusterName --nlb-host $roksDomain
 
-```
-# user your values
-rmIp1=10.0.1.4
-rmIp2=10.0.2.4
-rmIp3=10.0.4.4
-# ---
+    ibmcloud oc nlb-dns rm classic --ip $rmIp3 --cluster $clusterName --nlb-host $roksDomain
+    ```
 
-ibmcloud oc nlb-dns rm classic --ip $rmIp1 --cluster $clusterName --nlb-host $roksDomain
+1. Check the IPs
 
-ibmcloud oc nlb-dns rm classic --ip $rmIp2 --cluster $clusterName --nlb-host $roksDomain
+    ```sh
+    ibmcloud oc nlb-dns ls --cluster $clusterName
+    ```
 
-ibmcloud oc nlb-dns rm classic --ip $rmIp3 --cluster $clusterName --nlb-host $roksDomain
+    The output will be similar to
 
-```
+    ```sh
+    OK
+    Hostname                                                                                           IP(s)                                                                Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
+    jordax-academy-cluster1-22bfd3cd491bdeb5a0f661fb1e2b0c44-0000.us-east.containers.appdomain.cloud   20.185.74.178,52.147.219.163,52.147.219.235   disabled         created           jordax-academy-cluster1-22bfd3cd491bdeb5a0f661fb1e2b0c44-0000   openshift-ingress
+    ```
 
-Check the IPs
+1. Give it time to the cluster to update the Ingress Status, this message is just reporting, you can use the cluster normally.
 
-```
-ibmcloud oc nlb-dns ls --cluster $clusterName
-
-OK
-Hostname                                                                                           IP(s)                                                                Health Monitor   SSL Cert Status   SSL Cert Secret Name                                            Secret Namespace
-jordax-academy-cluster1-22bfd3cd491bdeb5a0f661fb1e2b0c44-0000.us-east.containers.appdomain.cloud   20.185.74.178,52.147.219.163,52.147.219.235   disabled         created           jordax-academy-cluster1-22bfd3cd491bdeb5a0f661fb1e2b0c44-0000   openshift-ingress
-```
-
-Give it time to the cluster to update the Ingress Status, this message is just reporting, you can use the cluster normally.
-
-![image-20220610152409057](.pastes/image-20220610152409057.png)
+    ![image-20220610152409057](.pastes/image-20220610152409057.png)
 
 ### Access OpenShift Console
 
@@ -525,7 +572,7 @@ The terraform template generate all artifacts with a specific prefix, look for "
 
 Gather azure credentials [Azure credentials](#recover-your-azure-credentials) and login
 
-```
+```sh
 az login --service-principal -u 58d21686-2688-426f-892e-c7aabed76a51 -p xxx --tenant 4e7730a0-17bb-4dfa-8dad-7c54d3e761b7
 ```
 
@@ -536,9 +583,15 @@ Create VMs:
 SAT_RG=jordax-academy-4-9602
 VM_PREFIX=jordax-academy-4-8097
 # ---
+```
 
+```sh
 az vm create --name "$VM_PREFIX"-cp4 --resource-group $SAT_RG --admin-user adminuser --admin-password LongPassw0rd! --image RedHat:RHEL:7-LVM:latest --nsg "$VM_PREFIX"-sg --os-disk-name "$VM_PREFIX"-cp4-disk1 --os-disk-size-gb 128 --data-disk-sizes-gb 100 --size Standard_D16as_v4 --zone 1 --vnet-name "$VM_PREFIX"-vpc --subnet "$VM_PREFIX"-subnet-1 --public-ip-sku Standard
+```
 
+The output will be similar to
+
+```sh
 {
   "fqdns": "",
   "id": "/subscriptions/d4a70861-bd5f-46fb-99b4-3aa512929baf/resourceGroups/jordax-academy-4-9602/providers/Microsoft.Compute/virtualMachines/jordax-academy-4-8097-cp4",
@@ -550,10 +603,15 @@ az vm create --name "$VM_PREFIX"-cp4 --resource-group $SAT_RG --admin-user admin
   "resourceGroup": "jordax-academy-4-9602",
   "zones": "1"
 }
+```
 
-
+```sh
 az vm create --name "$VM_PREFIX"-w4 --resource-group $SAT_RG --admin-user adminuser --admin-password LongPassw0rd! --image RedHat:RHEL:7-LVM:latest --nsg "$VM_PREFIX"-sg --os-disk-name "$VM_PREFIX"-w4-disk1 --os-disk-size-gb 128 --data-disk-sizes-gb 100 --size Standard_D16as_v4 --zone 1 --vnet-name "$VM_PREFIX"-vpc --subnet "$VM_PREFIX"-subnet-1 --public-ip-sku Standard
+```
 
+The output will be similar to
+
+```sh
 {
   "fqdns": "",
   "id": "/subscriptions/d4a70861-bd5f-46fb-99b4-3aa512929baf/resourceGroups/jordax-academy-4-9602/providers/Microsoft.Compute/virtualMachines/jordax-academy-4-8097-w4",
@@ -565,10 +623,7 @@ az vm create --name "$VM_PREFIX"-w4 --resource-group $SAT_RG --admin-user adminu
   "resourceGroup": "jordax-academy-4-9602",
   "zones": "1"
 }
-
 ```
-
- 
 
 ### Attach hosts to the location
 
@@ -699,7 +754,13 @@ If we check location DNS configuration we can see that the private IPs are being
 location=jordax-academy-4
 # ---
 
+```sh
 ibmcloud sat location dns ls --location $location
+```
+
+The output will be similar to
+
+```sh
 Retrieving location subdomains...
 OK
 Hostname                                                                                        Records                                                                                         SSL Cert Status   SSL Cert Secret Name                                          Secret Namespace
@@ -1166,8 +1227,6 @@ Changes to Outputs:
   + ip2 = "40.88.145.118"
 ....
 ```
-
-
 
 ## Recover your Azure credentials
 

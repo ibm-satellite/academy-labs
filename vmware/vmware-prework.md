@@ -178,7 +178,7 @@ Some of steps later one will require you to be connected via VPN to the Private 
     ssh -i pem_bastion_download.cer itzuser@<Bastion SSH IP>
     ```
 
-    Output
+    The output will be similar to
 
     ![reservation](./images/bastion.png)
 

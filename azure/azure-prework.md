@@ -341,7 +341,7 @@ In case of errors with Schematics, refer to the section [Clean up](#clean-up).
     ibmcloud sat location get --location $SAT_LOC_NAME
     ```
 
-    Console Output:
+    The output will be similar to:
 
     ```bash
     Retrieving location...
@@ -368,7 +368,7 @@ In case of errors with Schematics, refer to the section [Clean up](#clean-up).
     ibmcloud sat host ls --location $SAT_LOC_NAME
     ```
 
-    Console Output:
+    The output will be similar to:
 
     ```bash
     Retrieving hosts...
@@ -388,7 +388,7 @@ In case of errors with Schematics, refer to the section [Clean up](#clean-up).
     ibmcloud ks cluster ls
     ```
 
-    Console Output
+    The output will be similar to
 
     ```bash
     OK
@@ -408,7 +408,7 @@ In case of errors with Schematics, refer to the section [Clean up](#clean-up).
     ibmcloud ks cluster get --cluster $CLUSTER_NAME
     ```
 
-    Console Output
+    The output will be similar to
 
     ```bash
     Retrieving cluster jordax-academy-cluster1...

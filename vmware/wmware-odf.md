@@ -284,7 +284,7 @@ For more detailled descriptions of the following steps look also in the [Satelli
     EOF
     ```
 
-    Console Output:
+    The output will be similar to
 
     ```bash
     persistentvolumeclaim/test-claim created

@@ -44,7 +44,7 @@ The new host we attached is on eastus-1
     ibmcloud sat location get --location <location-name>
     ```
 
-    Output:
+    The output will be similar to
 
     ```sh
     ID:                             cahrvp4w07i0nklqkbpg

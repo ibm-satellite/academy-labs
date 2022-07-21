@@ -71,7 +71,7 @@
     jordax-academy-4
     ```
 
-    Console output:
+    The output will be similar to
 
     ```sh
     Retrieving location...
@@ -114,7 +114,7 @@
     ibmcloud ks cluster get --cluster jordax-academy-cluster1 | grep Status
     ```
 
-    Console output:
+    The output will be similar to
 
     ```sh
     Status:                         All Workers Normal
