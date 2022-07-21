@@ -445,6 +445,11 @@ For example you might want to change the message data text or the size of the me
 
 ## Reference information / links
 
+### Slack
+- Event Streams development team...questions, help, etc.
+
+  #eventstreams-cloud
+
 ### The Java sample program is available from multiple locations
 - [Getting started with IBM Event Streams for IBM Cloud](https://cloud.ibm.com/docs/EventStreams?topic=EventStreams-getting-started)
 - [event-streams-samples](https://github.com/ibm-messaging/event-streams-samples)
