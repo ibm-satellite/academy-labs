@@ -247,6 +247,8 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ### Lab 15: Event Streams hands-on experience
 
+Link to the [lab](instructor-labs/event-streams-lab/event-streams-satellite-lab.md)
+
 ### Open Q&A Session
 
 ## Get certified
