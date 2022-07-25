@@ -109,7 +109,7 @@ The IBM Cloud environment is pre-assigned to each Academy student using temporar
 
    ![aws-large](./images/aws-m5d.4xlarge.png)
 
-   > In later labs we will configure ODF on the worker nodes so we are going to select a size that fits with ODF requirements.
+   > Make sure to keep the default `m5d.xlarge` for Control Plane host and select a larger size `m5d.4xlarge` for the service host as this is required later to install ODF.
 
 1. Click on "Done Editing"
 
