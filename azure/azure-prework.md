@@ -129,13 +129,10 @@ You will get an email with an invitation to join this special IBM cloud account.
 
     ![image-20220610103017640](.pastes/image-20220610103017640.png)
 
-1. Change the host profile selected for the Azure VMs. Use Standard_D16as_v4, this is 16vCPU, 64GB Memory and 128GB disk.
+1. Change the host profile selected for the Azure VMs.
+    > Make sure to keep the default `Standard_D4as_v4` (4vCPU - 16GB RAM) for Control Plane host and select a larger size `Standard_D16as_v4` (16vCPU - 64GB RAM and 128GB Disk) for the service host as this is required later to install ODF.
 
-   ![image-20220610235822701](.pastes/image-20220610235822701.png)
-
-   ![image-20220613222134186](.pastes/image-20220613222134186.png)
-
-   This size fits for future labs. For more information about satellite sizing, refer to this [doc](https://cloud.ibm.com/docs/satellite?topic=satellite-about-locations#control-plane-how-many-clusters)
+   ![Azure Resources](images/sat-create-azure-resources.png)
 
 1. Click on "Done Editing"
 
