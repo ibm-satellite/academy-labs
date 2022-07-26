@@ -129,10 +129,11 @@ You will get an email with an invitation to join this special IBM cloud account.
 
     ![image-20220610103017640](.pastes/image-20220610103017640.png)
 
-1. Change the host profile selected for the Azure VMs.
-    > Make sure to keep the default `Standard_D4as_v4` (4vCPU - 16GB RAM) for Control Plane host and select a larger size `Standard_D16as_v4` (16vCPU - 64GB RAM and 128GB Disk) for the service host as this is required later to install ODF.
+1. Change the host profile selected for the Azure VMs. Make sure to keep the default `Standard_D4as_v4` (4vCPU - 16GB RAM) for Control Plane host and select a larger size `Standard_D16as_v4` (16vCPU - 64GB RAM and 128GB Disk) for the service host as this is required later to install ODF.
 
    ![Azure Resources](images/sat-create-azure-resources.png)
+
+   > More information about [Azure VM Profiles](https://docs.microsoft.com/en-us/azure/virtual-machines/dav4-dasv4-series).
 
 1. Click on "Done Editing"
 
