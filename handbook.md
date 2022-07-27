@@ -4,7 +4,7 @@
 
 ## Schedule
 
-1. Satellite Session #1 July 18th - 21st
+1. Satellite Session #1 July 18th - 21st - COMPLETED
 1. Satellite Session #2 August 15th - 18th
 1. Satellite Session #3 August 29th - Sept 1st
 
