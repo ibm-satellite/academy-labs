@@ -23,7 +23,7 @@ See also <https://docs.openshift.com/container-platform/4.9/registry/index.html>
 
     ![catalog](images/cos-1.png)
 
-1. Select the IBM Cloud Infrastructure. 
+1. Select the **IBM Cloud based option NOT Satellite**!
 
     ![catalog](images/cos-catalog.png)
 
@@ -90,9 +90,11 @@ Change the following command to use
 - `YOUR COS ACCESS KEY` is the `access_key_id` from the COS Service Credential
 - `YOUR COS SECRET KEY` is the `secret_access_key` from the COS Service Credential
 
-```sh
+<code>
 oc create secret generic image-registry-private-configuration-user --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=<YOUR COS ACCESS KEY> --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=<YOUR COS SECRET KEY> --namespace openshift-image-registry
-```
+</code>
+
+
 
 Check that the secret was created.
 
