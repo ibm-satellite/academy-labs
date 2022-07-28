@@ -90,10 +90,9 @@ Change the following command to use
 - `YOUR COS ACCESS KEY` is the `access_key_id` from the COS Service Credential
 - `YOUR COS SECRET KEY` is the `secret_access_key` from the COS Service Credential
 
-<code>
-oc create secret generic image-registry-private-configuration-user --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=<YOUR COS ACCESS KEY> --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=<YOUR COS SECRET KEY> --namespace openshift-image-registry
-</code>
-
+  ```shell
+  oc create secret generic image-registry-private-configuration-user --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=<YOUR COS ACCESS KEY> --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=<YOUR COS SECRET KEY> --namespace openshift-image-registry
+  ```
 
 
 Check that the secret was created.
@@ -104,51 +103,17 @@ oc describe secret image-registry-private-configuration-user  -n openshift-image
 
 ![cos](images/cos-10.png)  
 
-Now that we have our secret configured, we need to update the configuration of our image registry to point to the object storage instance and bucket we created.
-
-The easiest way to do this, is through the OpenShift web console.  From cloud.ibm.com navigate to your satellite cluster and then click on OpenShift web console.
-
-![cos](images/cos-11.png)
-
-Once the OpenShift console opens, click on Search
-
-![image-20220707013451642](.pastes/image-20220707013451642-16571504923561.png)
-
-And search for ‘Config’ and the click on the Config – imageregistry.operator.openshift.io…
-
-![image-20220707013613464](.pastes/image-20220707013613464.png)
-
-On the next screen, click on cluster.
-![cos](images/cos-12.png)
-
-Click on YAML and then scroll down until you see this section:
-
-```yaml
-  managementState: Removed
-  proxy:
-    http: ''
-    https: ''
-    noProxy: ''
-  httpSecret: dAagViLyMeJodISdQpqcXtodpd6c6ojGyZeGEFnKTjhvpsalEs6vF33Hz5iSldS6
-  storage: {}
-````
-
-![cos](images/cos-13.png)
-
-We need to make changes to the managementState and the storage lines.
-
-Note – Its hard to change Management State from UI, so its highly recommended to do it from CLI
-
-What you will need to do, is change managementState to Managed.
-
-Connect to the OCP cluster from CLI and run the following command to change management state
+Now we need to change the management state of the OpenShift Registry Operator using the oc cli.
 
 ```sh
-ibmcloud ks cluster config --cluster <cluster name> --admin
 oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"managementState":"Managed"}}'
+# check the state
+oc get configs.imageregistry.operator.openshift.io cluster -o yaml
 ```
+![](.pastes/state1.png)  
 
-Then go back to UI, under storage enter the following with your bucket name:
+
+Now we need to replace the "emptyDir: {}" storage atttribute in the configuration with our Bucket to store the images there.
 
 ```yaml
   storage:
@@ -159,39 +124,21 @@ Then go back to UI, under storage enter the following with your bucket name:
       virtualHostedStyle: false
 ```
 
-If you prefer the CLI use the following command:
+Use the CLI to change the configuration with the following command.
 
 ```sh
 oc edit configs.imageregistry.operator.openshift.io/cluster
 ```
-
+![](.pastes/ocedit.png)  
 Note: In our case we need the public Endpoint because we connect from different locations.
-
-After entering these settings, click Save and then Reload.  You should see the YAML has been updated with the settings you entered.
-
-If you switch to the details page
-
-![image-20220707014017625](.pastes/image-20220707014017625.png)
-
-And scroll down, you should see a message that the S3 bucket exists:
-
-![cos](images/cos-14.png)
-
-Don't worry for the other messages...
-
-![image-20220707014417242](.pastes/image-20220707014417242.png)
-
-If you don’t see the "S3 Bucket Exists" message verify you entered your object storage secrets correctly and try to edit the config yaml again.  If it fails again, delete the config and start over.  When you delete the config, a new one will top up a couple of seconds later.
 
 One additional check we can do to make sure the image registry really is configured, is looking at the image registry pod.
 
-![cos](images/cos-15.png)
-
-To find out if the registry is running as it should, click on Workload and the Pods.  Under project, search for and select openshift-image-registry and click on the image-registry pod.
-
-![cos](images/cos-16.png)
-
-On the next screen, click on the Environment tab make sure you see that your object storage is indicated.  If you don’t see object storage values like below, then try updating the config again.
+```sh
+oc get po -n openshift-image-registry
+oc logs po 
+```
+![](.pastes/registrypods.png)  
 
 ## Deploy example App to check that Registry is working - Optional
 
