@@ -102,7 +102,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
    ![address](images/aws-ip-address.png)  
    ![ip](images/aws-ip.png)
 
-7. Repeat the steps 5-6 for a second host using the same subnet, m5d.4xlarge flavor and name svc-spare-host.
+7. Create a second host using the same subnet but with the m5d.4xlarge flavor and name it svc-spare-host.
 
    <code>
    aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-&ltyour-initials&gt --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=svc-spare-host}]'
