@@ -25,12 +25,12 @@ We would like to add to our existing location 2 hosts we need later for other ex
 
 2. To login into your aws account use the below command on your terminal
 
-    a.  aws configure
-    b.  Fill in the details
-    c.  AWS Access Key ID: **************
-    d.  AWS Secret Access Key: **************
-    e.  Default region name: us-east-2
-    f.  Default output format: json
+    -  aws configure
+    -  Fill in the details
+    -  AWS Access Key ID: **************
+    -  AWS Secret Access Key: **************
+    -  Default region name: your region (us-east-2)
+    -  Default output format: json
 
 3. create a new SSH key Pair on your machine
 
@@ -88,25 +88,26 @@ We would like to add to our existing location 2 hosts we need later for other ex
 
    With that create the EC2 instance which could be later used as spare host for the control plane. This profile is m5d.xlarge which is 4vCPU/16GB RAM EC2 profile in AWS.
 
-   ```sh
-   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=cp-spare-host}]'
-   ```
+   <code>
+   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.xlarge --key-name myec2key-&ltyour-initials&gt --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=cp-spare-host}]'
+   </code>
 
    wait a minute and get the details of the machine including public IP address:
 
-   ```sh
+   <code>
    aws ec2 describe-instances --filters "Name=tag:Name,Values=cp-spare-host"
    aws ec2 describe-instances --filters "Name=tag:Name,Values=cp-spare-host" --query 'Reservations[*].Instances[*].PublicIpAddress'
-   ```
+   </code>
 
    ![address](images/aws-ip-address.png)  
    ![ip](images/aws-ip.png)
 
 7. Repeat the steps 5-6 for a second host using the same subnet, m5d.4xlarge flavor and name svc-spare-host.
 
-   ```sh
-   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=svc-spare-host}]'
-   
+   <code>
+   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-&ltyour-initials&gt --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=svc-spare-host}]'
+   </code>
+
    ```sh
    aws ec2 describe-instances --filters "Name=tag:Name,Values=svc-spare-host"
    
