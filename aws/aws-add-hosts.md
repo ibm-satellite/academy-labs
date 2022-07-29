@@ -19,11 +19,11 @@ The following resources are created by the template in your account.
 
 ## Adding RHEL hosts using the AWS CLI
 
-We would like to add to our existing location 2 hosts we need later for other exercises. In a real customer environment you would automate the following steps, using Terraform, Ansible or other automation capabilities.
+We would like to add to our existing location 2 hosts we need later for other exercises as spare or replacement hosts. In a real customer environment you would automate the following steps, using Terraform, Ansible or other automation capabilities, but here you could learn what happen behind the scenes.
 
 1. Download and install the AWS CLI following those [instructions](common/clis/clis.md#aws-cli).
 
-1. To login into your aws account use the below command on your terminal
+2. To login into your aws account use the below command on your terminal
 
     a.  aws configure
     b.  Fill in the details
@@ -32,13 +32,13 @@ We would like to add to our existing location 2 hosts we need later for other ex
     e.  Default region name: us-east-2
     f.  Default output format: json
 
-1. create a new SSH key Pair on your machine
+3. create a new SSH key Pair on your machine
 
    ```sh
    ssh-keygen -t rsa -b 4096 -C "<your mail address>" -f myec2key-<your-initials> 
    ```
 
-1. Upload the SSH Key to your AWS account
+4. Upload the SSH Key to your AWS account
 
    ```sh
     aws ec2 import-key-pair --key-name "myec2key-<your-initials>" --public-key-material fileb://./myec2key-<your-initials>.pub
@@ -54,7 +54,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
    aws ec2 describe-key-pairs
    ```
 
-1. We need need now to grab some parameters of the existing EC2 instances for our new hosts. (This step is for learning purpose, in real life adding hosts will be automated).
+5. We need need now to grab some parameters of the existing EC2 instances for our new hosts. (This step is for learning purpose, in real life adding hosts will be automated).
 
    ```sh
    aws ec2 describe-instances > ec2.txt
@@ -78,18 +78,18 @@ We would like to add to our existing location 2 hosts we need later for other ex
 
    ![jq](images/aws-cli-jq.png)
 
-1. Extract the following information
+6. Extract the following information
 
-   - InstanceType ("m5d.xlarge" or "m5d.4xlarge" please ask Instructor!)
+   - InstanceType ("m5d.xlarge" for control plane node  hosts or "m5d.4xlarge" for the service node hosts)
    - ImageId (like "ami-005b7876121b7244d")
    - AvailabilityZone (like "us-east-1a")
    - SubnetId (subnet-xxxxxxxxx)
    - Security GroupId: (sg-xxxxxxxxx)
 
-   With that create the instance.
+   With that create the EC2 instance which could be later used as spare host for the control plane. This profile is m5d.xlarge which is 4vCPU/16GB RAM EC2 profile in AWS.
 
    ```sh
-   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=cp-spare-host}]'
+   aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=cp-spare-host}]'
    ```
 
    wait a minute and get the details of the machine including public IP address:
@@ -102,7 +102,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
    ![address](images/aws-ip-address.png)  
    ![ip](images/aws-ip.png)
 
-1. Repeat the steps 5-6 for a second host using the same subnet, m5d.4xlarge flavor and name svc-spare-host.
+7. Repeat the steps 5-6 for a second host using the same subnet, m5d.4xlarge flavor and name svc-spare-host.
 
    ```sh
    aws ec2 run-instances --image-id ami-005b7876121b7244d --count 1 --instance-type m5d.4xlarge --key-name myec2key-<your-initials> --security-group-ids sg-0629184d40178da37 --subnet-id subnet-003da7ab0683c6c1b --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=svc-spare-host}]'
@@ -113,9 +113,9 @@ We would like to add to our existing location 2 hosts we need later for other ex
    aws ec2 describe-instances --filters "Name=tag:Name,Values=svc-spare-host" --query 'Reservations[*].Instances[*].PublicIpAddress'
    ```
 
-   You should now have 2 public IPs for your spare hosts
+   You should now have 2 public IPs for your spare hosts, **please note the hostnames and public IP addresses!**
 
-1. Enable SSH in default AWS Security Group
+8. Enable SSH in default AWS Security Group
 
    Because the Satellite Terraform Template does not enable SSH we need to modify the existing VPC Security Group
 
@@ -127,7 +127,7 @@ We would like to add to our existing location 2 hosts we need later for other ex
 
 ## Attaching the Hosts to the IBM Cloud Satellite location
 
-Now we have created the 2 AWS EC2 hosts with their public IPs. Now we would like to attach the hosts to our IBM Cloud Satellite location.
+Now we have created the 2 AWS EC2 hosts with their public IPs. Let's attach the hosts to our IBM Cloud Satellite location.
 
 1. Connect via IBM Cloud CLI to the IBM Cloud account
   
@@ -138,7 +138,7 @@ Now we have created the 2 AWS EC2 hosts with their public IPs. Now we would like
 
    ![rg](images/ibm-cloud-rg.png)  
 
-1. Download the Satellite Location Host attach script
+2. Download the Satellite Location Host attach script
   
   ```sh
    ibmcloud sat location ls
@@ -147,7 +147,7 @@ Now we have created the 2 AWS EC2 hosts with their public IPs. Now we would like
 
    ![attach](images/host-attach.png)
 
-1. Edit the Script to enable RHEL repos
+3. Edit the Script to enable RHEL repos
 
    Open the registration script. After the `API_URL` line, add a section to pull the required RHEL packages with the subscription manager.
 
@@ -162,20 +162,20 @@ Now we have created the 2 AWS EC2 hosts with their public IPs. Now we would like
 
     ![edit](images/edit-attach.png)  
 
-1. Copy the Script to the EC2 instances
+4. Copy the Script to the EC2 instances, for that you need the public IPs you have noted in the previous chapter.
 
    ```sh
-   scp -i myec2key-<your-initials> <YOURSCRIPT> ec2-user@52.90.45.209:/home/ec2-user/
+   scp -i myec2key-<your-initials> <YOURSCRIPT> ec2-user@<YOUR HOST PUBLIC IP ADDRESS>:/home/ec2-user/
    ```
 
-1. SSH into the machine using your previously created key
+5. SSH into the machine using your previously created key
 
    ```sh
-   ssh -i myec2key-<your-initials> ec2-user@52.90.45.209
+   ssh -i myec2key-<your-initials> ec2-user@<YOUR HOST PUBLIC IP ADDRESS>
    sudo nohup bash <YOURSCRIPT> &
    ```
 
-1. Monitor the progress of the registration script. Wait.
+6. Monitor the progress of the registration script. Wait.
 
    ```sh
       sudo journalctl -f -u ibm-host-attach
@@ -183,8 +183,8 @@ Now we have created the 2 AWS EC2 hosts with their public IPs. Now we would like
 
    ![journal](images/journal.png)
 
-1. Repeat Step 4-6 on your 2 new hosts.
+7. Repeat Step 4-6 on your 2 new hosts.
 
-1. Check that your hosts are shown in the **Hosts** tab of your Sattelite location.
+8. Check that your hosts are shown in the **Hosts** tab of your Sattelite location.
 
    ![location](images/location.png)
