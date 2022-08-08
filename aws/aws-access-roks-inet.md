@@ -1,9 +1,9 @@
 # Access OpenShift Console via public Internet
 
-Per default the AWS Satellite location is registered with DNS using private IP addresses of the EC2 hosts assigned to control plane. The same is true for the OpenShift Cluster NLB hostname DNS entries. For more information on that topic read the documentation please:
+Per default the AWS Satellite location is registered with DNS using private IP addresses of the EC2 hosts assigned to the Satellite **control plane** hosts. The same is true for the OpenShift Cluster NLB hostname DNS entries, which also contain private IP addresses. This exercise will make the Satellite based OpenShift Cluster Consoloe accessible over the internet.
+For more information on that topic read the documentation please:
 <https://cloud.ibm.com/docs/openshift?topic=openshift-access_cluster#sat_public_access>
 
-This exercise will make the Satellite based OpenShift Cluster Consoloe accessible over the internet.
 
 Review your location and create a table in a text editor of choice containing hostnames and private IPs of Control Plane and ROKS workernodes. We need those values in our next steps.
 
@@ -25,7 +25,7 @@ Review your location and create a table in a text editor of choice containing ho
     * Default region name: your region `us-east-1`
     * Default output format: `json`
 
-3. Now we need to identify the public ips of our hosts running on ec2 instances
+3. Now we need to identify the public IP of our hosts running on ec2 instances in searching with the private IP in the output of the AWS CLI.
 
 4. To list all the ec2 instances in the aws account use
 
@@ -73,7 +73,7 @@ Review your location and create a table in a text editor of choice containing ho
     ibmcloud sat location dns ls --location <location_name_or_ID>
     ```
 
-3. Update the location subdomain DNS records with the 3 public IP addresses of each host in the control plane
+3. Update the location subdomain DNS records with the 3 public IP addresses of each host in the **control plane**
 
     ```sh
     ibmcloud sat location dns register --location <location_name_or_ID> --ip <host_IP> --ip <host_IP> --ip <host_IP>
@@ -92,14 +92,13 @@ Review your location and create a table in a text editor of choice containing ho
     ibmcloud oc nlb-dns ls --cluster <cluster_name_or_ID>
     ```
 
-6. Add the public IP addresses of the hosts that are assigned as worker nodes to this cluster to your cluster's subdomain. Repeat this command for each host's public IP address.
+6. Add the public IP addresses of the hosts that are assigned as **worker nodes** to your cluster to your cluster's subdomain. Repeat this command for each host's public IP address.
 
     ```sh
     ibmcloud oc nlb-dns add --ip <public_IP> --cluster <cluster_name_or_ID> --nlb-host <hostname>
     ```
 
-7. Remove the private IP addresses from your cluster's subdomain. Repeat this command for all private IP addresses that you retrieved
-    earlier.
+7. Remove the private IP addresses from your cluster's subdomain. Repeat this command for all private IP addresses that you retrieved earlier.
 
     ```sh
     ibmcloud oc nlb-dns rm classic  --cluster <cluster_name_or_ID> --nlb-host <hostname> --ip <private_IP>
@@ -126,4 +125,3 @@ Review your location and create a table in a text editor of choice containing ho
 
     nslookup <oc nlb-dns domain>
     ```
-
