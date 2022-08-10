@@ -55,25 +55,7 @@ Here is the demo environment that needs to be built.
 
 #### AWS credentials
 
-There is a Tech Zone demo collection specially created for the Satellite Academy and is available here
-<https://techzone.ibm.com/collection/cloud-platform-tech-academy-satellite>
-
-Create the AWS environment, in TechZone in this demo collection, in environment section, click on resource named '***Request AWS Credentials'*** to obtain AWS API credentials to use compute and storage.
-
-![AWS Request](./images/aws-request.png)
-
-Once the AWS environment is created an email will be sent by TechZone confirming access to AWS with required credentials.
-
-You can also verify status of your request for the environment, in Techzone portal go to My Library and click on My Reservations
-<https://techzone.ibm.com/my/reservations>
-
-You will see your request
-
-![AWS Reservation](./images/aws-reservation.png)
-
-If you click on it you will see your credentials:
-
-![AWS Credentials](./images/aws-credentials.png)
+You should have received an E-Mail with your individiual AWS access key ID and AWS secret access key before the start of the Academy Workshop.
 
 #### IBM Cloud Account
 
