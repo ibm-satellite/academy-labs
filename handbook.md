@@ -47,9 +47,9 @@ For more information about [**Technical Academy for Cloud Platform**](https://ib
 
 For details of session agenda and labs to be performed by the students during the workshop by day
 
-![agenda](./images/Academy-Session-agenda-and-labs.png)
+![agenda](./images/session2-agenda-and-labs.png)
 
-Full detailed agenda is available [here](https://ibm.box.com/s/708gcq65v7yx1u2nqez163s74xsrhrht).
+NOTE: Lab 4 and 5 have been moved to optional for this Session. These labs can be performed on your own at the completion of Day 4.
 
 ## Lab environment
 
@@ -101,11 +101,10 @@ Students are expected to complete pre-requisites in order to be ready for the wo
 - IBM Cloud Satellite training:
     <https://www.ibm.com/training/path/ibmcloudsatellite>
 
-Participants are required to complete all the pre-work prior to making travel arrangements.
-
 ### Pre-work
 
-Participants are required to complete a pre-work assignment a week prior to Day1 of the Academy. Pre-work includes creating a Satellite location which will enable performing all the hands-on lab exercises during the Academy.
+Participants are required to complete a pre-work assignment on Day1 of the Academy. Pre-work includes creating a Satellite location which will enable performing all the hands-on lab exercises during the Academy.
+
 TechZone demos that are pre-assigned are available [**here**](https://techzone.ibm.com/collection/cloud-platform-tech-academy-satellite)
 
 ### Environments
@@ -118,7 +117,7 @@ Please use the following instructions to create your Satellite location dependin
 
 ## Readiness for the academy Labs
 
-Students are required to make sure the following pre-work are completed before Day1 of the Academy
+Students are required to make sure the following pre-work are completed Day 1 of the Academy
 
 1. Confirm you are pre-assigned to use a TechZone demo to use infrastructure either in AWS or Azure or on-prem
 
@@ -133,25 +132,77 @@ As mentioned above, please use the links below to complete the pre-reqs
 
 > **Support:** If you have any questions or need help during the pre-work, please post them in the [slack channel](https://ibm-cloudplatform.slack.com/archives/C03NE5ASPAM)
 
-## Day 1
-
-Day1 is arrival registration and attend executive kick off for SKO Academy
-
-Day2, 3 and 4 includes architectural session and hands-on workshops are performed by the students.
 Below sections for each Day provide detailed instructions that students will need to perform during the hands-on workshops.
 
-## Day 2
+NOTE: Labs may appear to not follow a numerical order as labs have been adjusted due to these Academy sessions being remote.
 
-Here is the overview of what students are expected to learn by performing hands-on exercises on this day
+## Day 1
 
-- Review status and health of Satellite location created during the pre-work both from IBM Cloud Console and CLIs depending on student's assignments
+You will be setting up your Satellite location, installing a Red Hat OpenShift on IBM Cloud cluster and performing the initial labs as pre-work. We will have an initial kickoff session to go over the agenda for the labs and architectural sessions.
+
+- Console and CLIs depending on student's assignments
   - AWS
   - Azure
   - on-prem
+- Review status and health of Satellite location created during the pre-work both from IBM Cloud 
 - Expose OpenShift Cluster to public access over internet
   - AWS
   - Azure
   - For on-prem it remains private access over VPN and no public access is allowed
+- Add additional host to satellite location
+- Configure OCP Image registry using IBM CoS
+- Configure Activity Tracker and Logging
+
+## Day 1 Labs
+
+| Labs          | AWS           | Azure  | VMWare On-prem  |
+| ------------- |:-------------:| ------:| ----------------:|
+| Create Satellite Location | | | |
+| Install Red Hat OpenShift on IBM Cloud | | | |
+| Lab 1: Review status of Satellite location and cluster | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) |
+| Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A (Private Only) |
+| Lab 3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab-3---add-new-hosts-to-the-location) |  [link](vmware/vmware-add-hosts.md) |
+| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) |
+| Lab 7: Configure activity tracker and logging instances (Optional) | [common](common/observability/readme.md) | [common](common/observability/readme.md) | N/A |
+
+## Day 2
+
+Day 2, 3 and 4 includes architectural session and hands-on workshops performed by the students.
+
+Here is the overview of what students are expected to learn in sessions and by performing hands-on exercises on this day:
+
+- Satellite core architecture
+- Satellite storage architecture
+- Configure Satellite storage template using Red Hat OpenShift Data Foundation (ODF) (formerly known as Openshift Container Storage OCS). Labs included are to deploy ODF with remote disks as well as local disks.
+
+| Labs          | AWS           | Azure  | VMWare On-prem  |
+| ------------- |:-------------:| ------:| ----------------:|
+| Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/azure-odf.md) | [link](vmware/wmware-odf.md) |
+
+## Day 3
+
+Here is the overview of what students are expected to learn in sessions and by performing hands-on exercises on this day:
+
+- Event Streams on Satellite architecture
+- Cloud Object Storage on Satellite architecture
+- Key Protect on Satellite architecture
+- IBM Cloud Databases on Satellite architectures
+- Create Satellite Link endpoint and test them to access resources in the cloud or in the location.
+
+- Watch how to troubleshoot and debug Satellite related issues.
+
+| Labs          | AWS           | Azure  | VMWare On-prem  |
+| ------------- |:-------------:| ------:| ----------------:|
+| Lab 9: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
+
+
+## Day 4
+
+Here is the overview of what students are expected to learn in sessions and by performing hands-on exercises on this day:
+
+- Perform common troubleshooting scenarios
+- Perform Satellite location troubleshooting
+- Installation of the Food Delivery App with a variation of connecting to a Mongo instance residing in the public IBM Cloud. Credentials for the IBM Cloud Mongo instance will be provided if you do not have your own instance in your test account.
 - Add two new hosts to Satellite location
   - To AWS location using AWS CLI
   - To Azure location using Azure CLI
@@ -159,69 +210,21 @@ Here is the overview of what students are expected to learn by performing hands-
   - Connect over VPN to vcenter to check two spare hosts
 - Remove or replace an existing host for Satellite control plane
 - Add new worker ndoes to the OpenShift cluster
-- Configure OCP Image registry using IBM CoS
-- Perform common troubleshooting scenarios
-- Perform Satellite location troubleshooting
-
-### Day 2 Labs
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
-| Lab 1: Review status of Satellite location and cluster | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) |
-| Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A (Private Only) |
-| Lab 3: Add new host to Satellite location | [link](aws/aws-add-hosts.md)      |   [link](azure/AcademyLabs.md#lab-3---add-new-hosts-to-the-location) |  [link](vmware/vmware-add-hosts.md) |
+| Lab 10: Deploy Food Delivery App using Satellite config | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) |
+| OPTIONAL | | | |
 | Lab 4: Remove and replace an existing host - Control plane | [common](common/assign-hosts/readme.md#replace-control-plane) | [common](common/assign-hosts/readme.md#replace-control-plane) | [common](common/assign-hosts/readme.md#replace-control-plane) |
 | Lab 5: Add new worker node or (Remove and replace an existing host) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) | [common](common/assign-hosts/readme.md#add-new-worker-to-roks) |
-| Lab 6: Configure OCP Image registry using IBM CoS | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) | [common](common/cos-image-registry/readme.md) |
-| Lab 7: Configure activity tracker and logging instances (Optional) | [common](common/observability/readme.md) | [common](common/observability/readme.md) | N/A |
+| | | | |
+| | | | |
 
-## Day 3
-
-Here is the overview of what students are expected to learn by performing hands-on exercises on this day:
-
-- Configure Satellite storage template using Red Hat OpenShift Data Foundation (ODF) (formerly known as Openshift Container Storage OCS). Labs included are to deploy ODF with remote disks as well as local disks.
-
-- Create Satellite Link endpoint and test them to access resources in the cloud or in the location.
-
-- Aspects of Observeability by using Activity tracking, Logging and monitoring from the Satellite location, ROKS cluster and application deployed.
-
-- Watch how to troubleshoot and debug Satellite related issues.
-
-### Day 3 Labs
-
-| Labs          | AWS           | Azure  | VMWare On-prem  |
-| ------------- |:-------------:| ------:| ----------------:|
-| Lab 8 : Configure ODF | [link](aws/aws-odf-ebs.md) | [link](azure/azure-odf.md) | [link](vmware/wmware-odf.md) |
-| Lab 9: Configure Link Endpoints | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) | [common](link/satellite-link-config-lab.md) |
-| Lab 10: Deploy Food Delivery App using Satellite config | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) | [Github Repo](https://github.com/mcltn/food-delivery-satellite-lab) |
-
-> Lab 10 is a student lab performing an installation of the Food Delivery App with a variation of connecting to a Mongo instance residing in the public IBM Cloud. Credentials for the IBM Cloud Mongo instance will be provided if you do not have your own instance in your test account.
-
-### Lab 11: How to use Activity Tracker, Logging and Monitoring
-
-This is an instructor led lab activity where you will see how to use observeability.
-
-- Using **Activity Tracker** to track events by toggling Link endpoint. Click [**here**](instructor-labs/activity-tracker-lab/steps.md)
-
-- Using **Monitoring** to see monitoring in action for Health of Satellite location. Click [**here**](instructor-labs/infrastructure-monitor-lab/steps.md)
-
-### Lab12: Instructor Lab - Perform troubleshooting, debugging and RCA
-
-This is an instructor led lab activity where you will see how to use observability
-
-### Prep for Day4: Verify access to student VSI in Instructor's account to work with Satellite enabled services such as ICD, CoS, ES and KP.
-
-TBD
-
-## Day 4
-
-### Q&A with Product management team
+## Q&A with Product management team
 
 Please engage with Product management team and clarify your questions or customer objections to be able to differentiate IBM Cloud Satellite against competition with good value proposition.
 
 ### Instructor led Satellite services labs
-
-Here is the overview of what students are expected to learn by performing hands-on exercises on this day
 
 - Learn from Instructor led session to understand capabilities of each Satellite enabled service as below and on how to deploy Satellite them  onto Satellite location
   - ICD
@@ -237,9 +240,19 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ### Satellite for FS and SCC
 
-[Show and tell of techzone demo](https://techzone.ibm.com/collection/SatelliteForFSControls)
+- [Show and tell of techzone demo](https://techzone.ibm.com/collection/SatelliteForFSControls)
 
-### Lab 12: Instructor led ICD hands-on experience
+### Lab 11: How to use Activity Tracker, Logging and Monitoring
+
+- This is an instructor led lab activity where you will see how to use observeability.
+
+- Using **Activity Tracker** to track events by toggling Link endpoint. Click [**here**](instructor-labs/activity-tracker-lab/steps.md)
+
+- Using **Monitoring** to see monitoring in action for Health of Satellite location. Click [**here**](instructor-labs/infrastructure-monitor-lab/steps.md)
+
+### Lab12: Instructor Lab - Perform troubleshooting, debugging and RCA
+
+- This is an instructor led lab activity where you will see how to use observability
 
 ### Lab 13: KP hands-on experience
 
@@ -247,9 +260,9 @@ Here is the overview of what students are expected to learn by performing hands-
 
 ### Lab 15: Event Streams hands-on experience
 
-Link to the [lab](instructor-labs/event-streams-lab/event-streams-satellite-lab.md)
+- Link to the [lab](instructor-labs/event-streams-lab/event-streams-satellite-lab.md)
 
-### Open Q&A Session
+
 
 ## Get certified
 
