@@ -67,8 +67,8 @@ In the sections below...
      - Clicking on the **instructor-lab-es-vpc-block** storage configuration above displays any service assignments using that configuration
      - The **Service name** shown below is not very user friendly
 
-       ![satlocstorageassignment](images/satlocstorageassignment.png)
-     - Getting the list of services and assignments we can correlate the storage assignment name back to the Event Streams service
+       ![satlocstorageassignment](images/satlocstorageassignment2.png)
+     - We can also use the CLI command to get the list of services and assignments and then correlate the storage assignment to the Event Streams service
        ```
        Get the list of Event Stream services in the sat location
      

@@ -142,6 +142,8 @@ You will get an email with an invitation to join this special IBM cloud account.
 1. Click Edit on Satellite Location
 
    Also take note we are using Washington DC. (east-us)
+   
+    CAUTION: Due to recent bug reported on IBM Cloud Satellite, please review Zone names to make sure they match to that of the Managed from Region. For Example for Washington DC Zone names should be us-east-1, us-east-2 and us-east-3
 
    ![image-20220610103121695](.pastes/image-20220610103121695.png)
 
