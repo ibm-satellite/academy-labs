@@ -4,12 +4,9 @@
 
 ## Schedule
 
-1. Satellite Session #1 July 18th - 21st - COMPLETED
-1. Satellite Session #2 August 15th - 18th
-1. Satellite Session #3 August 29th - Sept 1st
-
-> Format: Classroom
-> Location: Raleigh, North Carolina
+1. Satellite Session #1 July 18th - 21st - COMPLETED (Raleigh, North Carolina)
+1. Satellite Session #2 August 16th - 19th - Virtual for APAC and JAPAN
+1. Satellite Session #3 August 29th - Sept 1st - Virtual for Americas and EMEA
 
 ## Table of Contents
 
@@ -157,7 +154,7 @@ You will be setting up your Satellite location, installing a Red Hat OpenShift o
 
 | Labs          | AWS           | Azure  | VMWare On-prem  |
 | ------------- |:-------------:| ------:| ----------------:|
-| Create Satellite Location | | | |
+| Create Satellite Location |[AWS](aws/aws-prework.md) |[Azure](azure/azure-prework.md) |[VMWare On-Prem](vmware/vmware-prework.md)|
 | Install Red Hat OpenShift on IBM Cloud | | | |
 | Lab 1: Review status of Satellite location and cluster | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) | [common](common/healthstatus/readme.md) |
 | Lab 2: Expose OpenShift Cluster to public internet | [link](aws/aws-access-roks-inet.md) | [link](azure/AcademyLabs.md#lab2---expose-roks) | N/A (Private Only) |
