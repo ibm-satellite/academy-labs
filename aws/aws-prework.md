@@ -108,6 +108,8 @@ The IBM Cloud environment is pre-assigned to each Academy student using temporar
    ![lab-rg](./images/lab-rg.png)
 
    Location will be managed from Washington DC. (east-us)
+   
+   CAUTION: Due to recent bug reported on IBM Cloud Satellite, please review Zone names to make sure they match to that of the Managed from Region. For Example for Washington DC Zone names should be us-east-1, us-east-2 and us-east-3
 
    ![aws-zones](./images/aws-zones.png)
 
