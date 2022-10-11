@@ -1,31 +1,3 @@
-## Overview
-When ROKS Cluster is running in a Satellite location in a private network to which a VPN connection is needed to the private Network to access OpenShift Console. There could be situations, where sich a VPN is not avaiable or time consuming, but Satellite deployment  needs to progress deliver value to customer. When such VPN connection to private network is is not accessible, this method can be used as a short term access to continue deployment of Satellite, workloads and management of the cluster or applications. 
-This methd allows access OpenShift console in private Networ from IBM Cloud bover Satellite Link established while creating a Satellite location, by provisioning a test windows VM in IBM Cloud.
-
-NOTE: Customer has full ability to turn off this method any time by dosabling the Link endpoints that are created as part of this method.
-
-## Prepare Test machine in IBM Cloud
-1.	Provision a Windows server to test this method in a VPC, make sure to create and attach an SSH key to the instance
-2.	From your workstation login to IBM Cloud
-3.	Find out instance id using ibmcloud is instances|grep <your VSI name>
-4.	Get Instance details using ibmcloud is instance <instance id in the first column>
-5.	Initialize to get password using ibmcloud is in-init <instance name> --private-key @<your SSh keys attached to the instance>
-6.	Note the password for user administrator above command generates and store it to login to windows server
-7.	Install Windows Remote Desktop app into your workstation
-8.	Now open RDP session to test windows server, and login as administrator with password provided in above step
-9.	Make sure to install Firefox browser
-10.	Install extension for Proxy OmegaSwitch for Firefox from https://addons.mozilla.org/en-US/firefox/addon/switchyomega/
-
-## Prepare your workstation
-## Downloading the IBM Cloud CLI on hosts in your Satellite Location by using Satellite Link
-
-This example walks you through creating a Satellite Link Endpoint which you can use to download the IBM Cloud CLI into your Satellite location.
-
-## Preparing Proxy Configuration
-1.	Download the [sample .pac file](./OmegaProfile_proxy.pac)
-2.	Replace highlighted values, as in picture below, for 1 and 2 with target env values. First one for Satellite location
-![access-ocp-console-image](./Access-OCP-Console-Image.jpg)
-3. Go to Firefox settings and use the updated .pac proxy config file for the target env
     
 ### Lab Steps
 1. Navigate to your [Satellite Locations console](https://cloud.ibm.com/satellite/locations/) and select your location. 
@@ -155,11 +127,6 @@ This example walks you through creating a Satellite Link Endpoint which you can 
 
 14. Delete the endpoint
 ![Delete endpoint](.pastes/delete-endpoint.png)
-
-## Troubleshooting
-1.	If you still face errors edit /etc/hosts on this test machine and add following line
-2.	Below IP is one of the public ips of Satellite location control plane host
-3.	<ip address>	i10c37a0d32a841019b1e-6b64a6ccc9c596bf59a86625d8fa2202-ce00.us-east.satellite.appdomain.cloud
 
 Amazing Work! This concludes the lab exercise.
 
