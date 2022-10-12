@@ -1,8 +1,8 @@
+## Using Satellite Link to expose the Openshift Console of a Red Hat Openshift Cluster running in a Satellite location
+
 ## Overview
 When ROKS Cluster is running in a Satellite location in a private network to which a VPN connection is needed to the private Network to access OpenShift Console. There could be situations, where sich a VPN is not avaiable or time consuming, but Satellite deployment  needs to progress deliver value to customer. When such VPN connection to private network is is not accessible, this method can be used as a short term access to continue deployment of Satellite, workloads and management of the cluster or applications. 
 This methd allows access OpenShift console in private Networ from IBM Cloud bover Satellite Link established while creating a Satellite location, by provisioning a test windows VM in IBM Cloud.
-
-## Using Satellite Link to expose the Openshift Console of a Red Hat Openshift Cluster running in a Satellite location
 
 In this example we are going to show how to create a link endpoint in IBM Cloud that forwards traffic to the Openshift Console of a Satellite Red Hat Openshift Cluster. 
 
