@@ -35,6 +35,16 @@ This example walks you through creating a Satellite Link Endpoint which you can 
 *Note: a required prereq to this lab involves generating the appropriate proxy configuration (.pac file) for your web browser and connectivity to the private network of IBM Cloud*
 
 ### Lab Steps
+    
+Create Satellite Link Endpoints:
+1.	**Two Satellite link endpoints need to be created 1. For OCP console and 2. for Location control plane**
+2.	Use the steps below to create both Satellite endpoints
+3.	In addition create Satellite link endpoint for the FQDN for the Satellite location host name, captured from following output
+4.	ibmcloud sat location dns ls --location <location name>
+5.	From the output capture the hostname ending with ce00
+6.	i10c37a0d32a841019b1e-6b64a6ccc9c596bf59a86625d8fa2202-c000.us-east.satellite.appdomain.cloud
+7.	Use the sample .pac file and edit following lines to meet your target Satellite cluster
+
 1. Log-in to IBM Cloud and target the region and resource group where your Satellite location and cluster are located.
     ```sh
     ibmcloud login
