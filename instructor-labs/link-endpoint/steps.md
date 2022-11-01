@@ -27,18 +27,18 @@ NOTE: The customer has full ability to turn off this communication at any time b
 3. Find out the instance id of your VSI (make sure your ibmcloud cli has the `is` plugin installed and use `ibmcloud plugin install is` to install the is component into ibmcloud if needed)
 
    ```sh
-   ibmcloud is instances\|grep \<your VSI name\>
+   ibmcloud is instances|grep <your VSI name>
    ```
 
 4. Get Instance details
 
    ```sh
-   ibmcloud is instance <instance id is located \in the first column>
+   ibmcloud is instance <instance id is located in the first column>
    ```
 
 5. Initialize to get password using
    ```sh
-   ibmcloud is in-init \<instance name\> --private-key @\<your private key file\>
+   ibmcloud is in-init <instance name> --private-key @<your private key file>
    ```
 6. **Note the returned password for user Administrator that the above command generates and store it safely so you can use it to login to windows server**
 
@@ -59,7 +59,7 @@ Create the following Satellite Link Endpoints:
 3. From the terminal logged into IBM cloud, retrieve the details of your Satellite cluster
 
    ```sh
-    ibmcloud ks cluster get --cluster \< cluster ID or name \>
+    ibmcloud ks cluster get --cluster < cluster ID or name >
     Retrieving cluster xxx...
     OK
 
@@ -67,30 +67,30 @@ Create the following Satellite Link Endpoints:
     ID: xxxxxxxxxxxxxxxx
     State: normal
     Status: All Workers Normal
-    Created: 2022-09-14 10:29:29 -0500 \(1 month ago\)
+    Created: 2022-09-14 10:29:29 -0500 (1 month ago)
     Resource Group ID: xxxxxxxxxxxxxxxxxxxx
     Resource Group Name: xxxxxxxxxxxxxxx
     Pod Subnet: xxx.xx.x.x/16
     Service Subnet: xxx.xx.x.x/16
     Workers: 6
     Worker Zones: xxx, xxx, xxx
-    `Ingress Subdomain: xxx-xxx-0000.us-south.containers.appdomain.cloud`
+    Ingress Subdomain: xxx-xxx-0000.us-south.containers.appdomain.cloud
     Ingress Secret: xxx-xxx-0000
     Ingress Status: -
     Ingress Message: -
     Public Service Endpoint URL: https://c-04.private.us-south.link.satellite.cloud.ibm.com:xxxx
     Private Service Endpoint URL: https://xxx-xxx-ce00.us-south.satellite.appdomain.cloud:xxxx
-    Pull Secrets: enabled \in the default namespace
+    Pull Secrets: enabled in the default namespace
     VPCs: -
     Pod network interface selection method: -
 
     Master
-    Status: Ready \(1 day ago\)
+    Status: Ready (1 day ago)
     State: deployed
     Health: normal
     Version: 4.10.36_1541_openshift
     Location: xxxxx
-    `URL: https://xxxx-xxx-ce00.us-south.satellite.appdomain.cloud:xxxxx`
+    URL: https://xxxx-xxx-ce00.us-south.satellite.appdomain.cloud:xxxxx
    ```
 
 4. From the example output above, we need two hostnames, the hostname next to Ingress Subdomain: and also the hostname of the Master URL. From the above data, these two values would be used:
