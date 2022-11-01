@@ -1,4 +1,4 @@
-## Using Satellite Link to expose the Openshift Console of a Red Hat Openshift Cluster running in a Satellite location
+## Using Satellite Link to expose the Openshift Console of a Red Hat Openshift Cluster running in a private Satellite location
 
 ## Overview
 
