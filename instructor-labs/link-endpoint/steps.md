@@ -159,10 +159,10 @@ and then select Network Settings and then select the radio button `Automatic pro
 
 **NOTE if you make changes to this file, you will need to reload them before testing in FireFox by hitting the Reload button after saving changes to the file**
 
-4. Enter the OpenShift Console URL ( console-openshift-console.< Ingress Subdomain > ) into the FireFox browser and then complete the IBM Cloud login steps to access the Openshift Console. After you are validate with IBM Cloud oauth, you will be redirected to your OpenShift Cluster Console UI through the Satellite link endpoint. **The first time you should get a timeout error here, please note the port of the Master Control Plane hostname that your console is trying to talk to. Use this port in your link endpoint instead of 31894.**
+4. Enter the OpenShift Console URL ( console-openshift-console.< Ingress Subdomain > ) into the FireFox browser. **The first time you should get a timeout error here, please note the port of the Master Control Plane hostname that your console is trying to talk to. Use this port in your link endpoint instead of 31784.**
    ![Oauth Timeout](.pastes/TimeOutOauthControlPlanePort.png)
 
-After editing the Link Endpoint port, retry your browser. You should now auth to IBM Cloud and be redirected to your OpenShift Console
+After editing the Link Endpoint port, retry your browser. You can complete the IBM Cloud login steps to access the Openshift Console. After you are validate with IBM Cloud oauth, you will be redirected to your OpenShift Cluster Console UI through the Satellite link endpoint.
 ![Openshift Console](.pastes/access_console.png)
 
 5. Verify traffic has been sent over the endpoint by looking at **Data rate** panel on the **Endpoint details** page.
