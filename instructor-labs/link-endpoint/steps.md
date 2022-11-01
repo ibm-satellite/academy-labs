@@ -96,6 +96,7 @@ Create the following Satellite Link Endpoints:
 4. From the example output above, we need two hostnames, the hostname next to Ingress Subdomain: and also the hostname of the Master URL. From the above data, these two values would be used:
 
 Ingress Subdomain = xxx-xxx-0000.us-south.containers.appdomain.cloud
+
 Master Control Plane hostname = xxxx-xxx-ce00.us-south.satellite.appdomain.cloud
 
 **Please use your two values from your cluster's output going forward, not the fake values above**
