@@ -134,14 +134,14 @@ In order for Firefox to be able to communicate with your private, remote OpenShi
 
 1. Download the [sample .pac file](./OmegaProfile_proxy_example2.pac). This PAC file will be used to configure the FireFox proxy settings. You need to replace your link endpoints that you created and your console url and master control plane data into this proxy file. Make sure to escape any '.' in the hostname and replace any us-south entry with your region. This file gets processed in order as follows:
 
-Match anything related to IBM Cloud or auth to IBM Cloud or anything localhost just `RETURN DIRECT` (which is like a pass-through)
+   \*Match anything related to IBM Cloud or auth to IBM Cloud or anything localhost just `RETURN DIRECT` (which is like a pass-through)
 
-Match anything starting with your Master Constrol Plane host and return the Master Control Plane host Link Endpoint and Port
+   \*Match anything starting with your Master Constrol Plane host and return the Master Control Plane host Link Endpoint and Port
 
-Match anything starting with your OpenShift Console application (console.openshift.console.< Ingress Subdomain >) and return the
-console-endpoint-cluster-demo Link Endpoint and Port
+   \*Match anything starting with your OpenShift Console application (console.openshift.console.< Ingress Subdomain >) and return the
+   console-endpoint-cluster-demo Link Endpoint and Port
 
-If everything falls through, `RETURN DIRECT`
+   \*If everything falls through, `RETURN DIRECT`
 
 2. Through RDP, on the Windows Server, create a file in the downloads area in your Window's Administrator account called OmegaProfile_proxy.pac and copy the contents of your changed/updated downloaded proxy file into the file on the remote server
 
