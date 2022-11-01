@@ -12,9 +12,9 @@ NOTE: The customer has full ability to turn off this communication at any time b
 
 ### Prepare Windows Server Test machine in IBM Cloud
 
-1. Using the IBM CLoud UI, Provision a Windows server in a VPC, make sure to create and attach a SSH public key to the instance (for more info, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys which shows how to create a PEM file using the command option -m PEM). Make sure to create a public floating IP on the Virtual Server instance so the RDP session can connect to your server. For more details, refer to: https://cloud.ibm.com/docs/vpc?topic=vpc-creating-a-vpc-using-the-ibm-cloud-console
+1. Using the IBM CLoud UI, Provision a Windows server in a VPC, make sure to create and attach a SSH public key to the instance (for more info, refer to https://cloud.ibm.com/docs/vpc?topic=vpc-ssh-keys which shows how to create a PEM file using the command option -m PEM). Make sure to create a public floating IP on the Virtual Server instance so the Windows Remote Desktop (RDP) session can connect to your server. For more details, refer to: https://cloud.ibm.com/docs/vpc?topic=vpc-creating-a-vpc-using-the-ibm-cloud-console
 
-2. From your workstation terminal login to IBM Cloud and target the correct resource group and region
+2. From your workstation terminal, login to IBM Cloud and target the correct resource group and region
 
    ```sh
    ibmcloud login
@@ -36,7 +36,7 @@ NOTE: The customer has full ability to turn off this communication at any time b
    ibmcloud is instance <instance id is located in the first column>
    ```
 
-5. Initialize to get password using
+5. Initialize the instance and get the login password using
    ```sh
    ibmcloud is in-init <instance name> --private-key @<your private key file>
    ```
@@ -46,17 +46,15 @@ NOTE: The customer has full ability to turn off this communication at any time b
 
 8. Create a RDP session to test connectivity to the windows server, and login as administrator with password provided in above step
 
-9. On the windows server, download and install Firefox
+9. On the remote windows server, download and install Firefox
 
 ### Creating Satellite Link Enpoints to gain access to the OpenShift Console UI
 
-Create the following Satellite Link Endpoints:
+Create the following Satellite Link Endpoints (two Satellite link endpoints need to be created, one for the OCP console and another for the Satellite Location control plane)
 
-1. **Two Satellite link endpoints need to be created, one for the OCP console and another for the Satellite Location control plane**
+1. You need two pieces of data for the Satellite link endpoints we will create. The cluster's Ingress Subdomain and the cluster's Satellite Control plan hostname. The following output shows an example of how to get this data.
 
-2. You need two pieces of data for the Satellite link endpoints we will create. The cluster's Ingress Subdomain and the cluster's Satellite Control plan hostname. The following output shows an example of how to get this data.
-
-3. From the terminal logged into IBM cloud, retrieve the details of your Satellite cluster
+2. From the terminal logged into IBM cloud, retrieve the details of your Satellite cluster
 
    ```sh
     ibmcloud ks cluster get --cluster < cluster ID or name >
@@ -93,37 +91,40 @@ Create the following Satellite Link Endpoints:
     URL: https://xxxx-xxx-ce00.us-south.satellite.appdomain.cloud:xxxxx
    ```
 
-4. From the example output above, we need two hostnames, the hostname next to Ingress Subdomain: and also the hostname of the Master URL. From the above data, these two values would be used:
+3. From the example output above, we need two hostnames, the hostname next to Ingress Subdomain: and also the hostname of the Master URL. From the above data, these two values would be used:
 
+```sh
 Ingress Subdomain = xxx-xxx-0000.us-south.containers.appdomain.cloud
 
 Master Control Plane hostname = xxxx-xxx-ce00.us-south.satellite.appdomain.cloud
+```
 
 **Please use your two values from your cluster's output going forward, not the fake values above**
 
-10. Navigate to your [Satellite Locations console](https://cloud.ibm.com/satellite/locations/) and select your location.
+4. Navigate to your [Satellite Locations console](https://cloud.ibm.com/satellite/locations/) and select your location.
 
-11. Click **Link endpoints** > **Create an endpoint**.
+5. Click **Link endpoints** > **Create an endpoint**.
+   ![Create Link Endpoint](.pastes/CreateLinkEndpoint.png)
 
-12. On the **Destination resource** tab, select **Location** and click **Next**.
-    ![Cloud Destination Resource](.pastes/cloud_destination_resource.png)
+6. On the **Destination resource** tab, select **Satellite Location** and click **Next**.
+   ![Cloud Destination Resource](.pastes/cloud_destination_resource.png)
 
-13. On the **Resource details** tab, enter `console-endpoint-cluster-demo` as the **Endpoint name**. In the **Destination address** field, enter the value: `console-openshift-console.<Ingress Subdomain>` console url using your value for the `<Ingress Subdomain>`. For the **Port** field, enter `443`.
-    ![CLIs link endpoint](.pastes/openshift_console_endpoint.png)
+7. On the **Resource details** tab, enter `console-endpoint-cluster-demo` as the **Endpoint name**. In the **Destination address** field, enter the value: `console-openshift-console.<Ingress Subdomain>` console url using your value for the `<Ingress Subdomain>`. For the **Port** field, enter `443`.
+   ![CLIs link endpoint](.pastes/openshift_console_endpoint.png)
 
-14. On the **Protocol** tab, select **HTTP tunnel** as the source protocol check-box and click **Next**.
-    ![Link Endpoint Metadata](.pastes/openshift_console_endpoint_protocol_metadata.png)
+8. On the **Protocol** tab, select **HTTP tunnel** as the source protocol check-box and click **Next**.
+   ![Link Endpoint Metadata](.pastes/openshift_console_endpoint_protocol_metadata.png)
 
-15. On the **Connection settings** tab, keep the default inactivity timeout of `60` , and click **Create endpoint**
-    ![Create Endpoint](.pastes/create_link_endpoint.png)
+9. On the **Connection settings** tab, keep the default inactivity timeout of `60` , and click **Create endpoint**
+   ![Create Endpoint](.pastes/create_link_endpoint.png)
 
-16. After creating the endpoint, you are redirected to the **Link endpoints** page. Click the `console-endpoint-cluster-demo` endpoint that you just created and view the details.
+10. After creating the endpoint, you are redirected to the **Link endpoints** page. Click the `console-endpoint-cluster-demo` endpoint that you just created and view the details.
     ![Find Details](.pastes/find_link_endpoint_details.png)
 
-17. Note the **Endpoint Address** contains the address of the HTTP Tunnel endpoint exposed in IBM Cloud that will route traffic to the Openshift Console. This will be used later in the proxy file.
+11. Note the **Endpoint Address** contains the address of the HTTP Tunnel endpoint exposed in IBM Cloud that will route traffic to the Openshift Console. This will be used later in the proxy file.
     ![Find Endpoint Address](.pastes/find_endpoint_address.png)
 
-18. Create another endpoint for the Satellite control plane in the same fashion. Click **Link endpoints** > **Create an endpoint**. On the **Resource details** tab, enter `satellite-control-plane` as the **Endpoint name**. In the **Destination address** field, enter the value from above for your Master Control Plane hostname: `< Master Control Plane hostname >`. For the **Port** field, enter `31794`.
+12. Create another endpoint for the Satellite control plane in the same fashion. Click **Link endpoints** > **Create an endpoint**. On the **Resource details** tab, enter `satellite-control-plane` as the **Endpoint name**. In the **Destination address** field, enter the value from above for your Master Control Plane hostname: `< Master Control Plane hostname >`. For the **Port** field, enter `31794`.
 
 **Important this port (31794) may not be correct. I only figured out my port here after the process was failing in FireFox. This should be the oauth redirect port, which may change for every cluster. In the next section, if you get an error, notice the port of the control plane that FireFox is trying to redirect to, if this is different than 31794, edit this entry and change to what your oauth redirect port is.**
 
@@ -149,7 +150,7 @@ and then select Network Settings and then select the radio button `Automatic pro
 
 **NOTE if you make changes to this file, you will need to reload them before testing in FireFox by hitting the Reload button after saving changes to the file**
 
-4. Enter the OpenShift Console URL into the FireFox browser and then complete the IBM Cloud login steps to access the Openshift Console. After you are validate with IBM Cloud oauth, you will be redirected to your OpenShift Cluster Console UI through the Satellite link endpoint. If you get errors here, please note the port of the Master Control Plane hostname that your console is trying to talk to. Use this port in your link endpoint instead of 31794.
+4. Enter the OpenShift Console URL ( console-openshift-console.< Ingress Subdomain > ) into the FireFox browser and then complete the IBM Cloud login steps to access the Openshift Console. After you are validate with IBM Cloud oauth, you will be redirected to your OpenShift Cluster Console UI through the Satellite link endpoint. **If you get errors here, please note the port of the Master Control Plane hostname that your console is trying to talk to. Use this port in your link endpoint instead of 31794.**
 
 ![Openshift Console](.pastes/access_console.png)
 
