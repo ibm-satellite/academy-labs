@@ -146,6 +146,7 @@ In order for Firefox to be able to communicate with your private, remote OpenShi
    ```
 
 2. Through RDP, on the Windows Server, create a file in the downloads area in your Window's Administrator account called OmegaProfile_proxy.pac and copy the contents of your changed/updated downloaded proxy file into the file on the remote server
+   ![Creating proxy file](.pastes/OmegaProxyFileCreation.png)
 
 3. Configure your FireFox browser to use this proxy file by launching FireFox, select settings, scroll to bottom,
    ![Adjusting FireFox proxy](.pastes/firefox-settings.png)
@@ -159,7 +160,7 @@ and then select Network Settings and then select the radio button `Automatic pro
 
 ![Openshift Console](.pastes/access_console.png)
 
-1. Verify traffic has been sent over the endpoint by looking at **Data rate** panel on the **Endpoint details** page.
+5. Verify traffic has been sent over the endpoint by looking at **Data rate** panel on the **Endpoint details** page.
    ![Data Rate](.pastes/data_rate.png)
 
 ## Adding another application's route to view its UI through a Satellite link endpoint
