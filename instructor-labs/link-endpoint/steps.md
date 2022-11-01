@@ -124,26 +124,29 @@ Master Control Plane hostname = xxxx-xxx-ce00.us-south.satellite.appdomain.cloud
 11. Note the **Endpoint Address** contains the address of the HTTP Tunnel endpoint exposed in IBM Cloud that will route traffic to the Openshift Console. This will be used later in the proxy file.
     ![Find Endpoint Address](.pastes/find_endpoint_address.png)
 
-12. Create another endpoint for the Satellite control plane in the same fashion. Click **Link endpoints** > **Create an endpoint**. On the **Resource details** tab, enter `satellite-control-plane` as the **Endpoint name**. In the **Destination address** field, enter the value from above for your Master Control Plane hostname: `< Master Control Plane hostname >`. For the **Port** field, enter `31794`.
+12. Create another endpoint for the Satellite control plane in the same fashion. Click **Link endpoints** > **Create an endpoint**. On the **Resource details** tab, enter `satellite-control-plane` as the **Endpoint name**. In the **Destination address** field, enter the value from above for your Master Control Plane hostname: `< Master Control Plane hostname >`. For the **Port** field, enter `31784`.
 
-**Important this port (31794) may not be correct. I only figured out my port here after the process was failing in FireFox. This should be the oauth redirect port, which may change for every cluster. In the next section, if you get an error, notice the port of the control plane that FireFox is trying to redirect to, if this is different than 31794, edit this entry and change to what your oauth redirect port is.**
+**Important this port (31784) will not be correct.** The correct port can only be figured out after the process times out in FireFox and reveals the oauth port it cannot get to. In the next section, when you test the console URL it will try to authenticate you on a port and timeout. **Note this port and then edit the link entry's port to what your oauth redirect port is.**
 
 ## Preparing Proxy Configuration in FireFox on the Windows Server
 
 In order for Firefox to be able to communicate with your private, remote OpenShift Console, a proxy needs to be used to communciate through the Satellite endpoint links you have created
 
-1. Download the [sample .pac file](./OmegaProfile_proxy_example2.pac). This PAC file will be used to configure the FireFox proxy settings. You need to replace your link endpoints that you created and your console url and master control plane data into this proxy file. Make sure to escape any '.' in the hostname and replace any us-south entry with your region. This file gets processed in order as follows:
+1. Download the [sample .pac file with control plane](./OmegaProfile_proxy_example2.pac). This PAC file will be used to configure the FireFox proxy settings. You need to replace your link endpoints that you created and your console url and master control plane data into this proxy file. Make sure to escape any '.' in the hostname and replace any us-south entry with your region.
+   ![Replacing values in the proxy file](.pastes/ReplaceValuesInProxy.png)
 
-   ```sh
-   Match anything related to IBM Cloud or auth to IBM Cloud or anything localhost just `RETURN DIRECT` (which is like a pass-through)
+The proxy file gets processed in order as follows:
 
-   Match anything starting with your Master Constrol Plane host and return the Master Control Plane host Link Endpoint and Port
+```sh
+Match anything related to IBM Cloud or auth to IBM Cloud or anything localhost just `RETURN DIRECT` (which is like a pass-through)
 
-   Match anything starting with your OpenShift Console application (console.openshift.console.< Ingress Subdomain >) and return the
-   console-endpoint-cluster-demo Link Endpoint and Port
+Match anything starting with your Master Constrol Plane host and return the Master Control Plane host Link Endpoint and Port
 
-   If everything falls through, `RETURN DIRECT`
-   ```
+Match anything starting with your OpenShift Console application (console.openshift.console.< Ingress Subdomain >) and return the
+console-endpoint-cluster-demo Link Endpoint and Port
+
+If everything falls through, `RETURN DIRECT`
+```
 
 2. Through RDP, on the Windows Server, create a file in the downloads area in your Window's Administrator account called OmegaProfile_proxy.pac and copy the contents of your changed/updated downloaded proxy file into the file on the remote server
    ![Creating proxy file](.pastes/OmegaProxyFileCreation.png)
@@ -156,8 +159,10 @@ and then select Network Settings and then select the radio button `Automatic pro
 
 **NOTE if you make changes to this file, you will need to reload them before testing in FireFox by hitting the Reload button after saving changes to the file**
 
-4. Enter the OpenShift Console URL ( console-openshift-console.< Ingress Subdomain > ) into the FireFox browser and then complete the IBM Cloud login steps to access the Openshift Console. After you are validate with IBM Cloud oauth, you will be redirected to your OpenShift Cluster Console UI through the Satellite link endpoint. **If you get errors here, please note the port of the Master Control Plane hostname that your console is trying to talk to. Use this port in your link endpoint instead of 31794.**
+4. Enter the OpenShift Console URL ( console-openshift-console.< Ingress Subdomain > ) into the FireFox browser and then complete the IBM Cloud login steps to access the Openshift Console. After you are validate with IBM Cloud oauth, you will be redirected to your OpenShift Cluster Console UI through the Satellite link endpoint. **The first time you should get a timeout error here, please note the port of the Master Control Plane hostname that your console is trying to talk to. Use this port in your link endpoint instead of 31894.**
+   ![Oauth Timeout](.pastes/TimeOutOauthControlPlanePort.png)
 
+After editing the Link Endpoint port, retry your browser. You should now auth to IBM Cloud and be redirected to your OpenShift Console
 ![Openshift Console](.pastes/access_console.png)
 
 5. Verify traffic has been sent over the endpoint by looking at **Data rate** panel on the **Endpoint details** page.
@@ -165,11 +170,21 @@ and then select Network Settings and then select the radio button `Automatic pro
 
 ## Adding another application's route to view its UI through a Satellite link endpoint
 
+1. To add the ability to view another application's UI route through a Satellite Link Endpoint, you can use the same strategy as was done with the OpenShift Console (that is just an app with a UI). You have figured out the IBM Cloud oauth port, so, you don't have to worry about authentication again into the cluster. However, you do have to create anther Link Endpoint to point to the application's route in the remote cluster. Let's look at Transformation Advisor as another example. The UI Route in the cluster is: ta-apps.< Ingress Subdomain >
+
+2. In order to setup another Link Endpoint to talk to the Transformation Advisor UI Route, you would create another Link Endpoint by
+   going to the **Link endpoints** > **Create an endpoint**. On the **Resource details** tab, enter `ta-ui-route` as the **Endpoint name**. In the **Destination address** field, enter the value from above for your TA UI Route: `ta-apps.< Ingress Subdomain >`. For the **Port** field, enter `443`.
+
+3. Adjust the proxy file to add another line below the console-openshift-console entry, to match the `ta-app.< Ingress Subdomain >` and have it return the Satelitte link endpoint URL and port. An example pac file with another line in it is here [sample .pac file with ta-apps](./OmegaProfile_proxy_example3.pac)
+
+4. Once you re-load your proxy file, you can then click on the T/A UI route in your cluster's console and it will now show through the Satellite Endpoint Link!!
+
 ## If you are still experiencing errors
 
 1. Review your proxy file for any formatiing errors
-2. Make sure the proxy file has the correct hostname and values
-3. Make sure you have created the link endpoint with the correct FQDN and ports, both use HTTP Tunnel as the protocol
+2. Make sure the proxy file has the correct hostname and values, and the correct Link Endpoint return hostnames and ports.
+3. Make sure you have created the link endpoint with the correct FQDN. The FQDN has to match the URL you are using in FireFox.
+4. Make sure the ports of the Link Endpoints are correct, both use HTTP Tunnel as the protocol
 
 Congrats! The lab is now complete.
 
