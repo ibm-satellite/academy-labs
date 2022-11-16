@@ -236,7 +236,7 @@ For more detailled descriptions of the following steps look also in the [Satelli
     
     ```
 
-> For more ODF troubleshootings, refer to these [commands](common/odf-troubleshootings/readme.md).
+> For more ODF troubleshootings, refer to these [commands](../common/odf-troubleshootings/readme.md).
 
 ## Test ODF with an example application
 
